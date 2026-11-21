@@ -1,0 +1,35 @@
+{
+  "dataset": "CIFAKE (original split, HF mirror)",
+  "architecture": "randomly initialized three-block CNN",
+  "epochs": 5,
+  "counts": {
+    "train": 88831,
+    "validation": 9871,
+    "test": 20000
+  },
+  "test": {
+    "accuracy": 0.918,
+    "macro_f1": 0.9178578480775692,
+    "roc_auc": 0.97821331,
+    "brier": 0.06129783866636719,
+    "confusion_matrix": [
+      [
+        8764,
+        1236
+      ],
+      [
+        404,
+        9596
+      ]
+    ],
+    "n": 20000
+  },
+  "temperature": 1.0341579914093018,
+  "split": "official test; training pixel duplicates and train/test collisions removed; validation held out from train",
+  "limitations": "32x32 CIFAR-10 versus Stable Diffusion 1.4. Not a manipulation detector; no claim of accuracy on modern generators or arbitrary photos.",
+  "task": "image_ai",
+  "synthetic": false,
+  "trained_from_scratch": true,
+  "positive_label": 1,
+  "created_utc": "2026-11-21T18:09:24.174007+00:00"
+}

@@ -1,0 +1,22 @@
+{
+  "dataset": "LIAR official test (zero adaptation)",
+  "test": {
+    "accuracy": 0.4431137724550898,
+    "macro_f1": 0.347244988021687,
+    "roc_auc": 0.4450033629081302,
+    "brier": 0.48046682122828444,
+    "confusion_matrix": [
+      [
+        414,
+        35
+      ],
+      [
+        523,
+        30
+      ]
+    ],
+    "n": 1002
+  },
+  "mapping": "false/barely-true/pants-fire=1; mostly-true/true=0; half-true excluded",
+  "purpose": "Cross-domain stress test. Low performance must be reported."
+}

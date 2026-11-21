@@ -1,0 +1,225 @@
+{
+  "fakenews_tfidf_logreg": {
+    "n": 502,
+    "accuracy": 0.9841,
+    "precision": 0.9689,
+    "recall": 1.0,
+    "f1": 0.9842,
+    "macro_f1": 0.9841,
+    "weighted_f1": 0.9841,
+    "roc_auc": 1.0,
+    "pr_auc": 1.0,
+    "confusion_matrix": [
+      [
+        245,
+        8
+      ],
+      [
+        0,
+        249
+      ]
+    ],
+    "per_class": {
+      "fake(0)": {
+        "precision": 1.0,
+        "recall": 0.9684,
+        "f1": 0.9839
+      },
+      "real(1)": {
+        "precision": 0.9689,
+        "recall": 1.0,
+        "f1": 0.9842
+      }
+    },
+    "fpr": 0.0316,
+    "fnr": 0.0
+  },
+  "fakenews_tfidf_svm": {
+    "n": 502,
+    "accuracy": 0.9801,
+    "precision": 0.9614,
+    "recall": 1.0,
+    "f1": 0.9803,
+    "macro_f1": 0.9801,
+    "weighted_f1": 0.9801,
+    "roc_auc": 1.0,
+    "pr_auc": 1.0,
+    "confusion_matrix": [
+      [
+        243,
+        10
+      ],
+      [
+        0,
+        249
+      ]
+    ],
+    "per_class": {
+      "fake(0)": {
+        "precision": 1.0,
+        "recall": 0.9605,
+        "f1": 0.9798
+      },
+      "real(1)": {
+        "precision": 0.9614,
+        "recall": 1.0,
+        "f1": 0.9803
+      }
+    },
+    "fpr": 0.0395,
+    "fnr": 0.0
+  },
+  "ai_text_tfidf": {
+    "n": 502,
+    "accuracy": 0.8606,
+    "precision": 1.0,
+    "recall": 0.7287,
+    "f1": 0.843,
+    "macro_f1": 0.8588,
+    "weighted_f1": 0.8584,
+    "roc_auc": 0.8979,
+    "pr_auc": 0.9291,
+    "confusion_matrix": [
+      [
+        244,
+        0
+      ],
+      [
+        70,
+        188
+      ]
+    ],
+    "per_class": {
+      "fake(0)": {
+        "precision": 0.7771,
+        "recall": 1.0,
+        "f1": 0.8746
+      },
+      "real(1)": {
+        "precision": 1.0,
+        "recall": 0.7287,
+        "f1": 0.843
+      }
+    },
+    "fpr": 0.0,
+    "fnr": 0.2713
+  },
+  "cv_5fold_macro_f1": {
+    "folds": [
+      1.0,
+      0.9945,
+      0.9779,
+      0.9437,
+      0.9366
+    ],
+    "mean": 0.9705,
+    "std": 0.026
+  },
+  "robustness_tfidf_logreg": {
+    "clean": {
+      "n": 200,
+      "accuracy": 0.965,
+      "precision": 0.9278,
+      "recall": 1.0,
+      "f1": 0.9626,
+      "macro_f1": 0.9649,
+      "weighted_f1": 0.9651,
+      "roc_auc": 1.0,
+      "pr_auc": 1.0,
+      "confusion_matrix": [
+        [
+          103,
+          7
+        ],
+        [
+          0,
+          90
+        ]
+      ],
+      "per_class": {
+        "fake(0)": {
+          "precision": 1.0,
+          "recall": 0.9364,
+          "f1": 0.9671
+        },
+        "real(1)": {
+          "precision": 0.9278,
+          "recall": 1.0,
+          "f1": 0.9626
+        }
+      },
+      "fpr": 0.0636,
+      "fnr": 0.0
+    },
+    "misspelled": {
+      "n": 200,
+      "accuracy": 0.965,
+      "precision": 0.9278,
+      "recall": 1.0,
+      "f1": 0.9626,
+      "macro_f1": 0.9649,
+      "weighted_f1": 0.9651,
+      "roc_auc": 1.0,
+      "pr_auc": 1.0,
+      "confusion_matrix": [
+        [
+          103,
+          7
+        ],
+        [
+          0,
+          90
+        ]
+      ],
+      "per_class": {
+        "fake(0)": {
+          "precision": 1.0,
+          "recall": 0.9364,
+          "f1": 0.9671
+        },
+        "real(1)": {
+          "precision": 0.9278,
+          "recall": 1.0,
+          "f1": 0.9626
+        }
+      },
+      "fpr": 0.0636,
+      "fnr": 0.0
+    },
+    "truncated_15w": {
+      "n": 200,
+      "accuracy": 0.92,
+      "precision": 0.8491,
+      "recall": 1.0,
+      "f1": 0.9184,
+      "macro_f1": 0.92,
+      "weighted_f1": 0.9201,
+      "roc_auc": 1.0,
+      "pr_auc": 1.0,
+      "confusion_matrix": [
+        [
+          94,
+          16
+        ],
+        [
+          0,
+          90
+        ]
+      ],
+      "per_class": {
+        "fake(0)": {
+          "precision": 1.0,
+          "recall": 0.8545,
+          "f1": 0.9216
+        },
+        "real(1)": {
+          "precision": 0.8491,
+          "recall": 1.0,
+          "f1": 0.9184
+        }
+      },
+      "fpr": 0.1455,
+      "fnr": 0.0
+    }
+  }
+}

@@ -1,0 +1,14 @@
+[
+  {
+    "file": "train.parquet",
+    "url": "https://huggingface.co/datasets/dragonintelligence/CIFAKE-image-dataset/resolve/main/data/train-00000-of-00001.parquet",
+    "bytes": 42086968,
+    "sha256": "c906031ad6ac44c7d0fc21e8f9315d85cf351540b6517bd6c0de3ee2f884021b"
+  },
+  {
+    "file": "test.parquet",
+    "url": "https://huggingface.co/datasets/dragonintelligence/CIFAKE-image-dataset/resolve/main/data/test-00000-of-00001.parquet",
+    "bytes": 8406974,
+    "sha256": "7767d5285d009471175ac7985c60367d82a34088f29c67185da7af2c53b7975d"
+  }
+]

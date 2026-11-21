@@ -1,0 +1,7 @@
+{
+  "manifest_version":3,"name":"Veritas Content Verification","version":"1.0.0",
+  "description":"Send selected text or the current article to your local Veritas research server.",
+  "permissions":["activeTab","scripting","contextMenus","storage"],
+  "host_permissions":["http://127.0.0.1/*","http://localhost/*"],
+  "action":{"default_popup":"popup.html"},"background":{"service_worker":"background.js"}
+}
