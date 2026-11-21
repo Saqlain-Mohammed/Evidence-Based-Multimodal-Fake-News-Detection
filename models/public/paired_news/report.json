@@ -1,0 +1,100 @@
+{
+  "dataset": "Fakeddit balanced public subset",
+  "architecture": "TF-IDF/SVD and spatial RGB statistics with joint gradient boosting",
+  "counts": {
+    "test": 1429,
+    "validation": 2381,
+    "train": 4693
+  },
+  "test": {
+    "accuracy": 0.8117564730580826,
+    "macro_f1": 0.5775557863387347,
+    "roc_auc": 0.7449941107184923,
+    "brier": 0.13846114447297422,
+    "confusion_matrix": [
+      [
+        48,
+        235
+      ],
+      [
+        34,
+        1112
+      ]
+    ],
+    "n": 1429
+  },
+  "modality_baselines": {
+    "title_only": {
+      "accuracy": 0.8096571028691393,
+      "macro_f1": 0.5550121353665797,
+      "roc_auc": 0.7115223330188272,
+      "brier": 0.14354657243807376,
+      "confusion_matrix": [
+        [
+          38,
+          245
+        ],
+        [
+          27,
+          1119
+        ]
+      ],
+      "n": 1429
+    },
+    "image_only": {
+      "accuracy": 0.8019594121763471,
+      "macro_f1": 0.4450485436893204,
+      "roc_auc": 0.6516752076665495,
+      "brier": 0.15157563582725078,
+      "confusion_matrix": [
+        [
+          0,
+          283
+        ],
+        [
+          0,
+          1146
+        ]
+      ],
+      "n": 1429
+    },
+    "joint": {
+      "accuracy": 0.8117564730580826,
+      "macro_f1": 0.5775557863387347,
+      "roc_auc": 0.7449941107184923,
+      "brier": 0.13846114447297422,
+      "confusion_matrix": [
+        [
+          48,
+          235
+        ],
+        [
+          34,
+          1112
+        ]
+      ],
+      "n": 1429
+    }
+  },
+  "class_counts": {
+    "test": [
+      283,
+      1146
+    ],
+    "val": [
+      473,
+      1908
+    ],
+    "train": [
+      921,
+      3772
+    ]
+  },
+  "evaluation_scope": "mirror split with duplicate titles, image bytes and source URLs removed",
+  "limitations": "Predicts Fakeddit class 0 versus all other community-derived classes, including satire. Historical Reddit benchmark. Requires a title and image together. No independent fact-checking or video/audio fusion.",
+  "task": "paired_news",
+  "synthetic": false,
+  "trained_from_scratch": true,
+  "positive_label": 1,
+  "created_utc": "2026-11-21T19:16:29.484247+00:00"
+}

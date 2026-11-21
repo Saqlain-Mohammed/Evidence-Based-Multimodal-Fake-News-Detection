@@ -1,1 +1,58 @@
-{"expo":{"name":"Veritas","slug":"veritas-content-verification","version":"1.0.0","orientation":"portrait","scheme":"veritas","userInterfaceStyle":"light","ios":{"supportsTablet":true,"bundleIdentifier":"research.local.veritas"},"android":{"package":"research.local.veritas"},"plugins":[["expo-image-picker",{"photosPermission":"Choose content to examine with your Veritas server.","cameraPermission":"Take a photo to examine with your Veritas server."}],"expo-document-picker"]}}
+{
+  "expo": {
+    "name": "Veritas",
+    "slug": "veritas-content-verification",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "veritas",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "research.local.veritas"
+    },
+    "android": {
+      "package": "research.local.veritas"
+    },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Choose content to examine with your Veritas server.",
+          "cameraPermission": "Take a photo to examine with your Veritas server."
+        }
+      ],
+      "expo-document-picker",
+      [
+        "expo-audio",
+        {
+          "microphonePermission": "Record a voice sample for analysis on your Veritas server."
+        }
+      ],
+      [
+        "expo-sharing",
+        {
+          "android": {
+            "enabled": true,
+            "singleShareMimeTypes": [
+              "text/plain",
+              "image/*",
+              "audio/*",
+              "video/*",
+              "application/pdf"
+            ]
+          },
+          "ios": {
+            "enabled": true,
+            "activationRule": {
+              "supportsText": true,
+              "supportsWebUrlWithMaxCount": 1,
+              "supportsImageWithMaxCount": 1,
+              "supportsMovieWithMaxCount": 1,
+              "supportsFileWithMaxCount": 1
+            }
+          }
+        }
+      ]
+    ]
+  }
+}

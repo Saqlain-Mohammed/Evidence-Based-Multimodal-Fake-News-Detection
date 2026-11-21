@@ -1,0 +1,58 @@
+{
+  "task": "evidence_stance",
+  "dataset": "MultiNLI",
+  "architecture": "Hashed paired lexical features and averaged SGD",
+  "trained_from_scratch": true,
+  "synthetic": false,
+  "labels": [
+    "entailment",
+    "neutral",
+    "contradiction"
+  ],
+  "training_pairs": 392702,
+  "matched_development": {
+    "accuracy": 0.5966377992868059,
+    "macro_f1": 0.5948564671356108,
+    "confusion_matrix": [
+      [
+        2266,
+        663,
+        550
+      ],
+      [
+        724,
+        1749,
+        650
+      ],
+      [
+        730,
+        642,
+        1841
+      ]
+    ],
+    "n": 9815
+  },
+  "mismatched_development": {
+    "accuracy": 0.6084214808787632,
+    "macro_f1": 0.6065973818485649,
+    "confusion_matrix": [
+      [
+        2326,
+        676,
+        461
+      ],
+      [
+        776,
+        1753,
+        600
+      ],
+      [
+        713,
+        624,
+        1903
+      ]
+    ],
+    "n": 9832
+  },
+  "limitations": "Development splits only. Sentence relations are experimental and do not verify factual accuracy or source reliability."
+}

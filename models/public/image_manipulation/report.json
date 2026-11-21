@@ -1,0 +1,35 @@
+{
+  "dataset": "CASIA v2 source-connected split",
+  "architecture": "ImageCNN",
+  "epochs": 12,
+  "counts": {
+    "train": 6967,
+    "validation": 816,
+    "test": 4581
+  },
+  "test": {
+    "accuracy": 0.5321982099978171,
+    "macro_f1": 0.5251528753450497,
+    "roc_auc": 0.6093300230851808,
+    "brier": 0.29385234522608705,
+    "confusion_matrix": [
+      [
+        940,
+        442
+      ],
+      [
+        1701,
+        1498
+      ]
+    ],
+    "n": 4581
+  },
+  "temperature": 0.753972589969635,
+  "evaluation_scope": "provider/group-disjoint",
+  "limitations": "Binary classification only; no validated tamper localization, clone attribution, or editing subtype. Evaluate unseen sources and attacks before deployment.",
+  "task": "image_manipulation",
+  "synthetic": false,
+  "trained_from_scratch": true,
+  "positive_label": 1,
+  "created_utc": "2026-11-21T19:22:44.121037+00:00"
+}

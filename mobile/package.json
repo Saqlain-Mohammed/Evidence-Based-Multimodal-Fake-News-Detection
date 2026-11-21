@@ -1,1 +1,21 @@
-{"name":"veritas-mobile","version":"1.0.0","private":true,"main":"node_modules/expo/AppEntry.js","scripts":{"start":"expo start","android":"expo run:android","ios":"expo run:ios"},"dependencies":{"expo":"~58.0.26","react":"^19.3.0","react-native":"0.88.1","expo-document-picker":"~58.0.5","expo-image-picker":"~58.0.10","expo-status-bar":"~58.0.4"}}
+{
+  "name": "veritas-mobile",
+  "version": "1.0.0",
+  "private": true,
+  "main": "node_modules/expo/AppEntry.js",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo run:android",
+    "ios": "expo run:ios"
+  },
+  "dependencies": {
+    "expo": "~58.0.26",
+    "expo-audio": "~58.0.12",
+    "expo-document-picker": "~58.0.5",
+    "expo-image-picker": "~58.0.10",
+    "expo-sharing": "~58.0.23",
+    "expo-status-bar": "~58.0.5",
+    "react": "19.3.0",
+    "react-native": "0.88.1"
+  }
+}

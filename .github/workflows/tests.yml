@@ -13,6 +13,6 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
-          python -m pip install fastapi uvicorn python-multipart numpy pandas scipy scikit-learn==1.9.1 joblib pillow requests beautifulsoup4 soundfile pypdf pytest httpx
+          python -m pip install fastapi uvicorn python-multipart numpy pandas scipy scikit-learn==1.9.1 joblib pillow requests beautifulsoup4 soundfile pypdf pytest httpx opencv-python-headless imageio-ffmpeg
       - name: Check model and API contracts
         run: python -m pytest tests -q

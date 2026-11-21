@@ -1,0 +1,1 @@
+Unmodified CRED-1 compact dataset by Alexander Loth, CC BY 4.0. [Pinned release source](https://github.com/aloth/cred-1/tree/f1594c04dfb805373932def7f8746089f7371322). License and underlying source attributions accompany the snapshot.

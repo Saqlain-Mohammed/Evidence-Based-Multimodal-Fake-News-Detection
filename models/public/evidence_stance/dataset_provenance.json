@@ -1,0 +1,20 @@
+[
+  {
+    "file": "train.parquet",
+    "url": "https://huggingface.co/datasets/nyu-mll/multi_nli/resolve/da70db2af9d09693783c3320c4249840212ee221/data/train-00000-of-00001.parquet",
+    "bytes": 213961663,
+    "sha256": "1c1de03640b168e410aabfca19e7cc2f3dfcd7f0e126e935674e56fb102c4529"
+  },
+  {
+    "file": "validation_matched.parquet",
+    "url": "https://huggingface.co/datasets/nyu-mll/multi_nli/resolve/da70db2af9d09693783c3320c4249840212ee221/data/validation_matched-00000-of-00001.parquet",
+    "bytes": 4938568,
+    "sha256": "350c26950b55f460b50d36c76aef87d64b49c78812d7abf7bf97e5fede10f186"
+  },
+  {
+    "file": "validation_mismatched.parquet",
+    "url": "https://huggingface.co/datasets/nyu-mll/multi_nli/resolve/da70db2af9d09693783c3320c4249840212ee221/data/validation_mismatched-00000-of-00001.parquet",
+    "bytes": 5104992,
+    "sha256": "6b0e1231cebedd255000a7d1732af37ad0500902239db625e231ed77c0c8f2f8"
+  }
+]

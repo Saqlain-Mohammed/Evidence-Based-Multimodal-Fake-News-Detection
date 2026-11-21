@@ -11,6 +11,7 @@ import requests
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCES = {
+    "fakeddit_pairs": {f: f"https://huggingface.co/datasets/ams-99/fakeddit_9k/resolve/2ba956a67d2bab34de97b25d71af520ab3fe1e6e/{f}" for f in ("train_balanced.csv","val_balanced.csv","test_balanced.csv","image_cache.zip")},
     "multinli": {f"{s}.parquet": f"https://huggingface.co/datasets/nyu-mll/multi_nli/resolve/da70db2af9d09693783c3320c4249840212ee221/data/{s}-00000-of-00001.parquet" for s in ("train","validation_matched","validation_mismatched")},
     "welfake": {"WELFake_Dataset.csv": "https://zenodo.org/records/4561253/files/WELFake_Dataset.csv?download=1"},
     "hc3": {"all.jsonl": "https://huggingface.co/datasets/Hello-SimpleAI/HC3/resolve/main/all.jsonl"},

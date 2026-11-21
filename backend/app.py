@@ -2,7 +2,8 @@
 from pathlib import Path
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, RedirectResponse
+from fastapi.responses import FileResponse, RedirectResponse, JSONResponse
+from accounts import OWNER, account_db, authenticate
 from fastapi.staticfiles import StaticFiles
 from workbench import router, registry
 
@@ -11,7 +12,23 @@ app=FastAPI(title='Veritas content verification',version='3.0.0',
     description='Independent models trained from scratch. Research signals, not proof of authenticity. Local single-user server; do not expose publicly without authentication.')
 app.add_middleware(CORSMiddleware,
     allow_origin_regex=r'^(https?://(localhost|127\.0\.0\.1)(:\d+)?|chrome-extension://[a-p]+|moz-extension://[a-zA-Z0-9-]+)$',
-    allow_methods=['GET','POST','DELETE'],allow_headers=['Content-Type'])
+    allow_methods=['GET','POST','DELETE'],allow_headers=['Content-Type','Authorization'])
+@app.middleware('http')
+async def identify(request, call_next):
+    path = account_db()
+    if path is None or not request.url.path.startswith('/api/v2/') or request.method == 'OPTIONS':
+        return await call_next(request)
+    owner = authenticate(path,request.headers.get('Authorization',''))
+    if owner is None:
+        return JSONResponse({'detail':'A valid workspace access token is required.'},status_code=401,
+                            headers={'WWW-Authenticate':'Bearer'})
+    handle=OWNER.set(owner)
+    try:
+        return await call_next(request)
+    finally:
+        OWNER.reset(handle)
+
+
 app.include_router(router)
 
 @app.get('/api/health')

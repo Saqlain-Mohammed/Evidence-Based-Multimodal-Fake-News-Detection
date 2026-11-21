@@ -1,0 +1,11 @@
+{
+  "dataset": "CASIA v2",
+  "architecture": "Pixel-wise boosted color and local residual features",
+  "trained_from_scratch": true,
+  "threshold": 0.7499999999999999,
+  "tampered_test_images": 3199,
+  "authentic_test_images": 1382,
+  "mean_tampered_image_iou": 0.046585579349555865,
+  "mean_authentic_highlight_fraction": 0.014024483312228653,
+  "limitations": "64x64 localization estimate. IoU is averaged on tampered test images. Authentic highlighted area is averaged separately."
+}

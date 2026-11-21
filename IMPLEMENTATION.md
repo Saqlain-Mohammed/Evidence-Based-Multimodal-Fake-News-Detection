@@ -1,81 +1,31 @@
-# Implementation status and project objectives
+# Project objectives and validation
 
-The supplied project document proposes five analysis areas and three clients.
-This record distinguishes code, completed training, measured performance and
-features that still need work. It does not claim every proposed capability is
-finished merely because an upload form or model architecture exists.
+## Verification workflow
 
-## Completed and measured
+The website, extension and mobile source use the same FastAPI analysis and report endpoints. The website supports files, text, article URLs, batch uploads, report export and history. Local mode shares history. Token mode restricts report access to the issuing account. Two analyses can execute concurrently per server process.
 
-- Full responsive website redesign with forest-green visual identity, editorial
-  headings, independent detector navigation, keyboard controls, file previews,
-  honest empty/error/loading states, model readiness and dataset provenance.
-- Shared local FastAPI API, SQLite history, report retrieval/deletion and JSON
-  export. Document input supports TXT, DOCX and text-based PDF.
-- Independently trained scratch WELFake news-pattern, HC3 AI-text and CIFAKE
-  AI-image models. Held-out calibration and real test reports are included in
-  `models/public/`. Original LIAR test measures cross-domain failure openly.
-- CIFAKE model Grad-CAM attention, explicitly distinct from a tamper mask.
-- Public URL text extraction, related Google News RSS reporting with TF-IDF
-  relevance, publisher identity context and clear insufficient-evidence states.
-- Reference-scoped five-word overlap. No fabricated internet-wide plagiarism
-  percentage or AI-authorship certainty.
-- Separate scratch image manipulation CNN, video CNN/GRU and audio spectrogram
-  CNN, with protocol imports, source/identity/speaker grouping, hash-leakage
-  rejection, validation selection, calibration and held-out evaluation.
-- Chrome/Edge and Firefox development extension packages for selected/page text.
-- Expo mobile client source for file selection, camera capture and report sharing.
-- New automated API/model tests. Legacy synthetic models are excluded from serving.
+The detectors answer separate questions. WELFake models article patterns, HC3 models writing origin, and CIFAKE models historical image generation. CASIA supplies manipulation labels and pixel annotations. UADFV supplies paired original and deepfake clips. ASVspoof 2019 LA supplies bona fide and synthesized or converted speech. Each trained detector and its evaluation report are in `models/public/`.
 
-## Additional data acquisition in progress
+Text and image inputs provided together invoke a separate Fakeddit classifier. Its macro F1 exceeded title-only and image-only comparisons on the mirror's deduplicated split. It predicts a community-derived benchmark label that includes satire. The final review policy preserves the individual scores instead of interpreting them all as probabilities of false news.
 
-The user requested acquisition from the beginning rather than supplying datasets.
-Resumable, byte-range-validated downloads are being acquired under `data/public/`:
+## Evidence and explanations
 
-- Full ASVspoof 2019 LA train/development/evaluation via the documented Bisher
-  mirror, preserving official speaker IDs, labels and partition sizes.
-- CASIA v2 image/mask archive via KhangTruong’s mirror. The mirror’s `cross_test`
-  name is retained in provenance; using it to train requires a newly declared
-  source-grouped internal split and cannot be reported as the MVSS cross-test
-  protocol. Donor/host connections must remain in one partition.
-- Official DeepfakeTIMIT archive from Idiap/Zenodo. Authentic VidTIMIT sequences
-  must be paired with corresponding fake sequences; fake videos alone are not a
-  binary training dataset. It is a small historical baseline, not a replacement
-  for large modern FF++/DF40/Celeb-DF evaluation.
+The system retrieves Google News headlines and FactCheck.org excerpts. A scratch MultiNLI classifier compares the opening claim with retrieved or supplied passages. The interface exposes the source, passage, experimental relation and retrieval limits. CRED-1 supplies attributed publisher-level context for matching domains. Five-word overlap is measured against the user's reference. An English Vosk model can transcribe the first two minutes of audio locally and pass the transcript to the news detector. Vosk is an auxiliary pretrained component.
 
-Provider sources:
-[ASVspoof](https://www.asvspoof.org/index2019.html),
-[ASVspoof mirror](https://huggingface.co/datasets/Bisher/ASVspoof_2019_LA),
-[CASIA naming and corrections](https://github.com/namtpham/casia2groundtruth),
-[CASIA mirror](https://huggingface.co/datasets/KhangTruong/Casia-v2.0),
-[DeepfakeTIMIT](https://zenodo.org/records/4068245),
-[VidTIMIT](https://conradsanderson.id.au/vidtimit/).
+The AI-image CNN provides Grad-CAM attention. The CASIA mask model uses actual pixel annotations and reports mean intersection over union. Its low overlap limits the conclusions that can be drawn from highlighted regions. The video CNN/GRU uses temporal information across sampled frames and exposes their timestamps. Its ten-clip held-out test reached chance accuracy.
 
-## Objectives still requiring completion or validation
+## Client validation
 
-- Reliable evidence-based factual support/contradiction: current related
-  reporting is not factual entailment. No new NLI checkpoint is trained yet.
-- Jointly trained multimodal truth fusion: current report uses an explainable
-  review policy. There is no validated cross-modal attention fusion checkpoint.
-- Remaining media checkpoints: architecture availability is not completed
-  real-data training. The live registry is the authoritative readiness record.
-- Manipulation subtype/localization, image context misuse, video tamper timestamps,
-  speaker clone attribution and splice localization require suitable supervision
-  and external evaluation; binary models cannot establish these claims.
-- Audio transcription and transcript-to-news verification are not yet connected.
-- Bulk analysis, authenticated user accounts and account-private cross-device
-  history are not implemented. The local database is shared by all clients.
-- Native mobile share-target/voice recording, signed APK/iOS builds and device
-  verification; extension image/video context menus and store distribution.
-- Modern and non-English generalization: HC3/CIFAKE are narrow older benchmarks;
-  WELFake does not transfer reliably to LIAR. M4, GenImage, DF40 and real-world
-  independent datasets are recommended expansion, not claimed completed training.
+The web workflow has been exercised on desktop and mobile-width layouts, including two-file submission, opening each report and the model registry. Chrome/Edge and Firefox extension packages support selection, whole-page, image and video inputs. The Expo app supports camera, file inputs, microphone recordings, incoming shares, expandable evidence and report sharing. Android and iOS JavaScript bundles have been generated. Platform signing and physical-device tests are separate from bundling.
 
-## Design improvements over the proposed score fusion
+## Open validation and research work
 
-AI-written text can be factual and human text can be false. The backend therefore
-keeps their probabilities separate. A missing model produces no percentage.
-Related headlines are labelled unverified. A source URL is context, not proof.
-The model lab shows held-out counts, class mappings, data limits and the weak LIAR
-transfer result alongside high in-domain scores. These choices reduce misleading
-confidence while preserving a unified report and clear human-review recommendation.
+- Reliable real-world factual adjudication and a jointly labelled four-input text, image, publisher and evidence model. The paired model handles title and image.
+- Corpus-wide plagiarism and paraphrase detection. The implemented comparison is reference-scoped.
+- Reliable localization and manipulation subtypes across external image datasets, independently validated video tamper intervals, audio splice localization and speaker-specific clone attribution.
+- Larger independent video and contemporary generator benchmarks, non-English validation, and external assessments of robustness to recompression and editing.
+- Signed native distribution, iOS compilation on macOS and full device/browser compatibility testing.
+
+## Reproduction
+
+Use the acquisition and training commands in the README. Media importers retain source groups, reject cross-split byte collisions and preserve the official ASVspoof partitions. Raw corpora, user submissions, local credentials and report history stay outside the repository. The model reports contain split sizes, metrics and protocol-specific caveats.

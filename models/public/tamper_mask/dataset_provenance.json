@@ -1,0 +1,8 @@
+[
+  {
+    "file": "all.parquet",
+    "url": "https://huggingface.co/datasets/KhangTruong/Casia-v2.0/resolve/main/data/cross_test-00000-of-00001.parquet",
+    "bytes": 3473738790,
+    "sha256": "ad4483d651f4b725d53192a34562a398651925fd929164216832bfa726700034"
+  }
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "file": "train.parquet",
+    "url": "https://huggingface.co/datasets/Bisher/ASVspoof_2019_LA/resolve/aea92dd83a9c56e070c0b1e9f02e7c0d96216a4c/data/train-00000-of-00001.parquet",
+    "bytes": 1586086073,
+    "sha256": "b4eea1063bbcfa0c1cef1b69a96ad8b787c32f662005562b899cd4b461739619"
+  },
+  {
+    "file": "validation.parquet",
+    "url": "https://huggingface.co/datasets/Bisher/ASVspoof_2019_LA/resolve/aea92dd83a9c56e070c0b1e9f02e7c0d96216a4c/data/validation-00000-of-00001.parquet",
+    "bytes": 1575535827,
+    "sha256": "9d2c340bb7f04c2d63ac018b224ecdb8c1855c789247232608b650f86c189b16"
+  },
+  {
+    "file": "test.parquet",
+    "url": "https://huggingface.co/datasets/Bisher/ASVspoof_2019_LA/resolve/aea92dd83a9c56e070c0b1e9f02e7c0d96216a4c/data/test-00000-of-00001.parquet",
+    "bytes": 4381501164,
+    "sha256": "8159935a94426bc36308278b23cecd8c4ca2a15b778a1087a4a0441d079c86af"
+  }
+]

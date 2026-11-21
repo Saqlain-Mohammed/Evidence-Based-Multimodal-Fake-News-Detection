@@ -1,4 +1,6 @@
 """Honest, modality-specific research workbench API. Legacy demo heads are excluded."""
+from accounts import OWNER
+import asyncio
 import base64
 import threading
 from concurrent.futures import ThreadPoolExecutor
@@ -28,7 +30,9 @@ ROOT = Path(__file__).resolve().parents[1]
 import sys
 sys.path.insert(0, str(ROOT))
 router = APIRouter(prefix="/api/v2")
+JOBLIB_TASKS = {'fake_news', 'ai_text', 'paired_news'}
 TASKS = {
+    'paired_news': ('Title and image context', 'Fakeddit paired subset', 'text + image'),
     'fake_news': ('News credibility', 'WELFake + LIAR cross-domain evaluation', 'text'),
     'ai_text': ('AI text', 'HC3 English', 'text'),
     'image_ai': ('AI image', 'CIFAKE', 'image'),
@@ -38,19 +42,28 @@ TASKS = {
 }
 MAX_BYTES = 30 * 1024 * 1024
 MEDIA_LOCK = threading.Lock()
+ANALYSIS_SLOTS = asyncio.Semaphore(2)
 DB = ROOT / 'data' / 'workbench.sqlite3'
 
 def connection():
     DB.parent.mkdir(parents=True, exist_ok=True)
     c = sqlite3.connect(DB)
     c.execute('CREATE TABLE IF NOT EXISTS reports (id TEXT PRIMARY KEY, created TEXT, mode TEXT, title TEXT, result TEXT)')
+    c.execute("CREATE TABLE IF NOT EXISTS report_owners(id TEXT PRIMARY KEY, owner TEXT NOT NULL)")
     return c
+
+def uses_joblib(task):
+    if task in {'audio','image_manipulation'}:
+        path = ROOT/'models/public'/task/'report.json'
+        return path.exists() and json.loads(path.read_text(encoding='utf-8')).get('artifact_format') == 'joblib'
+    return task in JOBLIB_TASKS
+
 
 def registry():
     rows = []
     for key, (name, data, modality) in TASKS.items():
         folder = ROOT / 'models/public' / key
-        artifact = folder / ('model.joblib' if modality == 'text' else 'model.pt')
+        artifact = folder / ('model.joblib' if uses_joblib(key) else 'model.pt')
         report = None
         if (folder / 'report.json').exists():
             report = json.loads((folder / 'report.json').read_text(encoding='utf-8'))
@@ -64,7 +77,7 @@ def registry():
 @lru_cache(maxsize=16)
 def load_artifact(task, modified):
     folder = ROOT / 'models/public' / task
-    if task in ('fake_news', 'ai_text'):
+    if uses_joblib(task):
         import joblib
         return joblib.load(folder / 'model.joblib')
     import torch
@@ -77,7 +90,7 @@ def load_artifact(task, modified):
 
 def artifact(task):
     folder = ROOT / 'models/public' / task
-    p = folder / ('model.joblib' if task in ('fake_news', 'ai_text') else 'model.pt')
+    p = folder / ('model.joblib' if uses_joblib(task) else 'model.pt')
     if not p.exists() or not (folder / 'report.json').exists():
         return None
     return load_artifact(task, p.stat().st_mtime_ns)
@@ -121,6 +134,11 @@ def _image_signal(task, raw):
     loaded=artifact(task)
     if loaded is None: return unavailable(task)
     import torch
+    if isinstance(loaded,dict):
+        from training.forensic_features import features
+        decision=loaded['classifier'].decision_function(features(raw).reshape(1,-1)).reshape(-1,1)
+        p=loaded['calibration'].predict_proba(decision)[0,1]
+        return signal(task,p,'Experimental CASIA compression and residual score. Historical file processing can influence this result.',verdict='Experimental score',**mask_overlay(task,raw))
     model, blob = loaded
     x = image_tensor(raw,blob.get('size',32))
     with torch.inference_mode():
@@ -145,8 +163,47 @@ def _image_signal(task, raw):
         encoded='data:image/png;base64,'+base64.b64encode(buf.getvalue()).decode()
     finally:
         handle.remove(); model.zero_grad()
+    localization = mask_overlay(task, raw)
     return signal(task,p,'Model attention is shown below. It is not a localized proof of manipulation. CIFAKE AI detection is limited to its historical 32×32 benchmark.' if task=='image_ai' else 'Binary manipulation risk; attention is not a forensic tamper mask.',
-        heatmap=encoded, heatmap_label='Positive-class Grad-CAM attention')
+        heatmap=encoded, heatmap_label='Positive-class Grad-CAM attention',**({'verdict':'Experimental score'} if task=='image_manipulation' else {}),**localization)
+
+def mask_overlay(task, raw):
+    localization = {}
+    mask_path = ROOT/'models/public/tamper_mask/model.joblib'
+    if task == 'image_manipulation' and mask_path.exists():
+        from training.mask_features import pixels as mask_pixels
+        mask_model = load_pixel_model(mask_path.stat().st_mtime_ns)
+        scores = mask_model['model'].predict_proba(mask_pixels(raw))[:,1]
+        region = scores.reshape(64,64) >= mask_model['threshold']
+        with Image.open(io.BytesIO(raw)) as im:
+            display=im.convert('RGB')
+        display.thumbnail((640,640))
+        alpha = Image.fromarray(np.uint8(region)*130).resize(display.size,Image.Resampling.NEAREST)
+        display.paste((210,60,65),(0,0,display.width,display.height),alpha)
+        image_bytes=io.BytesIO();display.save(image_bytes,format='JPEG',quality=82)
+        localization={'mask_overlay':'data:image/jpeg;base64,'+base64.b64encode(image_bytes.getvalue()).decode(),
+                      'highlighted_fraction':float(region.mean()),
+                      'mask_note':'Experimental mask trained on CASIA pixel annotations. Mean overlap with true regions was 4.66% on CASIA test images. Use only as an exploratory visualization.'}
+    return localization
+
+
+@lru_cache(maxsize=1)
+def load_pixel_model(modified):
+    import joblib
+    return joblib.load(ROOT/'models/public/tamper_mask/model.joblib')
+
+
+def paired_news_signal(text, raw):
+    from training.paired_features import image_features, paired_features
+    model = artifact('paired_news')
+    if model is None:
+        return unavailable('paired_news')
+    title = re.split(r'(?<=[.!?])\s+|\n+', text.strip(), maxsplit=1)[0][:1000]
+    features = paired_features(model, [title], [image_features(raw)])
+    decision = model['classifier'].decision_function(features).reshape(-1, 1)
+    score = model['calibration'].predict_proba(decision)[0, 1]
+    return signal('paired_news', score, 'Joint title/image model trained on historical Reddit categories including satire. This estimates a dataset label, not factual truth.', compared_title=title)
+
 
 def video_signal(path):
     loaded=artifact('video')
@@ -190,16 +247,24 @@ def decode_audio(path, seconds=6):
     return spec, min(info.duration,seconds)
 
 def audio_signal(path):
+    from transcription import transcript
     loaded=artifact('audio')
     if loaded is None: return unavailable('audio')
     import torch
-    model,blob=loaded; a,duration=decode_audio(path)
-    with torch.inference_mode(): p=(model(a.unsqueeze(0))/blob.get('temperature',1)).sigmoid().item()
+    a,duration=decode_audio(path)
+    if isinstance(loaded, dict):
+        from training.audio_features import spectral_features
+        features = spectral_features(a.unsqueeze(0).numpy())
+        z = loaded['classifier'].decision_function(features).reshape(-1,1)
+        p = loaded['calibration'].predict_proba(z)[0,1]
+    else:
+        model,blob=loaded
+        with torch.inference_mode(): p=(model(a.unsqueeze(0))/blob.get('temperature',1)).sigmoid().item()
     report=json.loads((ROOT/'models/public/audio/report.json').read_text(encoding='utf-8'))
     scope=report.get('evaluation_scope','unknown')
     scope_note=' Development model: only an internal speaker split of the original training partition has been evaluated; official unseen-attack evaluation is pending.' if scope=='internal-training-partition-only' else ''
     return signal('audio',p,'Bona-fide versus spoof risk for the first six seconds. Binary training cannot identify a speaker, distinguish cloning from synthesis, or prove a splice.'+scope_note,analyzed_seconds=duration,evaluation_scope=scope,
-        transcript_status='unavailable: no speech recognition model configured')
+        transcript=transcript(path))
 
 def safe_url(url):
     p=urlparse(url)
@@ -232,27 +297,87 @@ def article(url):
     for t in soup(['script','style','nav','header','footer']): t.decompose()
     return (' '.join(p.get_text(' ',strip=True) for p in soup.select('article p, main p') or soup.find_all('p')))[:50000],final
 
-def evidence(text):
-    # Similarity is relevance only. Neither headline overlap nor publisher reputation is factual entailment.
-    words=re.findall(r"[\w'-]+",text)[:18]
-    query=' '.join(words)
+@lru_cache(maxsize=1)
+def load_stance_model(modified):
+    import joblib
+    return joblib.load(ROOT / 'models/public/evidence_stance/model.joblib')
+
+
+def compare_claim(text, passages):
+    """Compare the opening claim with one relevant sentence and return both."""
+    from sklearn.feature_extraction.text import TfidfVectorizer
+    from training.stance_features import LABELS, encode
+    claim = re.split(r'(?<=[.!?])\s+|\n+', text.strip(), maxsplit=1)[0][:1000]
+    sentences = [s.strip()[:1000] for s in passages if s.strip()][:160]
+    path = ROOT / 'models/public/evidence_stance/model.joblib'
+    if not sentences or not claim or not path.exists():
+        return None
     try:
-        raw,_=public_get('https://news.google.com/rss/search?q='+quote(query)+'&hl=en&gl=US&ceid=US:en')
-        root=ET.fromstring(raw); rows=[]
-        for it in root.findall('./channel/item')[:6]:
-            rows.append({'title':it.findtext('title',''), 'url':it.findtext('link',''),
-                'source':it.findtext('source',''), 'published':it.findtext('pubDate',''), 'stance':'Not verified'})
-        if rows:
-            from sklearn.feature_extraction.text import TfidfVectorizer
-            from sklearn.metrics.pairwise import cosine_similarity
-            a=TfidfVectorizer(stop_words='english').fit_transform([text[:3000]]+[r['title'] for r in rows])
-            sims=cosine_similarity(a[:1],a[1:])[0]
-            for row,s in zip(rows,sims): row['relevance']=round(float(s),3)
-            rows.sort(key=lambda r:r['relevance'],reverse=True)
-        return {'status':'retrieved' if rows else 'insufficient','items':rows,'query':query,
-            'note':'Related reporting, not verified support. No NLI checkpoint is active; contradictions are not inferred from keywords.'}
-    except (requests.RequestException,ValueError,ET.ParseError,OSError):
-        return {'status':'insufficient','items':[],'query':query,'note':'Evidence retrieval unavailable or no related reports found.'}
+        vectors = TfidfVectorizer(stop_words='english').fit_transform([claim, *sentences])
+    except ValueError:
+        return None
+    similarity = (vectors[1:] @ vectors[0].T).toarray().ravel()
+    index = int(similarity.argmax())
+    result = {'claim': claim, 'passage': sentences[index], 'assessment': 'Insufficient overlap'}
+    if similarity[index] >= 0.12:
+        model = load_stance_model(path.stat().st_mtime_ns)
+        scores = model.predict_proba(encode([(sentences[index], claim)]))[0]
+        result['assessment'] = LABELS[int(model.classes_[scores.argmax()])] if scores.max() >= .65 else 'Inconclusive'
+    return result
+
+
+def google_headlines(query):
+    raw,_=public_get('https://news.google.com/rss/search?q='+quote(query)+'&hl=en&gl=US&ceid=US:en')
+    return [{'title':row.findtext('title',''), 'url':row.findtext('link',''),'source':row.findtext('source',''),
+             'published':row.findtext('pubDate',''),'kind':'Headline'}
+            for row in ET.fromstring(raw).findall('./channel/item')[:6]]
+
+
+def published_fact_checks(query):
+    from bs4 import BeautifulSoup
+    from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS
+    terms=[word for word in re.findall(r"[a-zA-Z]{4,}",query.lower()) if word not in ENGLISH_STOP_WORDS]
+    if not terms:return []
+    url='https://www.factcheck.org/wp-json/wp/v2/posts?per_page=3&_fields=title,excerpt,link,date&search='+quote(max(terms[:8],key=len))
+    raw,_=public_get(url)
+    rows=[]
+    for post in json.loads(raw):
+        title=BeautifulSoup(post['title']['rendered'],'html.parser').get_text(' ',strip=True)
+        excerpt=BeautifulSoup(post['excerpt']['rendered'],'html.parser').get_text(' ',strip=True)
+        rows.append({'title':title,'passage':excerpt[:1200],'url':post['link'],'source':'FactCheck.org',
+                     'published':post['date'],'kind':'Published fact-check excerpt'})
+    return rows
+
+
+def evidence(text):
+    from sklearn.feature_extraction.text import TfidfVectorizer
+    from sklearn.metrics.pairwise import cosine_similarity
+    query=' '.join(re.findall(r"[\w'-]+",text)[:18])
+    rows=[]
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        searches=[pool.submit(provider,query) for provider in (google_headlines,published_fact_checks)]
+        for search in searches:
+            try: rows.extend(search.result())
+            except (requests.RequestException,ValueError,KeyError,TypeError,ET.ParseError,OSError): continue
+    if rows:
+        documents=[r.get('passage') or r['title'].removesuffix(' - '+r['source']) for r in rows]
+        try:
+            vectors=TfidfVectorizer(stop_words='english').fit_transform([text[:3000],*documents])
+            relevance=cosine_similarity(vectors[:1],vectors[1:])[0]
+        except ValueError:
+            relevance=np.zeros(len(rows))
+        for row,passage,score in zip(rows,documents,relevance):
+            row['relevance']=round(float(score),3)
+            row['stance']='Unverified'
+            if score<.08:continue
+            comparison=compare_claim(text,re.split(r'(?<=[.!?])\s+',passage))
+            if comparison:
+                row['comparison']=comparison
+                row['stance']='Experimental comparison: '+comparison['assessment']
+        rows=sorted((row for row in rows if row['relevance']>=.08),key=lambda row:row['relevance'],reverse=True)
+    return {'status':'retrieved' if rows else 'insufficient','items':rows,'query':query,
+            'note':'Searches Google News headlines and FactCheck.org publication excerpts. Sentence relations are experimental. Read the linked source to establish what it reviewed.'}
+
 
 def plagiarism(text, references):
     # Passage shingles allow an interpretable overlap score with a declared corpus.
@@ -269,10 +394,22 @@ def plagiarism(text, references):
     return {'status':'compared' if references else 'no_corpus','overlap_pct':round(100*len(covered)/max(1,len(ts)),1) if references else None,
         'references_checked':len(references),'matches':matches,'note':'Five-word overlap against the supplied references only. Not an internet-wide plagiarism percentage or a judgment about attribution.'}
 
+@lru_cache(maxsize=1)
+def source_directory():
+    return json.loads((ROOT/'backend/resources/cred1/domains.json').read_text(encoding='utf-8'))
+
+
 def source_info(url):
-    host=(urlparse(url).hostname or '').lower()
-    return {'domain':host or None,'status':'Provided' if host else 'Not supplied',
-        'note':'Publisher identity is context. HTTPS or a familiar domain does not verify an individual claim.'}
+    host=(urlparse(url).hostname or '').lower().rstrip('.')
+    record=source_directory().get(host.removeprefix('www.')) if host else None
+    info={'domain':host or None,'status':'Matched directory' if record else 'Unlisted' if host else 'Not supplied',
+          'note':'No matching domain rating in the CRED-1 snapshot.' if host else 'No source rating available.'}
+    if record:
+        info.update(directory='CRED-1',source_score=record['s'],
+                    attribution_url='https://github.com/aloth/cred-1/tree/f1594c04dfb805373932def7f8746089f7371322',
+                    note=f"CRED-1 snapshot domain score {record['s']:.2f} on a 0–1 scale. Publisher-level context only. An individual claim still needs evidence.")
+    return info
+
 
 def execute(mode,text,url,raw,filename,reference_text,live_evidence):
     started=time.monotonic(); signals=[]; ev={'status':'not_requested','items':[]}; refs=[]
@@ -299,13 +436,26 @@ def execute(mode,text,url,raw,filename,reference_text,live_evidence):
                 im.verify()
             if mode not in ('image','all','news'): raise ValueError('Select image or combined analysis for an image file.')
             signals.extend([image_signal('image_ai',raw),image_signal('image_manipulation',raw)])
-        elif suffix in ('.wav','.flac','.ogg','.mp4','.webm','.avi','.mov'):
-            task='audio' if suffix in ('.wav','.flac','.ogg') else 'video'
+            if text and mode in ('all','news'):
+                signals.append(paired_news_signal(text,raw))
+        elif suffix in ('.m4a','.wav','.flac','.ogg','.mp4','.webm','.avi','.mov'):
+            task='audio' if suffix in ('.m4a','.wav','.flac','.ogg') else 'video'
             if mode not in (task,'all'): raise ValueError(f'Select {task} or combined analysis for this file.')
             with tempfile.TemporaryDirectory(prefix='veritas-',dir=ROOT/'data') as temp:
                 path=Path(temp)/('input'+suffix); path.write_bytes(raw)
-                signals.append(audio_signal(path) if task=='audio' else video_signal(path))
-        else: raise ValueError('Unsupported file. Use TXT, DOCX, PDF, JPG, PNG, WEBP, WAV, FLAC, OGG, MP4, WEBM or MOV.')
+                if suffix == '.m4a':
+                    from transcription import decode_phone_recording
+                    path = decode_phone_recording(path)
+                media_result = audio_signal(path) if task=='audio' else video_signal(path)
+                signals.append(media_result)
+                spoken = media_result.get('transcript', {}).get('text')
+                if spoken:
+                    news = text_signal('fake_news', spoken)
+                    news['name'] = 'Transcript news credibility'
+                    signals.append(news)
+                    if live_evidence and not text:
+                        ev = evidence(spoken)
+        else: raise ValueError('Unsupported file. Use TXT, DOCX, PDF, JPG, PNG, WEBP, M4A, WAV, FLAC, OGG, MP4, WEBM or MOV.')
     if not signals and overlap is None: raise ValueError('Add text, a supported file or a public article URL.')
     active=[s for s in signals if s['status']=='analyzed']
     risky=[s['name'] for s in active if s['probability']>=.65 and s['verdict']!='Experimental score']
@@ -313,14 +463,16 @@ def execute(mode,text,url,raw,filename,reference_text,live_evidence):
     verdict='Review recommended' if risky else 'Inconclusive' if active else 'Analysis unavailable'
     result={'id':uuid.uuid4().hex,'created_at':datetime.now(timezone.utc).isoformat(),'mode':mode,
         'title':(text[:110] or filename or url),'verdict':verdict,'signals':signals,'evidence':ev,'plagiarism':overlap,
+        'reference_comparison':compare_claim(text, re.split(r'(?<=[.!?])\s+|\n+',reference_text)) if reference_text and mode in ('news','all','text') else None,
         'source':source_info(url),'summary':('Higher-risk signals: '+', '.join(risky)+'.' if risky else 'No conclusion about authenticity can be established from the available signals.'),
         'fusion':{'method':'explainable decision policy','probability':None,
-            'note':'Scores measure different tasks and are kept separate. Joint learned fusion requires a jointly labelled, held-out multimodal dataset; no invented aggregate probability is reported.'},
+            'note':'Scores measure different tasks and are kept separate. A title and image supplied together receive a separate learned Fakeddit score. Other detector outputs retain their individual meanings.'},
         'limitations':['Automated scores are research signals and can be wrong.','AI-generated content may be factual; human-written content may be false.',
             'Evidence headlines are not proof of support or contradiction.'],
         'elapsed_seconds':round(time.monotonic()-started,2)}
     with connection() as c:
         c.execute('INSERT INTO reports VALUES (?,?,?,?,?)',(result['id'],result['created_at'],mode,result['title'],json.dumps(result)))
+        c.execute('INSERT INTO report_owners VALUES (?,?)',(result['id'],OWNER.get()))
     return result
 
 def extract_document(raw,filename):
@@ -338,7 +490,13 @@ def extract_document(raw,filename):
         return '\n'.join(''.join(p.itertext()) for p in tree.iter('{http://schemas.openxmlformats.org/wordprocessingml/2006/main}p'))[:50000]
 
 @router.get('/models')
-def models(): return {'models':registry(),'device':'CPU','legacy_synthetic_models_used':False}
+def models():
+    auxiliary = []
+    for key in ('evidence_stance', 'tamper_mask'):
+        folder = ROOT / 'models/public' / key
+        if (folder/'report.json').exists() and (folder/'model.joblib').exists():
+            auxiliary.append({'id':key, 'report':json.loads((folder/'report.json').read_text(encoding='utf-8'))})
+    return {'models':registry(),'auxiliary':auxiliary,'device':'CPU','legacy_synthetic_models_used':False}
 
 @router.get('/datasets')
 def datasets():
@@ -353,23 +511,27 @@ async def analyze(mode:str=Form('all'),text:str=Form(''),url:str=Form(''),refere
     raw=await file.read(MAX_BYTES+1) if file else None
     if raw and len(raw)>MAX_BYTES: raise HTTPException(413,'File limit is 30 MB.')
     try:
-        return await run_in_threadpool(execute,mode,text.strip(),url.strip(),raw,file.filename if file else '',reference_text,live_evidence)
+        async with ANALYSIS_SLOTS:
+            return await run_in_threadpool(execute,mode,text.strip(),url.strip(),raw,file.filename if file else '',reference_text,live_evidence)
     except (ValueError,UnidentifiedImageError,OSError,ET.ParseError) as e:
         raise HTTPException(400,str(e)) from e
 
 @router.get('/history')
 def history():
     with connection() as c:
-        rows=c.execute('SELECT id,created,mode,title FROM reports ORDER BY created DESC LIMIT 100').fetchall()
+        rows=c.execute("SELECT r.id,created,mode,title FROM reports r LEFT JOIN report_owners o ON r.id=o.id WHERE coalesce(o.owner,'')=? ORDER BY created DESC LIMIT 100",(OWNER.get(),)).fetchall()
     return {'items':[dict(zip(['id','created_at','mode','title'],r)) for r in rows]}
 
 @router.get('/reports/{report_id}')
 def report(report_id:str):
-    with connection() as c: row=c.execute('SELECT result FROM reports WHERE id=?',(report_id,)).fetchone()
+    with connection() as c: row=c.execute("SELECT result FROM reports r LEFT JOIN report_owners o ON r.id=o.id WHERE r.id=? AND coalesce(o.owner,'')=?",(report_id,OWNER.get())).fetchone()
     if row is None: raise HTTPException(404,'Report not found.')
     return json.loads(row[0])
 
 @router.delete('/reports/{report_id}')
 def delete_report(report_id:str):
-    with connection() as c: c.execute('DELETE FROM reports WHERE id=?',(report_id,))
+    with connection() as c:
+        removed = c.execute("DELETE FROM reports WHERE id=? AND coalesce((SELECT owner FROM report_owners WHERE id=reports.id),'')=?",(report_id,OWNER.get()))
+        if removed.rowcount == 0: raise HTTPException(404,'Report not found.')
+        c.execute('DELETE FROM report_owners WHERE id=?',(report_id,))
     return {'deleted':True}

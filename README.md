@@ -15,14 +15,17 @@ Python package and Torch wheel availability varies by Python version.
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
-.\.venv\Scripts\python.exe -m uvicorn app:app --app-dir backend --host 127.0.0.1 --port 8001
+.\.venv\Scripts\python.exe -m uvicorn app:app --app-dir backend --host 127.0.0.1 --port 8000
 ```
 
-Open <http://127.0.0.1:8001>. Interactive API documentation is at `/docs`.
+Open <http://127.0.0.1:8000>. Interactive API documentation is at `/docs`.
 `start.ps1` is an alternative launcher, using port 8000 by default.
-This is a local research service without authentication. Do not expose it to the
-public internet. Reports are shared by clients of the same server, not private
-accounts. Large raw datasets, uploaded files, report history and the virtual
+The default loopback service shares local history. For per-account access, set
+`VERITAS_ACCOUNTS_FILE` to a private SQLite path outside Git, provision each named user
+with `python backend/accounts.py USERNAME`, and start the server in the same environment.
+Each command prints a new bearer token once. Enter it in the website, mobile client
+or extension. Use HTTPS when serving other devices. Account mode isolates report
+listing, reading and deletion. The inference queue allows two concurrent analyses. Large raw datasets, uploaded files, report history and the virtual
 environment are intentionally excluded from Git.
 
 ## What is actually trained
@@ -54,11 +57,12 @@ news passages shorter than 80 words. AI text requires at least 20 words.
 
 - **Deepfake video:** the from-scratch CNN/GRU scored **50%** (5/10) on a source-disjoint UADFV test. This is an experimental clip score with insufficient evidence of reliability.
 
-The model registry reads actual checkpoints and `report.json` files. The image
-manipulation, video and audio architectures and training pipelines are separate;
-their status stays **Training required** until a real-data checkpoint exists.
-Ongoing additional acquisitions/training are documented in `IMPLEMENTATION.md`.
-Legacy synthetic models in ignored local folders are never loaded by the new API.
+- **Title and image together:** trained on 4,693 deduplicated Fakeddit pairs. On 1,429 test posts, joint macro F1 was 0.578 versus 0.555 for title alone and 0.445 for image alone. The binary target groups satire and other community-labelled categories together. Majority-class accuracy was 80.2%, versus 81.2% for the joint model.
+- **Evidence comparison:** trained on 392,702 MultiNLI pairs. Accuracy was 59.66% on matched development and 60.84% on mismatched development. The app compares the opening claim with a selected reference sentence or news headline and exposes uncertainty.
+- **Audio:** a from-scratch spectral gradient-boosting classifier used all 25,380 ASVspoof LA training utterances and 24,844 official development utterances. Official evaluation on 71,237 recordings yielded 82.61% accuracy, 0.690 macro F1, 0.889 ROC AUC and 18.48% equal-error rate. Most evaluation recordings are spoofs, so accuracy alone is insufficient.
+- **Image manipulation and masks:** source-connected CASIA v2 partitions contain 6,967 training, 816 validation and 4,581 test images. The CNN baseline scored 53.22% accuracy. The independent pixel model achieved 4.66% mean tampered-image IoU. The interface labels the localization experimental.
+
+The Model Lab reads each installed detector's held-out metrics. Each checkpoint folder also contains its machine-readable report. Legacy synthetic weights are excluded from inference.
 
 ## Reproduce public-data training
 
@@ -99,7 +103,19 @@ For large archives behind buffering proxies, use the resumable range downloader:
 .\.venv\Scripts\python.exe training/ranged_download.py deepfaketimit
 ```
 
-## Train the remaining independent media models
+## Reproduce joint modeling, speech and media training
+
+Run the following commands from the repository root using the project Python environment.
+
+```powershell
+python training/ranged_download.py multinli fakeddit_pairs
+python training/train_stance.py
+python training/train_paired.py
+python training/install_transcription.py
+.\training\resume_media.ps1
+```
+
+The optional English transcription component uses Vosk's pretrained small English model, downloaded by the installer. It processes up to two minutes locally and passes the transcript through the news detector's ordinary length check. The independent spoof detector examines the first six seconds.
 
 `training/scratch_models.py` defines an image manipulation CNN, a frame-CNN plus
 bidirectional GRU for video, and a spectrogram CNN for audio. Their checkpoints
@@ -126,24 +142,14 @@ justify claims about cloning attribution, editing subtype or tamper timestamps.
 
 ## Website and clients
 
-The website has six detector tabs, drag/drop, TXT/DOCX/PDF extraction, image
-previews, per-model signals, Grad-CAM attention, online related reporting,
+The website has six detector tabs, multi-file drag/drop with an individual report for each file, TXT/DOCX/PDF extraction, image
+previews, per-model signals, Grad-CAM attention, Google News headlines and FactCheck.org excerpts, CRED-1 publisher context,
 reference-scoped overlap, history, JSON report export, a Model Lab, dataset
 sources, responsive phone navigation and a web-app manifest.
 
-`extension/` contains a Manifest V3 Chrome/Edge client for selected text and page
-text. `python scripts/package_extension.py` creates Chromium and Firefox ZIPs;
-Firefox uses its background-script manifest. Load unpacked in a development
-browser. It only sends content when Analyze is clicked and defaults to local
-inference with online evidence disabled. The extension has not been installed or
-published to extension stores. Image/video context menus are not implemented yet.
+`extension/` contains Chrome/Edge and Firefox clients with context menus for selected text, images and videos, plus whole-page capture. Media from sites that restrict cross-origin reads can be supplied as local files. Build the two extension ZIPs using `python scripts/package_extension.py`.
 
-`mobile/` contains an Expo React Native client with file selection, photo capture,
-detector modes and report sharing. Run `npm install`, then `npx expo install --fix`
-and `npm start` there to align the SDK’s native dependencies. Android emulator
-uses `http://10.0.2.2:8001`. Native Android/iOS builds, inbound native share-sheet
-integration and voice recording still need platform testing and implementation.
-Camera permission is requested only on the user’s capture action.
+`mobile/` contains an Expo client with camera input, file selection, microphone recording, inbound sharing and report export. Install the locked dependencies with `npm ci`. Use `npm run android` or `npm run ios` in a configured native development environment. The Android emulator defaults to `http://10.0.2.2:8000`. Android and iOS JavaScript bundles have been exported locally. Native signing, store distribution and physical-device verification remain open.
 
 ## API and verification
 
@@ -177,8 +183,6 @@ the old lexical entailment fallback is excluded. HTTPS and publisher reputation
 are not assigned arbitrary factual credibility percentages.
 
 The overall report uses an explicit review policy, not an average of incompatible
-probabilities. A learned multimodal truth-fusion model needs jointly labelled
-examples and missing-modality validation; proxy/synthetic labels would create
-misleading confidence. A validated NLI model, primary-source retrieval, modern
+probabilities. The separate joint model requires both an image and a title and uses actual paired examples. Its target is a historical Reddit label. A validated NLI model, primary-source retrieval, modern
 generator benchmarks and source-disjoint external tests remain necessary for a
 stronger real-world system.

@@ -17,6 +17,21 @@ def wait_file(path,wait):
         if not wait:raise FileNotFoundError(path)
         print('Waiting for acquisition:',path.name,flush=True);time.sleep(30)
 
+def evaluation_spectrograms(batch):
+    import soundfile as sf
+    import torch
+    waveforms = []
+    for row in batch:
+        samples, sr = sf.read(io.BytesIO(row['audio']['bytes']), frames=96000, always_2d=True, dtype='float32')
+        if sr != 16000 or not len(samples):
+            raise ValueError('Unexpected ASVspoof evaluation audio format.')
+        waveforms.append(np.pad(samples.mean(1), (0, 96000-len(samples))))
+    x = torch.from_numpy(np.stack(waveforms))
+    x = torch.stft(x, n_fft=512, hop_length=160, window=torch.hann_window(512), return_complex=True).abs().log1p()
+    x = (x-x.mean(dim=(1,2),keepdim=True))/(x.std(dim=(1,2),keepdim=True)+1e-6)
+    return torch.nn.functional.interpolate(x.unsqueeze(1), size=(128,192), mode='bilinear', align_corners=False).numpy()
+
+
 def audio(wait):
     from workbench import decode_audio
     import torch
@@ -35,20 +50,29 @@ def audio(wait):
         tensor_path=folder/f'{split}-spectrograms.npy'
         cache=np.lib.format.open_memmap(tensor_path,mode='w+',dtype=np.float16,shape=(n,1,128,192))
         rows=[]
-        for batch in parquet.iter_batches(batch_size=128):
-            for row in batch.to_pylist():
+        for batch in parquet.iter_batches(batch_size=32 if split=='test' else 128):
+            batch_rows = batch.to_pylist()
+            evaluation = evaluation_spectrograms(batch_rows) if split=='test' else None
+            for offset,row in enumerate(batch_rows):
                 raw=row['audio']['bytes'];digest=hashlib.sha256(raw).hexdigest();speaker=row['speaker_id']
                 if speaker in speakers and speakers[speaker]!=split:raise ValueError('Official speaker split overlap.')
                 if digest in hashes and hashes[digest]!=split:raise ValueError('Audio byte overlap across official splits.')
                 speakers[speaker]=split;hashes[digest]=split
-                path=media/(row['audio_file_name']+'.flac')
-                if not path.exists():path.write_bytes(raw)
-                x,_=decode_audio(path);index=len(rows);cache[index]=x.numpy()
+                index=len(rows)
+                if evaluation is None:
+                    path=media/(row['audio_file_name']+'.flac')
+                    if not path.exists():path.write_bytes(raw)
+                    x,_=decode_audio(path);cache[index]=x.numpy()
+                else:
+                    path=ROOT/f'data/public/asvspoof/{source}.parquet'
+                    cache[index]=evaluation[offset]
                 rows.append({'path':str(path),'label':int(row['key']),'group':speaker,'sha256':digest,'split':split,
-                    'attack':row['system_id'],'tensor_path':str(tensor_path),'tensor_index':index})
+                    'source_row':index,'utterance':row['audio_file_name'],'attack':row['system_id'],'tensor_path':str(tensor_path),'tensor_index':index})
             if len(rows)%1024==0:print('Imported audio',split,len(rows),'/',n,flush=True)
         cache.flush();del cache
-        dest.write_text(''.join(json.dumps(r)+'\n' for r in rows),encoding='utf-8')
+        temporary=dest.with_suffix('.tmp')
+        temporary.write_text(''.join(json.dumps(r)+'\n' for r in rows),encoding='utf-8')
+        temporary.replace(dest)
         print('Audio ready',split,len(rows),flush=True)
     (folder/'provenance.json').write_text(json.dumps({'source':'Bisher/ASVspoof_2019_LA at aea92dd83a9c56e070c0b1e9f02e7c0d96216a4c',
         'partitions':'official train/development/evaluation','speaker_overlap':0,'byte_overlap':0,

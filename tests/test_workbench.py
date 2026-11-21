@@ -102,3 +102,42 @@ def test_real_text_scores_and_short_input_guard():
     r=w.text_signal('ai_text','The council held a meeting to discuss the new transport budget and invited residents to respond to the proposal before the deadline.')
     assert 0<=r['probability']<=1
     assert w.text_signal('fake_news','A short factual claim cannot be verified by an article classifier.')['probability'] is None
+
+def test_reference_comparison_exposes_both_sentences(client):
+    text = 'The city council approved the bridge repairs.'
+    reference = 'The city council approved the bridge repairs. Rain is expected tonight.'
+    result = client.post('/api/v2/analyze', data={'mode':'news', 'text':text,
+                         'reference_text':reference, 'live_evidence':'false'}).json()
+    comparison = result['reference_comparison']
+    assert comparison['claim'] == comparison['passage'] == text
+    assert comparison['assessment'] in {'entailment','neutral','contradiction','Inconclusive'}
+    assert result['fusion']['probability'] is None
+
+
+def test_unrelated_reference_abstains():
+    comparison = w.compare_claim('The bridge needs repairs.', ['Lemons grow on citrus trees.'])
+    assert comparison['assessment'] == 'Insufficient overlap'
+
+
+def test_welfake_probability_direction():
+    import joblib
+    payload = joblib.load(ROOT/'models/public/fake_news/model.joblib')
+    assert payload['csv_label_mapping'] == '0=real, 1=fake'
+    sample = ('WASHINGTON (Reuters) - The U.S. Senate voted on Tuesday to approve the measure, '
+              'according to a statement released by the committee. ')
+    assert payload['model'].predict_proba([sample * 6])[0,1] < .5
+
+def test_account_histories_and_legacy_rows_are_isolated(client,tmp_path,monkeypatch):
+    from accounts import provision
+    db=tmp_path/'accounts.sqlite3'
+    users=[{'Authorization':'Bearer '+provision(db,name)} for name in ('one','two')]
+    legacy=client.post('/api/v2/analyze',data={'mode':'news','text':'test','live_evidence':'false'}).json()['id']
+    monkeypatch.setenv('VERITAS_ACCOUNTS_FILE',str(db))
+    assert client.get('/api/v2/history').status_code==401
+    created=client.post('/api/v2/analyze',headers=users[0],data={'mode':'news','text':'short claim','live_evidence':'false'})
+    assert created.status_code==200, created.text
+    item=created.json()['id']
+    assert client.get('/api/v2/history',headers=users[1]).json()['items']==[]
+    assert client.get('/api/v2/reports/'+legacy,headers=users[0]).status_code==404
+    assert client.delete('/api/v2/reports/'+item,headers=users[1]).status_code==404
+    assert client.get('/api/v2/reports/'+item,headers=users[0]).status_code==200

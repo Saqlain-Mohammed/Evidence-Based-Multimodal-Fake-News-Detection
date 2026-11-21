@@ -19,6 +19,6 @@ Invoke-TrainingStep @('training/train_media.py', '--task', 'image_manipulation',
 Copy-Item -LiteralPath data/public/casia/provenance.json -Destination models/public/image_manipulation/dataset_provenance.json
 Invoke-TrainingStep @('training/ranged_download.py', 'asvspoof')
 Invoke-TrainingStep @('training/import_public_media.py', '--task', 'audio')
-Invoke-TrainingStep @('training/train_media.py', '--task', 'audio', '--data', 'data/prepared/asvspoof', '--dataset-name', 'ASVspoof 2019 LA official partitions', '--epochs', '15', '--batch', '64', '--evaluation-scope', 'official-train-dev-eval')
-Copy-Item -LiteralPath data/public/asvspoof/provenance.json -Destination models/public/audio/dataset_provenance.json
-Write-Output 'Acquisition and evaluation completed. Review models/public/*/report.json before making accuracy claims.'
+Invoke-TrainingStep @('training/train_audio_official.py')
+Invoke-TrainingStep @('training/train_mask.py')
+Write-Output 'Evaluation reports are in models/public.'

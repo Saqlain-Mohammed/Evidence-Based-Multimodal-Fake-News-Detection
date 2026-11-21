@@ -1,0 +1,36 @@
+{
+  "dataset": "ASVspoof 2019 LA official partitions",
+  "architecture": "Spectral band statistics and gradient boosting",
+  "artifact_format": "joblib",
+  "counts": {
+    "train": 25380,
+    "validation": 24844,
+    "test": 71237
+  },
+  "test": {
+    "accuracy": 0.8261296798012269,
+    "macro_f1": 0.6898501134593967,
+    "roc_auc": 0.8886442459521997,
+    "brier": 0.13298865295048296,
+    "confusion_matrix": [
+      [
+        5815,
+        1540
+      ],
+      [
+        10846,
+        53036
+      ]
+    ],
+    "n": 71237,
+    "eer": 0.1847517434794536
+  },
+  "validation_macro_f1": 0.8940931553820011,
+  "evaluation_scope": "official-train-dev-eval",
+  "limitations": "First six seconds of English LA recordings. Generalization to calls, music, newer generators or speaker identity has not been established.",
+  "task": "audio",
+  "synthetic": false,
+  "trained_from_scratch": true,
+  "positive_label": 1,
+  "created_utc": "2026-11-21T19:25:16.852380+00:00"
+}

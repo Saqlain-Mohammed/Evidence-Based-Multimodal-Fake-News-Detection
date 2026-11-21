@@ -71,6 +71,22 @@
       "url": "https://github.com/mbzuai-nlp/M4",
       "access": "Optional provider releases; not yet trained in this project",
       "notes": "Recommended expansion after initial baseline evaluation. More rows alone do not guarantee better accuracy."
+    },
+    {
+      "name": "MultiNLI",
+      "task": "Evidence sentence relation",
+      "size": "392,702 training pairs",
+      "url": "https://huggingface.co/datasets/nyu-mll/multi_nli",
+      "access": "Pinned public release",
+      "notes": "Matched and mismatched development splits. Headline factual verification is a different task."
+    },
+    {
+      "name": "Fakeddit paired subset",
+      "task": "Title and image context",
+      "size": "8,503 cleaned title/image pairs",
+      "url": "https://huggingface.co/datasets/ams-99/fakeddit_9k",
+      "access": "Pinned 9K mirror with paired images and CSV splits",
+      "notes": "Community-derived labels include satire. Train-only text features. Exact title, byte and source URL collisions excluded."
     }
   ]
 }
