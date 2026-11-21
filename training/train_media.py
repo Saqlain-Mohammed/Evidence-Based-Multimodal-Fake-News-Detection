@@ -16,13 +16,27 @@ from training.scratch_models import ImageCNN,VideoCNN,AudioCNN
 from training.train_public import metrics,save_report
 from workbench import decode_audio,decode_video
 
+from functools import lru_cache
+
+@lru_cache(maxsize=128)
+def video_frames(path):
+    # Reuse uniformly sampled frames across epochs. The bound also suits larger corpora.
+    frames, _ = decode_video(path)
+    return frames
+
 class Media(Dataset):
-    def __init__(self,rows,task,train=False): self.rows,self.task,self.train=rows,task,train
+    def __init__(self,rows,task,train=False):
+        self.rows,self.task,self.train=rows,task,train
+        self.cache={}
     def __len__(self): return len(self.rows)
     def __getitem__(self,i):
         r=self.rows[i];p=r['path']
-        if self.task=='audio': x,_=decode_audio(p)
-        elif self.task=='video': x,_=decode_video(p)
+        if r.get('tensor_path'):
+            cachepath=r['tensor_path']
+            if cachepath not in self.cache:self.cache[cachepath]=np.load(cachepath,mmap_mode='r')
+            x=torch.from_numpy(np.array(self.cache[cachepath][r['tensor_index']],dtype=np.float32))
+        elif self.task=='audio': x,_=decode_audio(p)
+        elif self.task=='video': x=video_frames(p)
         else:
             with Image.open(p) as im: a=np.asarray(im.convert('RGB').resize((64,64))).copy()
             x=torch.from_numpy(a).permute(2,0,1).float()/255
@@ -70,8 +84,9 @@ def train(a):
         fpr,tpr,_=roc_curve(y,p);fnr=1-tpr;idx=np.argmin(np.abs(fpr-fnr));result['eer']=float((fpr[idx]+fnr[idx])/2)
     folder=save_report(a.task,{'dataset':a.dataset_name,'architecture':type(model).__name__,'epochs':epoch+1,
         'counts':{'train':len(parts['train']),'validation':len(parts['val']),'test':len(parts['test'])},'test':result,
-        'temperature':temperature,'limitations':'Binary classification only; no validated tamper localization, clone attribution, or editing subtype. Evaluate unseen sources and attacks before deployment.'})
+        'temperature':temperature,'evaluation_scope':a.evaluation_scope,
+        'limitations':a.limitations or 'Binary classification only; no validated tamper localization, clone attribution, or editing subtype. Evaluate unseen sources and attacks before deployment.'})
     torch.save({'state_dict':state,'task':a.task,'positive_label':1,'size':64,'frames':16,'temperature':temperature},folder/'model.pt')
 
 if __name__=='__main__':
-    ap=argparse.ArgumentParser();ap.add_argument('--task',choices=['image_manipulation','video','audio'],required=True);ap.add_argument('--data',required=True);ap.add_argument('--dataset-name',required=True);ap.add_argument('--epochs',type=int,default=15);ap.add_argument('--batch',type=int,default=8);ap.add_argument('--lr',type=float,default=.0005);train(ap.parse_args())
+    ap=argparse.ArgumentParser();ap.add_argument('--task',choices=['image_manipulation','video','audio'],required=True);ap.add_argument('--data',required=True);ap.add_argument('--dataset-name',required=True);ap.add_argument('--epochs',type=int,default=15);ap.add_argument('--batch',type=int,default=8);ap.add_argument('--lr',type=float,default=.0005);ap.add_argument('--evaluation-scope',default='provider/group-disjoint');ap.add_argument('--limitations',default='');train(ap.parse_args())

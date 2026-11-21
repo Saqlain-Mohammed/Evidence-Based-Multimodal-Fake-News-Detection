@@ -56,7 +56,7 @@ def registry():
             report = json.loads((folder / 'report.json').read_text(encoding='utf-8'))
         active = artifact.exists() and report is not None
         cross = folder / 'cross_domain.json'
-        rows.append({'id': key, 'name': name, 'modality': modality, 'dataset': data,
+        rows.append({'id': key, 'name': name, 'modality': modality, 'dataset': report.get('dataset',data) if active else data,
             'status': 'ready' if active else 'training_required', 'report': report if active else None,
             'cross_domain': json.loads(cross.read_text(encoding='utf-8')) if active and cross.exists() else None})
     return rows
@@ -156,7 +156,7 @@ def video_signal(path):
     frames,times=decode_video(path,blob.get('frames',16),blob.get('size',64))
     with torch.inference_mode():
         p=(model(frames.unsqueeze(0))/blob.get('temperature',1)).sigmoid().item()
-    return signal('video',p,'Clip-level temporal model. Sampled times describe coverage, not proven tampering timestamps.',sampled_seconds=times)
+    return signal('video',p,'Experimental video model. The UADFV baseline classified 5 of 10 held-out clips correctly. Sampled times describe coverage, not proven tampering timestamps.',sampled_seconds=times,verdict='Experimental score')
 
 def decode_video(path, count=16, size=64):
     import cv2, torch
@@ -185,7 +185,9 @@ def decode_audio(path, seconds=6):
         factor=gcd(sr,16000); a=resample_poly(a,16000//factor,sr//factor)
     length=16000*seconds; a=np.pad(a[:length],(0,max(0,length-len(a))))
     t=torch.from_numpy(a.copy()); spec=torch.stft(t,n_fft=512,hop_length=160,window=torch.hann_window(512),return_complex=True).abs().log1p()
-    return ((spec-spec.mean())/(spec.std()+1e-6)).unsqueeze(0), min(info.duration,seconds)
+    spec=((spec-spec.mean())/(spec.std()+1e-6)).unsqueeze(0).unsqueeze(0)
+    spec=torch.nn.functional.interpolate(spec,size=(128,192),mode='bilinear',align_corners=False)[0]
+    return spec, min(info.duration,seconds)
 
 def audio_signal(path):
     loaded=artifact('audio')
@@ -193,7 +195,10 @@ def audio_signal(path):
     import torch
     model,blob=loaded; a,duration=decode_audio(path)
     with torch.inference_mode(): p=(model(a.unsqueeze(0))/blob.get('temperature',1)).sigmoid().item()
-    return signal('audio',p,'Bona-fide versus spoof risk for the first six seconds. Binary training cannot identify a speaker, distinguish cloning from synthesis, or prove a splice.',analyzed_seconds=duration,
+    report=json.loads((ROOT/'models/public/audio/report.json').read_text(encoding='utf-8'))
+    scope=report.get('evaluation_scope','unknown')
+    scope_note=' Development model: only an internal speaker split of the original training partition has been evaluated; official unseen-attack evaluation is pending.' if scope=='internal-training-partition-only' else ''
+    return signal('audio',p,'Bona-fide versus spoof risk for the first six seconds. Binary training cannot identify a speaker, distinguish cloning from synthesis, or prove a splice.'+scope_note,analyzed_seconds=duration,evaluation_scope=scope,
         transcript_status='unavailable: no speech recognition model configured')
 
 def safe_url(url):
@@ -303,7 +308,7 @@ def execute(mode,text,url,raw,filename,reference_text,live_evidence):
         else: raise ValueError('Unsupported file. Use TXT, DOCX, PDF, JPG, PNG, WEBP, WAV, FLAC, OGG, MP4, WEBM or MOV.')
     if not signals and overlap is None: raise ValueError('Add text, a supported file or a public article URL.')
     active=[s for s in signals if s['status']=='analyzed']
-    risky=[s['name'] for s in active if s['probability']>=.65]
+    risky=[s['name'] for s in active if s['probability']>=.65 and s['verdict']!='Experimental score']
     # These are different targets; averaging authorship and truth probabilities is invalid.
     verdict='Review recommended' if risky else 'Inconclusive' if active else 'Analysis unavailable'
     result={'id':uuid.uuid4().hex,'created_at':datetime.now(timezone.utc).isoformat(),'mode':mode,

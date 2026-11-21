@@ -11,13 +11,15 @@ import requests
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCES = {
+    "multinli": {f"{s}.parquet": f"https://huggingface.co/datasets/nyu-mll/multi_nli/resolve/da70db2af9d09693783c3320c4249840212ee221/data/{s}-00000-of-00001.parquet" for s in ("train","validation_matched","validation_mismatched")},
     "welfake": {"WELFake_Dataset.csv": "https://zenodo.org/records/4561253/files/WELFake_Dataset.csv?download=1"},
     "hc3": {"all.jsonl": "https://huggingface.co/datasets/Hello-SimpleAI/HC3/resolve/main/all.jsonl"},
     "cifake": {f"{s}.parquet": f"https://huggingface.co/datasets/dragonintelligence/CIFAKE-image-dataset/resolve/main/data/{s}-00000-of-00001.parquet" for s in ("train", "test")},
     "liar": {"liar.zip": "https://www.cs.ucsb.edu/~william/data/liar_dataset.zip"},
     "asvspoof": {f"{s}.parquet": f"https://huggingface.co/datasets/Bisher/ASVspoof_2019_LA/resolve/aea92dd83a9c56e070c0b1e9f02e7c0d96216a4c/data/{s}-00000-of-00001.parquet" for s in ("train", "validation", "test")},
-    "deepfaketimit": {"DeepfakeTIMIT.tar.gz": "https://zenodo.org/records/4068245/files/DeepfakeTIMIT.tar.gz?download=1"},
+    "deepfaketimit": {"DeepfakeTIMIT.tar.gz": "https://zenodo.org/api/records/4068245/files/DeepfakeTIMIT.tar.gz/content"},
     "casia": {"all.parquet": "https://huggingface.co/datasets/KhangTruong/Casia-v2.0/resolve/main/data/cross_test-00000-of-00001.parquet"},
+    "uadfv": {f"{s}.zip": f"https://huggingface.co/datasets/scarlettss/UADFV/resolve/main/{s}.zip" for s in ('real','fake')},
 }
 
 def download(name):

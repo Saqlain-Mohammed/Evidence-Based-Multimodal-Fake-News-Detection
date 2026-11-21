@@ -27,7 +27,7 @@ environment are intentionally excluded from Git.
 
 ## What is actually trained
 
-Three independent real-data checkpoints are included initially. All their
+Independent real-data checkpoints are included. Their
 parameters/features are learned from scratch: no pretrained BERT, ImageNet
 weights, or hosted LLM inference is used by this workspace.
 
@@ -46,11 +46,13 @@ weights, or hosted LLM inference is used by this workspace.
   test retained. Accuracy **91.80%**, macro F1 **0.9179**. Positive-class Grad-CAM
   shows model attention, not a proven tamper mask.
 
-**The cross-domain result is much weaker:** the WELFake model scores **44.31%**
-accuracy and **0.3472** macro F1 on 1,002 LIAR official-test statements after the
+**The cross-domain result is much weaker:** the WELFake model scores **55.69%**
+accuracy and **0.4191** macro F1 on 1,002 LIAR official-test statements after the
 documented binary mapping. This is shown in the Model Lab. Do not present the
 WELFake score as general fact-checking accuracy. The API abstains from scoring
 news passages shorter than 80 words. AI text requires at least 20 words.
+
+- **Deepfake video:** the from-scratch CNN/GRU scored **50%** (5/10) on a source-disjoint UADFV test. This is an experimental clip score with insufficient evidence of reliability.
 
 The model registry reads actual checkpoints and `report.json` files. The image
 manipulation, video and audio architectures and training pipelines are separate;
@@ -71,8 +73,8 @@ All data and caches stay on the project drive.
 
 Sources and label mappings:
 
-- [WELFake official release](https://zenodo.org/records/4561253): official
-  `0=fake, 1=real` becomes `1=risk` internally. Empty/short rows and exact body
+- [WELFake official release](https://zenodo.org/records/4561253): the release CSV uses
+  `0=real, 1=fake`. The record description reverses those labels. Its 35,028 real and 37,106 fake article totals match the file with this correction. In the CSV, 21,127 of 21,129 articles with an opening Reuters dateline have label 0. Empty/short rows and exact body
   duplicates are removed. Article-prefix groups are split before feature fitting.
   Paraphrased near duplicates and publisher/topic shortcuts can remain.
 - [HC3](https://huggingface.co/datasets/Hello-SimpleAI/HC3): human=0, ChatGPT=1;

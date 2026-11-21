@@ -20,9 +20,14 @@ def transfer(url,path,workers=4):
         r.raise_for_status();match=re.fullmatch(r'bytes 0-0/(\d+)',r.headers.get('Content-Range',''))
         if not match:raise ValueError('Server must support verified byte ranges.')
         total=int(match[1])
-    block=8*1024*1024;count=(total+block-1)//block
+    block=(1 if 'zenodo.org' in url else 8)*1024*1024;count=(total+block-1)//block
     part=path.with_suffix(path.suffix+'.ranges');journal=path.with_suffix(path.suffix+'.ranges.json')
-    done=set(json.loads(journal.read_text()) if journal.exists() and part.exists() else [])
+    saved=json.loads(journal.read_text()) if journal.exists() and part.exists() else {}
+    if isinstance(saved,list):
+        # Older journals used the established 8 MiB HF / 1 MiB Zenodo ranges.
+        done=set(saved)
+    else:
+        done=set(saved.get('done',[])) if saved.get('block')==block and saved.get('total')==total and saved.get('url')==url else set()
     if not part.exists():part.touch()
     def fetch(index):
         start=index*block;end=min(total-1,start+block-1)
@@ -38,10 +43,16 @@ def transfer(url,path,workers=4):
                 time.sleep(min(4,retry+1))
     print(f'Fetching {path.name}: {total/1e6:.1f} MB; {len(done)}/{count} ranges already saved',flush=True)
     with part.open('r+b') as f,ThreadPoolExecutor(max_workers=workers) as pool:
-        futures=[pool.submit(fetch,i) for i in range(count) if i not in done]
+        futures={pool.submit(fetch,i) for i in range(count) if i not in done}
         for future in as_completed(futures):
-            index,data=future.result();f.seek(index*block);f.write(data);f.flush();done.add(index)
-            journal.write_text(json.dumps(sorted(done)))
+            try:
+                index,data=future.result()
+                futures.remove(future)
+            except Exception:
+                for pending in futures:pending.cancel()
+                raise
+            f.seek(index*block);f.write(data);f.flush();done.add(index)
+            journal.write_text(json.dumps({'url':url,'total':total,'block':block,'done':sorted(done)}))
             if len(done)%8==0 or len(done)==count:print(f'{path.name}: {len(done)}/{count} ranges ({len(done)*100/count:.0f}%)',flush=True)
     if part.stat().st_size!=total:raise ValueError('Final size mismatch.')
     part.replace(path)

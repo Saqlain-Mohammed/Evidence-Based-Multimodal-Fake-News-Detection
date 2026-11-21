@@ -67,7 +67,7 @@ def text_task(task):
                 continue
             seen.add(key)
             texts.append((str(r['title']) + ". " + body)[:18000])
-            labels.append(1 - int(r['label']))  # official 0=fake, positive class here 1=fake
+            labels.append(int(r['label']))  # Released CSV uses 1=fake, verified against source counts and Reuters datelines.
             groups.append(digest(body[:500]))
         dataset, caveat = "WELFake", "Historical English articles; publisher/topic artifacts remain. Not factual verification. Near-duplicate paraphrases may remain."
     else:

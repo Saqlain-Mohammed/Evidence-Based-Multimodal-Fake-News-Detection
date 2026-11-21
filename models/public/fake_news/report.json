@@ -9,16 +9,16 @@
   "test": {
     "accuracy": 0.9888414834263209,
     "macro_f1": 0.9886285004258907,
-    "roc_auc": 0.999401118731285,
+    "roc_auc": 0.9994011187312849,
     "brier": 0.008505676774614935,
     "confusion_matrix": [
       [
-        2596,
+        3430,
         34
       ],
       [
         34,
-        3430
+        2596
       ]
     ],
     "n": 6094
@@ -30,5 +30,6 @@
   "synthetic": false,
   "trained_from_scratch": true,
   "positive_label": 1,
-  "created_utc": "2026-11-21T18:11:30.425775+00:00"
+  "created_utc": "2026-11-21T18:11:30.425775+00:00",
+  "csv_label_mapping": "0=real, 1=fake. Corrected binary sigmoid orientation and rescored original held-out examples."
 }

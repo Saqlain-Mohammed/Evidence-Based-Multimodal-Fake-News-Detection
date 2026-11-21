@@ -1,0 +1,35 @@
+{
+  "dataset": "UADFV historical paired-source baseline",
+  "architecture": "VideoCNN",
+  "epochs": 15,
+  "counts": {
+    "train": 78,
+    "validation": 10,
+    "test": 10
+  },
+  "test": {
+    "accuracy": 0.5,
+    "macro_f1": 0.45054945054945056,
+    "roc_auc": 0.7200000000000001,
+    "brier": 0.24516135991628213,
+    "confusion_matrix": [
+      [
+        1,
+        4
+      ],
+      [
+        1,
+        4
+      ]
+    ],
+    "n": 10
+  },
+  "temperature": 0.6504305601119995,
+  "evaluation_scope": "small-internal-source-split",
+  "limitations": "98 historical clips. Source-video-disjoint internal split. Inserted identities can overlap. No external accuracy or tamper timestamp validation.",
+  "task": "video",
+  "synthetic": false,
+  "trained_from_scratch": true,
+  "positive_label": 1,
+  "created_utc": "2026-11-21T19:01:15.533580+00:00"
+}

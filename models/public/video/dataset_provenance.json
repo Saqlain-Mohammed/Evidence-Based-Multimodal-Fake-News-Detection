@@ -1,0 +1,14 @@
+[
+  {
+    "file": "real.zip",
+    "url": "https://huggingface.co/datasets/scarlettss/UADFV/resolve/main/real.zip",
+    "bytes": 219684630,
+    "sha256": "fdf2ce70e4162eabdf953b3f2041eadbf157b8015f40f82a8681d2ed6545074a"
+  },
+  {
+    "file": "fake.zip",
+    "url": "https://huggingface.co/datasets/scarlettss/UADFV/resolve/main/fake.zip",
+    "bytes": 186376762,
+    "sha256": "f84d20bd45c320f2cd1561bd838f37bd9ec0f05b8604254714875865f7b0ef88"
+  }
+]

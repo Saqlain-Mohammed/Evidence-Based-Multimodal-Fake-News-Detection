@@ -4,7 +4,7 @@ uvicorn>=0.34,<1
 python-multipart>=0.0.20
 numpy>=2,<3
 pandas>=2.2,<4
-scikit-learn>=1.6,<2
+scikit-learn==1.9.1
 scipy>=1.14
 joblib>=1.4
 pillow>=11
