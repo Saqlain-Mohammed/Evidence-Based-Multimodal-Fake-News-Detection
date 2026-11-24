@@ -30,7 +30,7 @@ ROOT = Path(__file__).resolve().parents[1]
 import sys
 sys.path.insert(0, str(ROOT))
 router = APIRouter(prefix="/api/v2")
-JOBLIB_TASKS = {'fake_news', 'ai_text', 'paired_news', 'voice_conversion'}
+JOBLIB_TASKS = {'fake_news', 'ai_text', 'paired_news', 'voice_conversion', 'video_edits', 'audio_edits'}
 TASKS = {
     'paired_news': ('Title and image context', 'Fakeddit paired subset', 'text + image'),
     'fake_news': ('News credibility', 'WELFake + LIAR cross-domain evaluation', 'text'),
@@ -39,6 +39,8 @@ TASKS = {
     'image_manipulation': ('Image manipulation', 'CASIA v2 / IMD2020', 'image'),
     'video': ('Deepfake video', 'FaceForensics++ / Celeb-DF v2', 'video'),
     'voice_conversion': ('Voice conversion', 'ASVspoof 2019 LA voice conversion subset', 'audio'),
+    'video_edits': ('Video frame deletion', 'CSVTED', 'video'),
+    'audio_edits': ('Partial speech editing', 'PartialSpoof', 'audio'),
     'audio': ('Synthetic audio', 'ASVspoof 2019 LA / 2021 DF', 'audio'),
 }
 MAX_BYTES = 30 * 1024 * 1024
@@ -54,7 +56,7 @@ def connection():
     return c
 
 def uses_joblib(task):
-    if task in {'audio','image_manipulation'}:
+    if task in {'audio','image_manipulation','video'}:
         path = ROOT/'models/public'/task/'report.json'
         return path.exists() and json.loads(path.read_text(encoding='utf-8')).get('artifact_format') == 'joblib'
     return task in JOBLIB_TASKS
@@ -206,15 +208,41 @@ def paired_news_signal(text, raw):
     return signal('paired_news', score, 'Joint title/image model trained on historical Reddit categories including satire. This estimates a dataset label, not factual truth.', compared_title=title)
 
 
+def edit_signal(path, task):
+    model=artifact(task)
+    if model is None:
+        return unavailable(task)
+    if task=='video_edits':
+        from training.deletion_features import transitions,candidates
+        x,fps=transitions(path)
+        scores=model['classifier'].predict_proba(x)[:,1]
+        value=scores.max()
+        locations={'candidate_seconds':candidates(scores,model['threshold'],fps)}
+        note='Candidate frame deletion boundaries for manual inspection. The default clip threshold flagged all five original test clips. Ordinary cuts can also produce abrupt changes.'
+    else:
+        from training.splice_features import windows,clip_score,intervals
+        x,duration=windows(path)
+        scores=model['classifier'].predict_proba(x)[:,1]
+        value=clip_score(scores)
+        locations={'candidate_intervals':intervals(scores,model['threshold'],duration)}
+        note='Candidate synthetic speech intervals at 160 ms resolution. The model examines up to two minutes.'
+    probability=model['calibration'].predict_proba([[value]])[0,1]
+    return signal(task,probability,note,verdict='Experimental score',**locations)
+
+
 def video_signal(path):
     loaded=artifact('video')
     if loaded is None: return unavailable('video')
     import torch
-    model,blob=loaded
-    frames,times=decode_video(path,blob.get('frames',16),blob.get('size',64))
-    with torch.inference_mode():
-        p=(model(frames.unsqueeze(0))/blob.get('temperature',1)).sigmoid().item()
-    from training.temporal_features import temporal_changes
+    from training.temporal_features import describe, temporal_changes
+    if hasattr(loaded,'predict_proba'):
+        frames,times=decode_video(path)
+        p=loaded.predict_proba(describe(frames).reshape(1,-1))[0,1]
+    else:
+        model,blob=loaded
+        frames,times=decode_video(path,blob.get('frames',16),blob.get('size',64))
+        with torch.inference_mode():
+            p=(model(frames.unsqueeze(0))/blob.get('temperature',1)).sigmoid().item()
     return signal('video',p,'Experimental video model. The UADFV baseline classified 5 of 10 held-out clips correctly. Sampled times describe coverage, not proven tampering timestamps.',sampled_seconds=times,visual_changes=temporal_changes(frames,times),verdict='Experimental score')
 
 def decode_video(path, count=16, size=64):
@@ -450,7 +478,8 @@ def execute(mode,text,url,raw,filename,reference_text,live_evidence):
                     path = decode_phone_recording(path)
                 media_result = audio_signal(path) if task=='audio' else video_signal(path)
                 signals.append(media_result)
-                if task=='audio' and media_result['status']=='analyzed':
+                signals.append(edit_signal(path,'audio_edits' if task=='audio' else 'video_edits'))
+                if task=='audio':
                     conversion=artifact('voice_conversion')
                     if conversion is not None:
                         from training.audio_features import spectral_features

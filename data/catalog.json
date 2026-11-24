@@ -87,6 +87,22 @@
       "url": "https://huggingface.co/datasets/ams-99/fakeddit_9k",
       "access": "Pinned 9K mirror with paired images and CSV splits",
       "notes": "Community-derived labels include satire. Train-only text features. Exact title, byte and source URL collisions excluded."
+    },
+    {
+      "name": "PartialSpoof v1.2 sampled subset",
+      "task": "Partial speech editing",
+      "size": "Supplied training, development and evaluation partitions",
+      "url": "https://huggingface.co/datasets/SavindyaPrathibhani123/partialspoof-raw-3",
+      "access": "Pinned public subset of the PartialSpoof release",
+      "notes": "The detector learns from the provided 160 ms labels; positive intervals contain synthesized or converted speech."
+    },
+    {
+      "name": "CSVTED",
+      "task": "Video frame deletion",
+      "size": "1,047 videos in the full release",
+      "url": "https://huggingface.co/datasets/CardiffVisualComputing/CSVTED",
+      "access": "Matched original and annotated frame-deletion clips up to 30 MiB",
+      "notes": "The selected subset fits the upload size supported by the app. Split by original scene and evaluate candidate boundary times separately from clip classification."
     }
   ]
 }

@@ -1,5 +1,9 @@
 """Veritas local research server. All inference uses real-data v2 checkpoints."""
+import os
 from pathlib import Path
+
+# Small inference batches share the CPU with concurrent analyses.
+os.environ.setdefault('OMP_NUM_THREADS','2')
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, RedirectResponse, JSONResponse

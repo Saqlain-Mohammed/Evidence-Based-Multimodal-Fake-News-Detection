@@ -25,3 +25,4 @@ mobile/.expo/
 mobile/android/
 mobile/ios/
 artifacts/
+mobile/dist-ios/

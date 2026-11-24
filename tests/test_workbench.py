@@ -170,3 +170,40 @@ def test_primary_evidence_survives_news_feed_failure(monkeypatch):
     result=w.evidence('The city council approved the bridge repairs.')
     assert result['status']=='retrieved'
     assert result['items'][0]['comparison']['passage']==result['items'][0]['passage']
+
+
+def test_splice_intervals_use_half_open_clip_bounded_times():
+    from training.splice_features import intervals
+    assert intervals(np.array([.2,.9,.9,.1,.8]),.7,.75)==[[.16,.48],[.64,.75]]
+    assert intervals(np.array([.2]),.7,.03)==[]
+
+
+def test_video_boundaries_merge_adjacent_candidates():
+    from training.deletion_features import candidates
+    assert candidates(np.array([.02,.83,.95,.79,.1,.2,.87]),.8,25)==[.12,.28]
+
+def test_audio_edit_checkpoint_upload_returns_bounded_intervals(client):
+    import soundfile as sf
+    audio=io.BytesIO()
+    sf.write(audio,np.zeros(8000,dtype=np.float32),16000,format='WAV')
+    response=client.post('/api/v2/analyze',data={'mode':'audio','live_evidence':'false'},
+                         files={'file':('test.wav',audio.getvalue(),'audio/wav')})
+    assert response.status_code==200,response.text[:200]
+    signals={s['id']:s for s in response.json()['signals']}
+    assert signals['audio_edits']['status']=='analyzed'
+    assert all(0<=start<end<=.5 for start,end in signals['audio_edits']['candidate_intervals'])
+
+
+def test_video_edits_are_reported_independently(client,tmp_path):
+    import cv2
+    path=tmp_path/'fixture.avi'
+    writer=cv2.VideoWriter(str(path),cv2.VideoWriter_fourcc(*'MJPG'),12,(64,64))
+    assert writer.isOpened()
+    for idx in range(24):writer.write(np.full((64,64,3),idx*10,dtype=np.uint8))
+    writer.release()
+    response=client.post('/api/v2/analyze',data={'mode':'video','live_evidence':'false'},
+                         files={'file':('fixture.avi',path.read_bytes(),'video/x-msvideo')})
+    assert response.status_code==200,response.text[:200]
+    signals={s['id']:s for s in response.json()['signals']}
+    assert signals['video']['status']==signals['video_edits']['status']=='analyzed'
+    assert all(0<=t<2 for t in signals['video_edits']['candidate_seconds'])

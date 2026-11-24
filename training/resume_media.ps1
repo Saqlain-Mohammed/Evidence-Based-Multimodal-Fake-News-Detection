@@ -23,4 +23,8 @@ Invoke-TrainingStep @('training/train_audio_official.py')
 Invoke-TrainingStep @('training/train_forensic.py')
 Invoke-TrainingStep @('training/train_mask.py')
 Invoke-TrainingStep @('training/train_voice_conversion.py')
+Invoke-TrainingStep @('training/ranged_download.py','partialspoof_train','partialspoof_dev','partialspoof_eval')
+Invoke-TrainingStep @('training/train_splices.py')
+Invoke-TrainingStep @('training/csvted_archive.py')
+Invoke-TrainingStep @('training/train_deletions.py')
 Write-Output 'Evaluation reports are in models/public.'

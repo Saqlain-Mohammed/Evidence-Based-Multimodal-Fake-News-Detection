@@ -1,0 +1,39 @@
+{
+  "dataset": "CSVTED matched source clips and frame deletions",
+  "architecture": "Local frame discontinuities and gradient boosting",
+  "counts": {
+    "train": 98,
+    "validation": 28,
+    "test": 26
+  },
+  "test": {
+    "accuracy": 0.8076923076923077,
+    "macro_f1": 0.44680851063829785,
+    "roc_auc": 0.8571428571428571,
+    "brier": 0.15009259607474176,
+    "confusion_matrix": [
+      [
+        0,
+        5
+      ],
+      [
+        0,
+        21
+      ]
+    ],
+    "n": 26
+  },
+  "localization": {
+    "within_two_frames": 17,
+    "edited_test_clips": 21,
+    "candidate_count": 27,
+    "candidate_threshold": 0.8302564102564103
+  },
+  "evaluation_scope": "source-scene-disjoint internal 60/20/20 split",
+  "limitations": "Exploratory frame-deletion detector. Natural cuts can trigger false positives. Checks the first 120 seconds or 3,600 frames. Clip-level and boundary localization results are measured separately.",
+  "task": "video_edits",
+  "synthetic": false,
+  "trained_from_scratch": true,
+  "positive_label": 1,
+  "created_utc": "2026-11-24T16:35:13.685816+00:00"
+}

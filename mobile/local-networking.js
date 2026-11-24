@@ -11,7 +11,7 @@ module.exports=function localNetworking(config){
     const directory=path.join(mod.modRequest.platformProjectRoot,'app/src/main/res/xml');
     await fs.mkdir(directory,{recursive:true});
     await fs.writeFile(path.join(directory,'veritas_network_security.xml'),
-      '<network-security-config><base-config cleartextTrafficPermitted="false"/><domain-config cleartextTrafficPermitted="true"><domain>10.0.2.2</domain><domain>localhost</domain><domain>127.0.0.1</domain></domain-config></network-security-config>\n');
+      '<network-security-config><base-config cleartextTrafficPermitted="false"/><domain-config cleartextTrafficPermitted="true"><domain includeSubdomains="false">10.0.2.2</domain><domain includeSubdomains="false">localhost</domain><domain includeSubdomains="false">127.0.0.1</domain></domain-config></network-security-config>\n');
     return mod;
   }]);
 };

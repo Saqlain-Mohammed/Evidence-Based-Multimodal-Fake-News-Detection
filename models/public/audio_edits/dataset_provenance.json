@@ -1,0 +1,80 @@
+{
+  "train": [
+    {
+      "file": "train_seglab_0.16.npy",
+      "url": "https://huggingface.co/datasets/SavindyaPrathibhani123/partialspoof-raw-3/resolve/00c7c5d46774b9949be25710be374aada38481d8/segment_labels/train/train_seglab_0.16.npy",
+      "bytes": 21792626,
+      "sha256": "7295fe5eddf4d7eeff6ec3d10aa3d6024c8b3c25af3095ceee4d8756443355ba"
+    },
+    {
+      "file": "train_labels.csv",
+      "url": "https://huggingface.co/datasets/SavindyaPrathibhani123/partialspoof-raw-3/resolve/00c7c5d46774b9949be25710be374aada38481d8/labels/train_labels.csv",
+      "bytes": 261339,
+      "sha256": "895deaff560e088998b0bdf64eb39532265fc455c0212d6efa0f04ff1bf55221"
+    },
+    {
+      "file": "spoofed.zip",
+      "url": "https://huggingface.co/datasets/SavindyaPrathibhani123/partialspoof-raw-3/resolve/00c7c5d46774b9949be25710be374aada38481d8/train/spoofed.zip",
+      "bytes": 968529590,
+      "sha256": "1ddefaf15a020d4f84dc0175c984b371f17369fce7d05377ae241cedc9baa8dc"
+    },
+    {
+      "file": "bonafide.zip",
+      "url": "https://huggingface.co/datasets/SavindyaPrathibhani123/partialspoof-raw-3/resolve/00c7c5d46774b9949be25710be374aada38481d8/train/bonafide.zip",
+      "bytes": 280167780,
+      "sha256": "06875992cf0e9507158738179920567aacef55f8ec265f9bed86e9c00a858f7e"
+    }
+  ],
+  "dev": [
+    {
+      "file": "dev_seglab_0.16.npy",
+      "url": "https://huggingface.co/datasets/SavindyaPrathibhani123/partialspoof-raw-3/resolve/00c7c5d46774b9949be25710be374aada38481d8/segment_labels/dev/dev_seglab_0.16.npy",
+      "bytes": 10047391,
+      "sha256": "b791bbce838a80669543d0256dd910e661b24662cf4044e53ae22cb316c39161"
+    },
+    {
+      "file": "dev_labels.csv",
+      "url": "https://huggingface.co/datasets/SavindyaPrathibhani123/partialspoof-raw-3/resolve/00c7c5d46774b9949be25710be374aada38481d8/labels/dev_labels.csv",
+      "bytes": 122332,
+      "sha256": "baf39e8388edefb54823e28e3991a56a7f7ac0815ac3df9ce5faeee2e9e1bcff"
+    },
+    {
+      "file": "spoofed.zip",
+      "url": "https://huggingface.co/datasets/SavindyaPrathibhani123/partialspoof-raw-3/resolve/00c7c5d46774b9949be25710be374aada38481d8/dev/spoofed.zip",
+      "bytes": 289488040,
+      "sha256": "ca3a40a6b74c05334b046b06b88fdee5131e6bc34f2b2dba3ebfb500bc6a0511"
+    },
+    {
+      "file": "bonafide.zip",
+      "url": "https://huggingface.co/datasets/SavindyaPrathibhani123/partialspoof-raw-3/resolve/00c7c5d46774b9949be25710be374aada38481d8/dev/bonafide.zip",
+      "bytes": 286444742,
+      "sha256": "9ed1da485931a253e88a57fb40c4a0515afdd8ad403bc86699f95a4930a773c6"
+    }
+  ],
+  "eval": [
+    {
+      "file": "eval_seglab_0.16.npy",
+      "url": "https://huggingface.co/datasets/SavindyaPrathibhani123/partialspoof-raw-3/resolve/00c7c5d46774b9949be25710be374aada38481d8/segment_labels/eval/eval_seglab_0.16.npy",
+      "bytes": 28096758,
+      "sha256": "c5587e20bceb5db469128e6e189cb5776f1639172ec57bdbba6dae73c7bd5428"
+    },
+    {
+      "file": "eval_labels.csv",
+      "url": "https://huggingface.co/datasets/SavindyaPrathibhani123/partialspoof-raw-3/resolve/00c7c5d46774b9949be25710be374aada38481d8/labels/eval_labels.csv",
+      "bytes": 353068,
+      "sha256": "1228deb2b8c5d369b5ba4bb8f2efeee6740de73e16b3d4d05c505d9f9aa9d5f8"
+    },
+    {
+      "file": "spoofed.zip",
+      "url": "https://huggingface.co/datasets/SavindyaPrathibhani123/partialspoof-raw-3/resolve/00c7c5d46774b9949be25710be374aada38481d8/eval/spoofed.zip",
+      "bytes": 807396406,
+      "sha256": "a80524b43b6cdff899d0e1af57e46c61835df764f0b42688821f4dd051e1347c"
+    },
+    {
+      "file": "bonafide.zip",
+      "url": "https://huggingface.co/datasets/SavindyaPrathibhani123/partialspoof-raw-3/resolve/00c7c5d46774b9949be25710be374aada38481d8/eval/bonafide.zip",
+      "bytes": 800186074,
+      "sha256": "0a8e7ec4f91ec06f704703614a908da1b95a4588a296712557612f86d945d4d2"
+    }
+  ]
+}

@@ -1,0 +1,1249 @@
+{
+  "source": "https://huggingface.co/datasets/CardiffVisualComputing/CSVTED/resolve/4ea2fdeb792c69d100367a61d1190f0e1cd1587e/",
+  "selection": "All exact-name original/deletion pairs fitting 30 MiB each, annotated in Deletion.csv.",
+  "records": [
+    {
+      "file": "Street View(N).mp4",
+      "group": "street view(n)",
+      "removed_start_frame": null,
+      "archive": "Original.zip",
+      "member": "Original/Street View(N).mp4",
+      "sha256": "c15095051832ded8ea987265e914866730da64b6f6776362456f8205c4f00432"
+    },
+    {
+      "file": "008_Del_031_038_Street View(N).mp4",
+      "group": "street view(n)",
+      "removed_start_frame": 31,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/008_Del_031_038_Street View(N).mp4",
+      "sha256": "a20b4d96154f94207a1fd0636ccedec81387d363c2e3dcb38cf995dd62a6af27"
+    },
+    {
+      "file": "Customer Dealing(E).mp4",
+      "group": "customer dealing(e)",
+      "removed_start_frame": null,
+      "archive": "Original.zip",
+      "member": "Original/Customer Dealing(E).mp4",
+      "sha256": "cd785cf9e03edb2e176ea43ab1909c4f0df65d9f3c21032c500cc53ad02da52c"
+    },
+    {
+      "file": "014_Del_098_111_Customer Dealing(E).mp4",
+      "group": "customer dealing(e)",
+      "removed_start_frame": 98,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/014_Del_098_111_Customer Dealing(E).mp4",
+      "sha256": "e4f91011b6918640a066fe814d7fefca8457cce9b353202b33e7e4bb70801ba1"
+    },
+    {
+      "file": "Slides.mp4",
+      "group": "slides",
+      "removed_start_frame": null,
+      "archive": "Original.zip",
+      "member": "Original/Slides.mp4",
+      "sha256": "97ff9c6296e3a0bda0f058c4bae9289245ea10ece5a29944d2e69da30d3f2b45"
+    },
+    {
+      "file": "038_Del_011_048_Slides.mp4",
+      "group": "slides",
+      "removed_start_frame": 11,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/038_Del_011_048_Slides.mp4",
+      "sha256": "8cb86470ea114be3e23a5f056794a30946856966b0214aef5fcc187a54301193"
+    },
+    {
+      "file": "Black Car.AVI",
+      "group": "black car",
+      "removed_start_frame": null,
+      "archive": "Original.zip",
+      "member": "Original/Black Car.AVI",
+      "sha256": "1817029ab1dc059f4811d389c1fbab9b22a6cc1fbd7a771a2ce3f8451a2b639c"
+    },
+    {
+      "file": "034_Del_053_086_Black Car.avi",
+      "group": "black car",
+      "removed_start_frame": 53,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/034_Del_053_086_Black Car.avi",
+      "sha256": "489d58f5d85a0c2817f9080392cf081e4fd557d1f6219cedc7ce20383d301802"
+    },
+    {
+      "file": "Traffic 01.mp4",
+      "group": "traffic 01",
+      "removed_start_frame": null,
+      "archive": "Original.zip",
+      "member": "Original/Traffic 01.mp4",
+      "sha256": "3f935f32a417211b56ada413e4925a9c9c97c759a97078df6e32765f36f89126"
+    },
+    {
+      "file": "050_Del_131_180_Traffic 01.mp4",
+      "group": "traffic 01",
+      "removed_start_frame": 131,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/050_Del_131_180_Traffic 01.mp4",
+      "sha256": "835a354ba4e2b2a557d571e60420b54cef1d6640cd2708a0636d3abf7669130b"
+    },
+    {
+      "file": "Oil Tanker.MOV",
+      "group": "oil tanker",
+      "removed_start_frame": null,
+      "archive": "Original.zip",
+      "member": "Original/Oil Tanker.MOV",
+      "sha256": "3f87af4a92f158a18f234a1cf30aa992e24713ab51507d7f76e41b96aab278ee"
+    },
+    {
+      "file": "029_Del_114_142_Oil Tanker.mov",
+      "group": "oil tanker",
+      "removed_start_frame": 114,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/029_Del_114_142_Oil Tanker.mov",
+      "sha256": "643821bb6be38237f92afbfc6be28379a6c0207748137db98af019fc500e8675"
+    },
+    {
+      "file": "Shop Banners.mp4",
+      "group": "shop banners",
+      "removed_start_frame": null,
+      "archive": "Original.zip",
+      "member": "Original/Shop Banners.mp4",
+      "sha256": "bb988f4e6d5bb96a0b8dd987ef4aba1adcc2f01462483783fcf57e22e6c32984"
+    },
+    {
+      "file": "024_Del_009_032_Shop Banners.mp4",
+      "group": "shop banners",
+      "removed_start_frame": 9,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/024_Del_009_032_Shop Banners.mp4",
+      "sha256": "3f5aeaad2ba11a1091198d1c4c781c30058146a6ebef0763d9998657f36cabf9"
+    },
+    {
+      "file": "Flying Birds.mp4",
+      "group": "flying birds",
+      "removed_start_frame": null,
+      "archive": "Original.zip",
+      "member": "Original/Flying Birds.mp4",
+      "sha256": "c8508dde1255d16373def0bdd9e5e14aa436ea63ffc2da05ca3c383528e24397"
+    },
+    {
+      "file": "037_Del_172_208_Flying Birds.mp4",
+      "group": "flying birds",
+      "removed_start_frame": 172,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/037_Del_172_208_Flying Birds.mp4",
+      "sha256": "fc519383415489db04c46dbbf991c30395065c22566d8dda731c93b923ed77e8"
+    },
+    {
+      "file": "Moving Vehicle (E).mp4",
+      "group": "moving vehicle (e)",
+      "removed_start_frame": null,
+      "archive": "Original.zip",
+      "member": "Original/Moving Vehicle (E).mp4",
+      "sha256": "2631dabf171927241df780f6b78f0944bbbbc3c41af138736d3909b4170c5ebb"
+    },
+    {
+      "file": "018_Del_070_087_Moving Vehicle (E).mp4",
+      "group": "moving vehicle (e)",
+      "removed_start_frame": 70,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/018_Del_070_087_Moving Vehicle (E).mp4",
+      "sha256": "9c6f8c1c703a1dff7c09b026a4b1af5f6a11465854decbe1ab49e1be2cfec809"
+    },
+    {
+      "file": "CCTV Bikes in Fog.mp4",
+      "group": "cctv bikes in fog",
+      "removed_start_frame": null,
+      "archive": "Original.zip",
+      "member": "Original/CCTV Bikes in Fog.mp4",
+      "sha256": "bc1d0d12b82f29481a7cb5c7d7403114ccce1b877eb1ca70f1f9f0d7b4e1ba84"
+    },
+    {
+      "file": "035_Del_074_108_CCTV Bikes in Fog.mp4",
+      "group": "cctv bikes in fog",
+      "removed_start_frame": 74,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/035_Del_074_108_CCTV Bikes in Fog.mp4",
+      "sha256": "d66560115748d8ee7be6fabea4bf0589a872f3640f68189bbcaea2e2c790eb5c"
+    },
+    {
+      "file": "Office View.mp4",
+      "group": "office view",
+      "removed_start_frame": null,
+      "archive": "Original.zip",
+      "member": "Original/Office View.mp4",
+      "sha256": "a21d2b98acde219718a1c4584877cd81be3bc0e6c3327f55347f7492012ae065"
+    },
+    {
+      "file": "049_Del_071_119_Office View.mp4",
+      "group": "office view",
+      "removed_start_frame": 71,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/049_Del_071_119_Office View.mp4",
+      "sha256": "0e8732de7c08307c7f6846647bd4b96f76ce6e6693ad14da1b9812f4fc714870"
+    },
+    {
+      "file": "043_Del_037_079_Street View(N).mp4",
+      "group": "street view(n)",
+      "removed_start_frame": 37,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/043_Del_037_079_Street View(N).mp4",
+      "sha256": "1bca6022b3a34196775c18fcbc69f991b5aa737a2b0f5eaea49b540c970093bc"
+    },
+    {
+      "file": "Children.mp4",
+      "group": "children",
+      "removed_start_frame": null,
+      "archive": "Original.zip",
+      "member": "Original/Children.mp4",
+      "sha256": "44c14ef661aaa06c8aed8c178ef5eec2c37b39d0d2bce650e1984f82e0d79062"
+    },
+    {
+      "file": "022_Del_043_064_Children.mp4",
+      "group": "children",
+      "removed_start_frame": 43,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/022_Del_043_064_Children.mp4",
+      "sha256": "e28774f435b21ff9e5a09ab9481678d3c341c84c9abff9953d0aeba7ab95f51f"
+    },
+    {
+      "file": "Traffic.MOV",
+      "group": "traffic",
+      "removed_start_frame": null,
+      "archive": "Original.zip",
+      "member": "Original/Traffic.MOV",
+      "sha256": "dcd3ecf66816bce861681765877dbd5be85f8f902e69729279843176bf5f2785"
+    },
+    {
+      "file": "009_Del_046_054_Traffic.mov",
+      "group": "traffic",
+      "removed_start_frame": 46,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/009_Del_046_054_Traffic.mov",
+      "sha256": "fea513d6ace2d31566a1327a94a3b30ed3edbde4631be0c46f2723a8a48bf714"
+    },
+    {
+      "file": "CCTV Moving Person(N).mp4",
+      "group": "cctv moving person(n)",
+      "removed_start_frame": null,
+      "archive": "Original.zip",
+      "member": "Original/CCTV Moving Person(N).mp4",
+      "sha256": "0f47c7955db65a46d376f3f55630e89d18dfef4ae586bbe5b8ee1f5d844ffa50"
+    },
+    {
+      "file": "018_Del_024_041_CCTV Moving Person(N).mp4",
+      "group": "cctv moving person(n)",
+      "removed_start_frame": 24,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/018_Del_024_041_CCTV Moving Person(N).mp4",
+      "sha256": "61ee37774c0a7d3cddfccfe9b57794cd1124a8c57c92d369396b5307bceb80f8"
+    },
+    {
+      "file": "014_Del_066_079_Traffic.mov",
+      "group": "traffic",
+      "removed_start_frame": 66,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/014_Del_066_079_Traffic.mov",
+      "sha256": "08db7cb53d09d157e43c762a63dd8787a9ed4768a2f943c5aa4fe666675465ad"
+    },
+    {
+      "file": "CCTV Customer Shoes(M).mp4",
+      "group": "cctv customer shoes(m)",
+      "removed_start_frame": null,
+      "archive": "Original.zip",
+      "member": "Original/CCTV Customer Shoes(M).mp4",
+      "sha256": "50b42442d547203ae5779f2bdba0c4699bc93c598eb0e9185a45167f2850ee36"
+    },
+    {
+      "file": "013_Del_042_054_CCTV Customer Shoes(M).mp4",
+      "group": "cctv customer shoes(m)",
+      "removed_start_frame": 42,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/013_Del_042_054_CCTV Customer Shoes(M).mp4",
+      "sha256": "309f86766adeefc47714da2f5d920682a039ad4438857537605fa835c1873108"
+    },
+    {
+      "file": "043_Del_090_132_Slides.mp4",
+      "group": "slides",
+      "removed_start_frame": 90,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/043_Del_090_132_Slides.mp4",
+      "sha256": "88cdc8cc2120a4c53d63a4cbb03803cae876eb8e3afebf3b2a1535e7436f1bc0"
+    },
+    {
+      "file": "048_Del_046_093_Slides.mp4",
+      "group": "slides",
+      "removed_start_frame": 46,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/048_Del_046_093_Slides.mp4",
+      "sha256": "d43012aa9c2862480d45439d9ad7523c48c1717ae7b60a450ff4789b3073feaa"
+    },
+    {
+      "file": "Professor Hands 02.mp4",
+      "group": "professor hands 02",
+      "removed_start_frame": null,
+      "archive": "Original.zip",
+      "member": "Original/Professor Hands 02.mp4",
+      "sha256": "9155b253f2858fb6069439ebcca15971efefaeba5ef9c3119da57b1c4c1f6568"
+    },
+    {
+      "file": "050_Del_006_055_Professor Hands 02.mp4",
+      "group": "professor hands 02",
+      "removed_start_frame": 6,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/050_Del_006_055_Professor Hands 02.mp4",
+      "sha256": "613750fefdab9c221e0290bf8eb9cc6b263d3401346534737d1d4720ffc5d4d0"
+    },
+    {
+      "file": "160_Del_031_190_Professor Hands 02.mp4",
+      "group": "professor hands 02",
+      "removed_start_frame": 31,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/160_Del_031_190_Professor Hands 02.mp4",
+      "sha256": "59b7b039beb198a096b253c804afcfaf13bccb1eb511be136001474032ce9661"
+    },
+    {
+      "file": "030_Del_081_110_CCTV Bikes in Fog.mp4",
+      "group": "cctv bikes in fog",
+      "removed_start_frame": 81,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/030_Del_081_110_CCTV Bikes in Fog.mp4",
+      "sha256": "76f7d7d25198d30f68537f2633459f6acb3a59e9b144649847a0fb4bbf3bd01b"
+    },
+    {
+      "file": "008_Del_021_028_CCTV Customer Shoes(M).mp4",
+      "group": "cctv customer shoes(m)",
+      "removed_start_frame": 21,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/008_Del_021_028_CCTV Customer Shoes(M).mp4",
+      "sha256": "fae876eba88d944ae4014acdd4565b93156a3f9dd88edb561d6e92ccc80f6f75"
+    },
+    {
+      "file": "028_Del_048_075_Slides.mp4",
+      "group": "slides",
+      "removed_start_frame": 48,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/028_Del_048_075_Slides.mp4",
+      "sha256": "44c6ea7b1d95b3bdad3aaf53f9a926bf53def446a7d96d9538c0b91c8c1232e1"
+    },
+    {
+      "file": "036_Del_035_070_Shop Banners.mp4",
+      "group": "shop banners",
+      "removed_start_frame": 35,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/036_Del_035_070_Shop Banners.mp4",
+      "sha256": "ce7012b2c081e8affd990e4871009026154d62dd672ca90bc5f7c99454b9bfec"
+    },
+    {
+      "file": "034_Del_078_111_Traffic.mov",
+      "group": "traffic",
+      "removed_start_frame": 78,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/034_Del_078_111_Traffic.mov",
+      "sha256": "1b49492f5dc58db5cdba4cd1a5f5b9ae95175b5256bfd6a74ad826e4ea992d01"
+    },
+    {
+      "file": "045_Del_081_125_CCTV Bikes in Fog.mp4",
+      "group": "cctv bikes in fog",
+      "removed_start_frame": 81,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/045_Del_081_125_CCTV Bikes in Fog.mp4",
+      "sha256": "5f3b84323420f98103d2f8a397197ecfdc022b7805ba98b17e7ded4bad665382"
+    },
+    {
+      "file": "Calling Person(M).mp4",
+      "group": "calling person(m)",
+      "removed_start_frame": null,
+      "archive": "Original.zip",
+      "member": "Original/Calling Person(M).mp4",
+      "sha256": "8d08f950372e388cff416d4f59d4a5cc359a335b4b8b007bade003cc766a3673"
+    },
+    {
+      "file": "039_Del_061_099_Calling Person(M).mp4",
+      "group": "calling person(m)",
+      "removed_start_frame": 61,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/039_Del_061_099_Calling Person(M).mp4",
+      "sha256": "cdd65dbc11b0555b0430c1d2f3045c9bd2c84313deb0e4d384744ad4a8605ce6"
+    },
+    {
+      "file": "044_Del_041_084_Customer Dealing(E).mp4",
+      "group": "customer dealing(e)",
+      "removed_start_frame": 41,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/044_Del_041_084_Customer Dealing(E).mp4",
+      "sha256": "d1e5c676408ee47641a5b96cfe4fb495b84aba5fc036d44dd01d68b4bfe5f35a"
+    },
+    {
+      "file": "028_Del_058_085_Children.mp4",
+      "group": "children",
+      "removed_start_frame": 58,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/028_Del_058_085_Children.mp4",
+      "sha256": "324fdc5f9cf08e889760008d8199bb138921f4d54910440f5bdbd87753fa8b78"
+    },
+    {
+      "file": "CCTV Customer Footage(E).mp4",
+      "group": "cctv customer footage(e)",
+      "removed_start_frame": null,
+      "archive": "Original.zip",
+      "member": "Original/CCTV Customer Footage(E).mp4",
+      "sha256": "7c6926e9b6141c8d45104423ed2ee42a2bcb41fb43e11060a3b88141ef5cf60d"
+    },
+    {
+      "file": "008_Del_029_036_CCTV Customer Footage(E).mp4",
+      "group": "cctv customer footage(e)",
+      "removed_start_frame": 29,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/008_Del_029_036_CCTV Customer Footage(E).mp4",
+      "sha256": "8eaaa8370111e32f77e22cdf05b3c943eb08752e9b853e92092ecb455bf98ec7"
+    },
+    {
+      "file": "016_Del_036_051_Shop Banners.mp4",
+      "group": "shop banners",
+      "removed_start_frame": 36,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/016_Del_036_051_Shop Banners.mp4",
+      "sha256": "db0064417c5e743c3e82ee8fc8a0ce624b956175c485120a7df69315f892e96d"
+    },
+    {
+      "file": "009_Del_058_066_Calling Person(M).mp4",
+      "group": "calling person(m)",
+      "removed_start_frame": 58,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/009_Del_058_066_Calling Person(M).mp4",
+      "sha256": "3fc63f52973164fcf64aca533011d571d3d094617405b98efa990591fdf53624"
+    },
+    {
+      "file": "050_Del_111_160_Oil Tanker.mov",
+      "group": "oil tanker",
+      "removed_start_frame": 111,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/050_Del_111_160_Oil Tanker.mov",
+      "sha256": "10be3606b32e8caebf56c9d4c197d71d5299d0e602ca7b45ebaa1b5abbda36b6"
+    },
+    {
+      "file": "White Car.MOV",
+      "group": "white car",
+      "removed_start_frame": null,
+      "archive": "Original.zip",
+      "member": "Original/White Car.MOV",
+      "sha256": "b970d8f9b4802702478379564e24f8c469f1004399b9f663836090e78b582599"
+    },
+    {
+      "file": "029_Del_055_083_White Car.mov",
+      "group": "white car",
+      "removed_start_frame": 55,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/029_Del_055_083_White Car.mov",
+      "sha256": "d6c743989d2762aa5e17983ee70117f88db278236a8a6835c9013f15773d93a1"
+    },
+    {
+      "file": "008_Del_072_079_Moving Vehicle (E).mp4",
+      "group": "moving vehicle (e)",
+      "removed_start_frame": 72,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/008_Del_072_079_Moving Vehicle (E).mp4",
+      "sha256": "61215bdc0ded0764158eb8220451ef65069ea7812e6aee2d667de260ff594fff"
+    },
+    {
+      "file": "CCTV Street Footage(N).mp4",
+      "group": "cctv street footage(n)",
+      "removed_start_frame": null,
+      "archive": "Original.zip",
+      "member": "Original/CCTV Street Footage(N).mp4",
+      "sha256": "037c91338b685c94644978ec8a61261a43117515082073e84a99c02e58e5696a"
+    },
+    {
+      "file": "043_Del_016_058_CCTV Street Footage(N).mp4",
+      "group": "cctv street footage(n)",
+      "removed_start_frame": 16,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/043_Del_016_058_CCTV Street Footage(N).mp4",
+      "sha256": "bb90c29443c22fb9cade4809b0594a4bc4d787ed2e48416baa25a018a4a6b3d5"
+    },
+    {
+      "file": "Moving Fish 02.mp4",
+      "group": "moving fish 02",
+      "removed_start_frame": null,
+      "archive": "Original.zip",
+      "member": "Original/Moving Fish 02.mp4",
+      "sha256": "c954f7943b7103eabc5f42769589c3be7714c7fa95e1549b8449bb4a5c473776"
+    },
+    {
+      "file": "080_Del_071_150_Moving Fish 02.mp4",
+      "group": "moving fish 02",
+      "removed_start_frame": 71,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/080_Del_071_150_Moving Fish 02.mp4",
+      "sha256": "af311f037709ff85f8c904786c9b7703a3af9382b1faccea4762e504b82f3ce2"
+    },
+    {
+      "file": "Door Opening(N).mp4",
+      "group": "door opening(n)",
+      "removed_start_frame": null,
+      "archive": "Original.zip",
+      "member": "Original/Door Opening(N).mp4",
+      "sha256": "8c442b4a4948379a8d71c2768201984535f29b624cd6518af72382748fe5d693"
+    },
+    {
+      "file": "019_Del_040_058_Door Opening(N).mp4",
+      "group": "door opening(n)",
+      "removed_start_frame": 40,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/019_Del_040_058_Door Opening(N).mp4",
+      "sha256": "b53dc23344292a8f236d3ce957d03c78b27f361e97456fd92d7357bea3106a80"
+    },
+    {
+      "file": "039_Del_008_046_Children.mp4",
+      "group": "children",
+      "removed_start_frame": 8,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/039_Del_008_046_Children.mp4",
+      "sha256": "a9a9ee45a98fe14683516b36e5c7204e97056d35f64ad96d3e2c4a51e1d4ff36"
+    },
+    {
+      "file": "039_Del_064_102_White Car.mov",
+      "group": "white car",
+      "removed_start_frame": 64,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/039_Del_064_102_White Car.mov",
+      "sha256": "356dfe8f1aa28a43e17e566869475b21beb4f2905ab540c1513bc0f8916dfabc"
+    },
+    {
+      "file": "008_Del_020_027_CCTV Bikes in Fog.mp4",
+      "group": "cctv bikes in fog",
+      "removed_start_frame": 20,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/008_Del_020_027_CCTV Bikes in Fog.mp4",
+      "sha256": "d8749c994d34390ba915f68c54dbc7ebc92b4845f91d3efdbb6d33551a29f38e"
+    },
+    {
+      "file": "014_Del_108_121_Door Opening(N).mp4",
+      "group": "door opening(n)",
+      "removed_start_frame": 108,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/014_Del_108_121_Door Opening(N).mp4",
+      "sha256": "52449faf69ef0a2cb03a907755e23d0ba2d2a193ddfac9404efa495fc0768a90"
+    },
+    {
+      "file": "009_Del_052_060_White Car.mov",
+      "group": "white car",
+      "removed_start_frame": 52,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/009_Del_052_060_White Car.mov",
+      "sha256": "c1c7fa79becba17590a8a406c3394a1c4066e46016f4273f311adfaf0ba610a6"
+    },
+    {
+      "file": "040_Del_072_111_CCTV Bikes in Fog.mp4",
+      "group": "cctv bikes in fog",
+      "removed_start_frame": 72,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/040_Del_072_111_CCTV Bikes in Fog.mp4",
+      "sha256": "2228b90f8b5c352608df069c56f4699d0e5774ca420d5b24bc5db9ddbc41062c"
+    },
+    {
+      "file": "044_Del_126_169_Office View.mp4",
+      "group": "office view",
+      "removed_start_frame": 126,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/044_Del_126_169_Office View.mp4",
+      "sha256": "7c51b4ea0cfe524bba365e618e3d995abb6426df0c85fba488a776e17e5553d5"
+    },
+    {
+      "file": "022_Del_108_129_Moving Vehicle (E).mp4",
+      "group": "moving vehicle (e)",
+      "removed_start_frame": 108,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/022_Del_108_129_Moving Vehicle (E).mp4",
+      "sha256": "aef713807fec787b38ea2bd1a1f9bc2426aedf209a2f1d7430d18f5d394c6455"
+    },
+    {
+      "file": "038_Del_070_107_Street View(N).mp4",
+      "group": "street view(n)",
+      "removed_start_frame": 70,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/038_Del_070_107_Street View(N).mp4",
+      "sha256": "056eaba1665da15fdef202ccc108b1d45685213512bdfc6c81ef3b63f3657cb9"
+    },
+    {
+      "file": "044_Del_081_124_White Car.mov",
+      "group": "white car",
+      "removed_start_frame": 81,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/044_Del_081_124_White Car.mov",
+      "sha256": "6d6eb3fe601c45ad637559cd0c55d84272fb9663de84e37b5f5e52b6734a0baa"
+    },
+    {
+      "file": "022_Del_098_119_Street View(N).mp4",
+      "group": "street view(n)",
+      "removed_start_frame": 98,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/022_Del_098_119_Street View(N).mp4",
+      "sha256": "ef1085f1a07b34ef63c9be1ea99e42cfbd8a5781fa0f0f3b53cef5c386f7d876"
+    },
+    {
+      "file": "024_Del_082_105_Traffic.mov",
+      "group": "traffic",
+      "removed_start_frame": 82,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/024_Del_082_105_Traffic.mov",
+      "sha256": "f2ea273d2924e5729be73dc4ee0826a66cc37d3845d092aa2ce616ed745fa9be"
+    },
+    {
+      "file": "014_Del_038_051_Calling Person(M).mp4",
+      "group": "calling person(m)",
+      "removed_start_frame": 38,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/014_Del_038_051_Calling Person(M).mp4",
+      "sha256": "2ceea00ca591307e9bb2ad7034f33f1581e5425f3c5db06a020f485f43de2595"
+    },
+    {
+      "file": "013_Del_011_023_CCTV Customer Footage(E).mp4",
+      "group": "cctv customer footage(e)",
+      "removed_start_frame": 11,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/013_Del_011_023_CCTV Customer Footage(E).mp4",
+      "sha256": "dc85b9611596ef3a23e11924982c152da4eb010a3e602344740113cf8afe9220"
+    },
+    {
+      "file": "018_Del_020_037_CCTV Customer Shoes(M).mp4",
+      "group": "cctv customer shoes(m)",
+      "removed_start_frame": 20,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/018_Del_020_037_CCTV Customer Shoes(M).mp4",
+      "sha256": "16b663f0c5308e1eada47f25a90084b9357c41a36aac3fb42e97f00aa0116fb9"
+    },
+    {
+      "file": "042_Del_093_134_Moving Vehicle (E).mp4",
+      "group": "moving vehicle (e)",
+      "removed_start_frame": 93,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/042_Del_093_134_Moving Vehicle (E).mp4",
+      "sha256": "9f19409f5a1d8b41f5e5f579240ac5a6bd03ea91d6789633ace33969e3ed99e2"
+    },
+    {
+      "file": "049_Del_039_087_Traffic.mov",
+      "group": "traffic",
+      "removed_start_frame": 39,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/049_Del_039_087_Traffic.mov",
+      "sha256": "3bf29a6b8d496c6a4d96d3b5c860a222ef2220107d68da6dfadff47261d19fdf"
+    },
+    {
+      "file": "034_Del_063_096_Customer Dealing(E).mp4",
+      "group": "customer dealing(e)",
+      "removed_start_frame": 63,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/034_Del_063_096_Customer Dealing(E).mp4",
+      "sha256": "f3ad0c335bd5c9c9a6f38e2fa49c8e27c4f7458a18a68cd4ba9490a5df5ae5e7"
+    },
+    {
+      "file": "025_Del_083_107_CCTV Bikes in Fog.mp4",
+      "group": "cctv bikes in fog",
+      "removed_start_frame": 83,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/025_Del_083_107_CCTV Bikes in Fog.mp4",
+      "sha256": "7e4450e0a8b316dee3b5fadd0734197d92b56bf79d9b591160817f374f79212b"
+    },
+    {
+      "file": "024_Del_045_068_Office View.mp4",
+      "group": "office view",
+      "removed_start_frame": 45,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/024_Del_045_068_Office View.mp4",
+      "sha256": "9dc0b38d26b90b57a3361ea27c59322c79cce65e16c4818cbccb1830a49fcce1"
+    },
+    {
+      "file": "053_Del_057_109_Children.mp4",
+      "group": "children",
+      "removed_start_frame": 57,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/053_Del_057_109_Children.mp4",
+      "sha256": "2427a683cd70e1e2ad381e981921659798ff7333251f29e42df5acafb2d9ae5b"
+    },
+    {
+      "file": "013_Del_071_083_Slides.mp4",
+      "group": "slides",
+      "removed_start_frame": 71,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/013_Del_071_083_Slides.mp4",
+      "sha256": "1627db2e0e62e8f049e60136e8aada47a9e0409c4109ee794a10b39a87ef0613"
+    },
+    {
+      "file": "044_Del_138_181_Door Opening(N).mp4",
+      "group": "door opening(n)",
+      "removed_start_frame": 138,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/044_Del_138_181_Door Opening(N).mp4",
+      "sha256": "03039d04bdfae874a720293a22b8bfb30f7b0139ce7b7a07de5248e663df865f"
+    },
+    {
+      "file": "034_Del_040_073_Oil Tanker.mov",
+      "group": "oil tanker",
+      "removed_start_frame": 40,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/034_Del_040_073_Oil Tanker.mov",
+      "sha256": "6b80025d6ebf93c36cf2c54d47cea27657869aadeea9a80a356d6999fd4a4623"
+    },
+    {
+      "file": "008_Del_078_085_Flying Birds.mp4",
+      "group": "flying birds",
+      "removed_start_frame": 78,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/008_Del_078_085_Flying Birds.mp4",
+      "sha256": "318d14e223bb60dcfd1f27e9bb32bb48b0311c191d7ceb8b54163024bd825d7b"
+    },
+    {
+      "file": "019_Del_067_085_Calling Person(M).mp4",
+      "group": "calling person(m)",
+      "removed_start_frame": 67,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/019_Del_067_085_Calling Person(M).mp4",
+      "sha256": "ad37cabc74f9d0fdabe052ae182f3a76a987fc8b5d4b69ef53b40eb2b203304d"
+    },
+    {
+      "file": "013_Del_050_062_CCTV Bikes in Fog.mp4",
+      "group": "cctv bikes in fog",
+      "removed_start_frame": 50,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/013_Del_050_062_CCTV Bikes in Fog.mp4",
+      "sha256": "9f145fe96718ea1d537caef48ea3de77f9210a7efd186fbc143accce40f87d0f"
+    },
+    {
+      "file": "049_Del_151_199_White Car.mov",
+      "group": "white car",
+      "removed_start_frame": 151,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/049_Del_151_199_White Car.mov",
+      "sha256": "6b2986b4768a8257a4cb9aadf100c837c4e72628d198cf39a57eefe1c45b7975"
+    },
+    {
+      "file": "018_Del_039_056_CCTV Customer Footage(E).mp4",
+      "group": "cctv customer footage(e)",
+      "removed_start_frame": 39,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/018_Del_039_056_CCTV Customer Footage(E).mp4",
+      "sha256": "945b798b82f905a779af646ede2a77a7002b88e3d21f1bf7d2587957ab678013"
+    },
+    {
+      "file": "019_Del_040_058_Traffic.mov",
+      "group": "traffic",
+      "removed_start_frame": 40,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/019_Del_040_058_Traffic.mov",
+      "sha256": "d91b16e641aa4713d555890a99a213bd4cff7728f733a48f67276f29b98158c9"
+    },
+    {
+      "file": "013_Del_050_062_Street View(N).mp4",
+      "group": "street view(n)",
+      "removed_start_frame": 50,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/013_Del_050_062_Street View(N).mp4",
+      "sha256": "7bd43d98737a6ad505480c96976e88ac05fb4f442c6854b876d198f362beddae"
+    },
+    {
+      "file": "033_Del_087_119_Slides.mp4",
+      "group": "slides",
+      "removed_start_frame": 87,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/033_Del_087_119_Slides.mp4",
+      "sha256": "6942632860033b8db33f25af3dd44820c469a5de305dcaab1e33f91efdbef0d2"
+    },
+    {
+      "file": "015_Del_017_031_Children.mp4",
+      "group": "children",
+      "removed_start_frame": 17,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/015_Del_017_031_Children.mp4",
+      "sha256": "877ed29fe124ab13192c1d904fac7d437de3b93a75999cc8a8849bdeb6a701b0"
+    },
+    {
+      "file": "043_Del_006_048_CCTV Customer Footage(E).mp4",
+      "group": "cctv customer footage(e)",
+      "removed_start_frame": 6,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/043_Del_006_048_CCTV Customer Footage(E).mp4",
+      "sha256": "c0005810d45f838c59a0f3670709f30d514ef7a58b0652e5c4a8a74cf3392b39"
+    },
+    {
+      "file": "039_Del_056_094_Oil Tanker.mov",
+      "group": "oil tanker",
+      "removed_start_frame": 56,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/039_Del_056_094_Oil Tanker.mov",
+      "sha256": "47c85c9e4ae05374db7fe5758f1caef6ba947e90695b047ec05aa666c9b8b44a"
+    },
+    {
+      "file": "023_Del_021_043_CCTV Customer Footage(E).mp4",
+      "group": "cctv customer footage(e)",
+      "removed_start_frame": 21,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/023_Del_021_043_CCTV Customer Footage(E).mp4",
+      "sha256": "43d136daefccd6fbe4ca69836d72c18b6bec5a0c994402b8648490d1fab17312"
+    },
+    {
+      "file": "023_Del_055_077_Shop Banners.mp4",
+      "group": "shop banners",
+      "removed_start_frame": 55,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/023_Del_055_077_Shop Banners.mp4",
+      "sha256": "524f92196c0a7d5b9d74268f31922220b51a64fb731d89e8cc6f2702bd2f7e73"
+    },
+    {
+      "file": "Water 02.mp4",
+      "group": "water 02",
+      "removed_start_frame": null,
+      "archive": "Original.zip",
+      "member": "Original/Water 02.mp4",
+      "sha256": "a75ddb949c2c026108b9c2b7274ef7102cd2c72bcae2ab73552c214930a7f0ab"
+    },
+    {
+      "file": "070_Del_051_120_Water 02.mp4",
+      "group": "water 02",
+      "removed_start_frame": 51,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/070_Del_051_120_Water 02.mp4",
+      "sha256": "1e754818f879ff32093da5dd1a8893e21479ef3f9b5cf9af8b852e785c21c7cc"
+    },
+    {
+      "file": "012_Del_099_110_Moving Vehicle (E).mp4",
+      "group": "moving vehicle (e)",
+      "removed_start_frame": 99,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/012_Del_099_110_Moving Vehicle (E).mp4",
+      "sha256": "c5ce7ac6ec2c763da0156e4b4a5b990bc6cae07b2efe4229a8cb40a8f560bb58"
+    },
+    {
+      "file": "010_Del_021_030_Shop Banners.mp4",
+      "group": "shop banners",
+      "removed_start_frame": 21,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/010_Del_021_030_Shop Banners.mp4",
+      "sha256": "24eebca36fa7506c2a84256e731917af3ef1c0fd8d1b05c544598bf8f4ab2b82"
+    },
+    {
+      "file": "013_Del_112_124_Flying Birds.mp4",
+      "group": "flying birds",
+      "removed_start_frame": 112,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/013_Del_112_124_Flying Birds.mp4",
+      "sha256": "35013e02c676ed010ff37b65ed6bb237d57ddca3e4d0695c60def49d83f03cca"
+    },
+    {
+      "file": "018_Del_051_068_Flying Birds.mp4",
+      "group": "flying birds",
+      "removed_start_frame": 51,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/018_Del_051_068_Flying Birds.mp4",
+      "sha256": "6d37fc681d40cc32ae0c112ab7b5336754ef10ac49ee68575708cc07fa2faf10"
+    },
+    {
+      "file": "048_Del_035_082_CCTV Bikes in Fog.mp4",
+      "group": "cctv bikes in fog",
+      "removed_start_frame": 35,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/048_Del_035_082_CCTV Bikes in Fog.mp4",
+      "sha256": "5a45b028e670e3c19e62afc034eba9d4750abe3492cb6feed9a353e8acdca27c"
+    },
+    {
+      "file": "019_Del_061_079_White Car.mov",
+      "group": "white car",
+      "removed_start_frame": 61,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/019_Del_061_079_White Car.mov",
+      "sha256": "59d7a153af1443588cf8b4122f40649f23d7b034bb3321a00e8dedc7be998554"
+    },
+    {
+      "file": "039_Del_071_109_Door Opening(N).mp4",
+      "group": "door opening(n)",
+      "removed_start_frame": 71,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/039_Del_071_109_Door Opening(N).mp4",
+      "sha256": "8c5b643d491417c2aa29a5044c2eaf66e1cba42ce85e078b65715b3177c007df"
+    },
+    {
+      "file": "013_Del_044_056_CCTV Moving Person(N).mp4",
+      "group": "cctv moving person(n)",
+      "removed_start_frame": 44,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/013_Del_044_056_CCTV Moving Person(N).mp4",
+      "sha256": "21cf66b64525fb7e59395012c8822698aca38b131753c72eddff3c2c16d88930"
+    },
+    {
+      "file": "034_Del_130_163_Door Opening(N).mp4",
+      "group": "door opening(n)",
+      "removed_start_frame": 130,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/034_Del_130_163_Door Opening(N).mp4",
+      "sha256": "314eca4f11b0fd596500956cfb0d79068479f6be92ca36807e58695b3c6bdf59"
+    },
+    {
+      "file": "CCTV Moving Vehicles(M).mp4",
+      "group": "cctv moving vehicles(m)",
+      "removed_start_frame": null,
+      "archive": "Original.zip",
+      "member": "Original/CCTV Moving Vehicles(M).mp4",
+      "sha256": "ad1b53f7387916771d48dc908905e1ee3587e17f51fc4a00ef5ea7275e1bf5ce"
+    },
+    {
+      "file": "019_Del_027_045_CCTV Moving Vehicles(M).mp4",
+      "group": "cctv moving vehicles(m)",
+      "removed_start_frame": 27,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/019_Del_027_045_CCTV Moving Vehicles(M).mp4",
+      "sha256": "8258b44b5dbfe91356f8823f5a813cf86d091ef509a044e06a28aeca9b1626a6"
+    },
+    {
+      "file": "024_Del_061_084_Oil Tanker.mov",
+      "group": "oil tanker",
+      "removed_start_frame": 61,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/024_Del_061_084_Oil Tanker.mov",
+      "sha256": "983204c9a7885790b78f2c65f5c720e3af29acf24cc1062ee074501abc2ae93d"
+    },
+    {
+      "file": "043_Del_048_090_Shop Banners.mp4",
+      "group": "shop banners",
+      "removed_start_frame": 48,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/043_Del_048_090_Shop Banners.mp4",
+      "sha256": "f9bd08d2d1fb43784ab21b57d02d83f2031e9061e0c0d0e6555f4ba609fb7eb1"
+    },
+    {
+      "file": "009_Del_076_084_Oil Tanker.mov",
+      "group": "oil tanker",
+      "removed_start_frame": 76,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/009_Del_076_084_Oil Tanker.mov",
+      "sha256": "36dc10b9112637299d1cec6ed5ce1e54234829ab688b3a70e50d796020486f3c"
+    },
+    {
+      "file": "013_Del_026_038_CCTV Street Footage(N).mp4",
+      "group": "cctv street footage(n)",
+      "removed_start_frame": 26,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/013_Del_026_038_CCTV Street Footage(N).mp4",
+      "sha256": "07833505ec62e10940796567efc5115fedef6a4138fdcce07159398339d26374"
+    },
+    {
+      "file": "Water 01.mp4",
+      "group": "water 01",
+      "removed_start_frame": null,
+      "archive": "Original.zip",
+      "member": "Original/Water 01.mp4",
+      "sha256": "4b72e45f07e1b02e01382a245428483ae090eb8adba078ba57a79ac4989035e4"
+    },
+    {
+      "file": "040_Del_046_085_Water 01.mp4",
+      "group": "water 01",
+      "removed_start_frame": 46,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/040_Del_046_085_Water 01.mp4",
+      "sha256": "c958c237f995f9893648511e99f15fce795fa8cc43b860fb5daf32496b9124d5"
+    },
+    {
+      "file": "009_Del_064_072_Door Opening(N).mp4",
+      "group": "door opening(n)",
+      "removed_start_frame": 64,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/009_Del_064_072_Door Opening(N).mp4",
+      "sha256": "9965d6a841f0c0ddc653981de4ecc7a51b66d624b265ea50eecfbea95d79c5cb"
+    },
+    {
+      "file": "018_Del_035_052_Slides.mp4",
+      "group": "slides",
+      "removed_start_frame": 35,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/018_Del_035_052_Slides.mp4",
+      "sha256": "8a20e80ed2a6e51cde666feef7d7e808057fee1fdc3c5db45ef37e968b316a96"
+    },
+    {
+      "file": "048_Del_082_129_Street View(N).mp4",
+      "group": "street view(n)",
+      "removed_start_frame": 82,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/048_Del_082_129_Street View(N).mp4",
+      "sha256": "9486bc2b7711f169410215ebb9886ca0f3c71f5f865f9e1e9ae71df734b8d1c2"
+    },
+    {
+      "file": "049_Del_069_117_Door Opening(N).mp4",
+      "group": "door opening(n)",
+      "removed_start_frame": 69,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/049_Del_069_117_Door Opening(N).mp4",
+      "sha256": "31b5463af3f4eb428fa4d4209cd59b5c01b61117dde0d554af5200d10e47c4e8"
+    },
+    {
+      "file": "050_Del_019_068_Shop Banners.mp4",
+      "group": "shop banners",
+      "removed_start_frame": 19,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/050_Del_019_068_Shop Banners.mp4",
+      "sha256": "e9b5958e2c999096bbc4b9b1f87792f59f5f3fc22efa585c0bafd02c614159da"
+    },
+    {
+      "file": "018_Del_041_058_CCTV Street Footage(N).mp4",
+      "group": "cctv street footage(n)",
+      "removed_start_frame": 41,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/018_Del_041_058_CCTV Street Footage(N).mp4",
+      "sha256": "79d2e402874448f9fcaaa6ea3c7507b522478bbddb3c932e235b530270853bf1"
+    },
+    {
+      "file": "024_Del_042_065_Customer Dealing(E).mp4",
+      "group": "customer dealing(e)",
+      "removed_start_frame": 42,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/024_Del_042_065_Customer Dealing(E).mp4",
+      "sha256": "0feafd91b5a1efb72b7cce52b1ea0255b95f7bb762f5c0839965656709d593e4"
+    },
+    {
+      "file": "014_Del_075_088_CCTV Moving Vehicles(M).mp4",
+      "group": "cctv moving vehicles(m)",
+      "removed_start_frame": 75,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/014_Del_075_088_CCTV Moving Vehicles(M).mp4",
+      "sha256": "1087ccb461a57a286e0190bf04a49eed7f1107bd8174374437c75bdb8c6d9b29"
+    },
+    {
+      "file": "019_Del_117_135_Oil Tanker.mov",
+      "group": "oil tanker",
+      "removed_start_frame": 117,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/019_Del_117_135_Oil Tanker.mov",
+      "sha256": "098d4cfd78001dc0f0eebe725b883f74c676dd64ced3b7f26da8510140d0dc89"
+    },
+    {
+      "file": "043_Del_058_100_Flying Birds.mp4",
+      "group": "flying birds",
+      "removed_start_frame": 58,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/043_Del_058_100_Flying Birds.mp4",
+      "sha256": "7f58f0b11c371c54504fef07c3961ee5af79e7d944c4d7b242b12e5cb55cf776"
+    },
+    {
+      "file": "008_Del_041_048_Slides.mp4",
+      "group": "slides",
+      "removed_start_frame": 41,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/008_Del_041_048_Slides.mp4",
+      "sha256": "25ee30b6b7cb514e4b537d9fb252a75ba2185da19e7a52571cdceae238996e42"
+    },
+    {
+      "file": "023_Del_091_113_Slides.mp4",
+      "group": "slides",
+      "removed_start_frame": 91,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/023_Del_091_113_Slides.mp4",
+      "sha256": "748c44de2b59c62f6da039c5e1887773c6996fdea2c3878e4d1918282ca41769"
+    },
+    {
+      "file": "018_Del_069_086_Street View(N).mp4",
+      "group": "street view(n)",
+      "removed_start_frame": 69,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/018_Del_069_086_Street View(N).mp4",
+      "sha256": "d483e11eb3c65595ee8cefe162b6257ffb73af184202110838b3d7c4bc6f6bd1"
+    },
+    {
+      "file": "023_Del_056_078_CCTV Bikes in Fog.mp4",
+      "group": "cctv bikes in fog",
+      "removed_start_frame": 56,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/023_Del_056_078_CCTV Bikes in Fog.mp4",
+      "sha256": "b787ace9a09875138a4b4b07dc78639ed048718b08f35465f6203e64e3248c6d"
+    },
+    {
+      "file": "028_Del_056_083_Street View(N).mp4",
+      "group": "street view(n)",
+      "removed_start_frame": 56,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/028_Del_056_083_Street View(N).mp4",
+      "sha256": "7ec4130f42ceda9e86699244ed5ee5b39b7c534b2690063e50dacf6f38e6bd78"
+    },
+    {
+      "file": "024_Del_035_058_Calling Person(M).mp4",
+      "group": "calling person(m)",
+      "removed_start_frame": 35,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/024_Del_035_058_Calling Person(M).mp4",
+      "sha256": "1ed8688c2bcb7f35579b617fe5b5ab9c321fe282534e590ff03749d7c24bf2c2"
+    },
+    {
+      "file": "024_Del_118_141_Door Opening(N).mp4",
+      "group": "door opening(n)",
+      "removed_start_frame": 118,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/024_Del_118_141_Door Opening(N).mp4",
+      "sha256": "be9b417937b26fedc2fc4dfa30352611a0598c2cf48172284b450a88ea8e9ea0"
+    },
+    {
+      "file": "014_Del_049_062_Oil Tanker.mov",
+      "group": "oil tanker",
+      "removed_start_frame": 49,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/014_Del_049_062_Oil Tanker.mov",
+      "sha256": "4c018a06c0b00ee9e7f1ba285eb570a23c89c32862573a4862171fa2201f41f5"
+    },
+    {
+      "file": "011_Del_034_044_Children.mp4",
+      "group": "children",
+      "removed_start_frame": 34,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/011_Del_034_044_Children.mp4",
+      "sha256": "487737856440fd00f6230be3ad32ff97bda3e4ef89adf1ef25318d461a236a39"
+    },
+    {
+      "file": "034_Del_030_063_Office View.mp4",
+      "group": "office view",
+      "removed_start_frame": 30,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/034_Del_030_063_Office View.mp4",
+      "sha256": "9a369addc72a39572a543a464c259a4d4999c7dd93c0fa6ce845da9dfd717c3b"
+    },
+    {
+      "file": "049_Del_069_117_Oil Tanker.mov",
+      "group": "oil tanker",
+      "removed_start_frame": 69,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/049_Del_069_117_Oil Tanker.mov",
+      "sha256": "da9ac0669155903bd2a3a58ddea5c3294f805e829e8941fdb1d849e02372d13f"
+    },
+    {
+      "file": "008_Del_021_028_CCTV Moving Person(N).mp4",
+      "group": "cctv moving person(n)",
+      "removed_start_frame": 21,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/008_Del_021_028_CCTV Moving Person(N).mp4",
+      "sha256": "ff5edc60af1a7f57111efb4889236f58bd836456001628b0fab17e224784c605"
+    },
+    {
+      "file": "029_Del_046_074_Traffic.mov",
+      "group": "traffic",
+      "removed_start_frame": 46,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/029_Del_046_074_Traffic.mov",
+      "sha256": "469aff9fa11140f23eddf13fe6c1cdc10bf557061c460bcb9a68ca33dab94764"
+    },
+    {
+      "file": "200_Del_041_240_Professor Hands 02.mp4",
+      "group": "professor hands 02",
+      "removed_start_frame": 41,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/200_Del_041_240_Professor Hands 02.mp4",
+      "sha256": "b0b0004a22789a56d90f88168186da768aeefed73ee8408dab9b428addacc27f"
+    },
+    {
+      "file": "100_Del_091_190_Moving Fish 02.mp4",
+      "group": "moving fish 02",
+      "removed_start_frame": 91,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/100_Del_091_190_Moving Fish 02.mp4",
+      "sha256": "54277c7289fa682a1c491a1e8a4ff174c5fc72f35911c4aa91cd660a3eefddc0"
+    },
+    {
+      "file": "060_Del_041_100_Moving Fish 02.mp4",
+      "group": "moving fish 02",
+      "removed_start_frame": 41,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/060_Del_041_100_Moving Fish 02.mp4",
+      "sha256": "dce2a0aef1387e8e5b694913924a3084f692f045a78cac37e5e0929e24815f1b"
+    },
+    {
+      "file": "019_Del_140_158_Customer Dealing(E).mp4",
+      "group": "customer dealing(e)",
+      "removed_start_frame": 140,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/019_Del_140_158_Customer Dealing(E).mp4",
+      "sha256": "a9fa2b9a99c46983145453dca65e577ad6f05eae958d36d83c55302d27544415"
+    },
+    {
+      "file": "008_Del_054_061_CCTV Street Footage(N).mp4",
+      "group": "cctv street footage(n)",
+      "removed_start_frame": 54,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/008_Del_054_061_CCTV Street Footage(N).mp4",
+      "sha256": "966de351901b52f40e3623cd784302d06071282ad4e88ee53002c37976ff0409"
+    },
+    {
+      "file": "039_Del_046_084_Traffic.mov",
+      "group": "traffic",
+      "removed_start_frame": 46,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/039_Del_046_084_Traffic.mov",
+      "sha256": "37ab96e4fdf7acf2f31cb5f35c5aeaff5d72eb6ff2cb6ec261a6794ce29c6bb2"
+    },
+    {
+      "file": "009_Del_037_045_CCTV Moving Vehicles(M).mp4",
+      "group": "cctv moving vehicles(m)",
+      "removed_start_frame": 37,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/009_Del_037_045_CCTV Moving Vehicles(M).mp4",
+      "sha256": "fbf36c72b75f2ae043866054d128b17b14b42a66f5c11474fb81859026e5a323"
+    },
+    {
+      "file": "044_Del_012_055_Shop Banners.mp4",
+      "group": "shop banners",
+      "removed_start_frame": 12,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/044_Del_012_055_Shop Banners.mp4",
+      "sha256": "e476ab6eebc80555e036f770e40c9adeeafd07fd21348e9a8c096173aa205bc6"
+    },
+    {
+      "file": "049_Del_096_144_Calling Person(M).mp4",
+      "group": "calling person(m)",
+      "removed_start_frame": 96,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/049_Del_096_144_Calling Person(M).mp4",
+      "sha256": "96dbdb598c6309ef6e09cb225a22e63d323c38371f1159587b2faee07c4fb09e"
+    },
+    {
+      "file": "014_Del_100_113_White Car.mov",
+      "group": "white car",
+      "removed_start_frame": 100,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/014_Del_100_113_White Car.mov",
+      "sha256": "c48ae4d17049ffd64dcf392eca031c49139e0dc64f8d9156fdc5659b65627529"
+    },
+    {
+      "file": "018_Del_029_046_CCTV Bikes in Fog.mp4",
+      "group": "cctv bikes in fog",
+      "removed_start_frame": 29,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/018_Del_029_046_CCTV Bikes in Fog.mp4",
+      "sha256": "dbe4fd2b8888d21e5d7d18b2b48df33c611262a24180d76d36ff90ff04735a6c"
+    },
+    {
+      "file": "024_Del_057_080_Black Car.avi",
+      "group": "black car",
+      "removed_start_frame": 57,
+      "archive": "Frame-Deletion.zip",
+      "member": "Frame-Deletion/024_Del_057_080_Black Car.avi",
+      "sha256": "7b2f42ebff26172013dd9971fa36d9c6e98db4c19f7cd46413c8b9c3b6eed979"
+    }
+  ],
+  "source_groups": {
+    "oil tanker": "train",
+    "professor hands 02": "train",
+    "street view(n)": "train",
+    "traffic": "train",
+    "customer dealing(e)": "train",
+    "cctv street footage(n)": "train",
+    "shop banners": "train",
+    "white car": "train",
+    "cctv moving vehicles(m)": "train",
+    "door opening(n)": "train",
+    "cctv customer footage(e)": "train",
+    "black car": "train",
+    "traffic 01": "train",
+    "slides": "train",
+    "moving fish 02": "train",
+    "cctv moving person(n)": "val",
+    "flying birds": "val",
+    "office view": "val",
+    "water 02": "val",
+    "cctv bikes in fog": "val",
+    "cctv customer shoes(m)": "test",
+    "water 01": "test",
+    "calling person(m)": "test",
+    "moving vehicle (e)": "test",
+    "children": "test"
+  }
+}

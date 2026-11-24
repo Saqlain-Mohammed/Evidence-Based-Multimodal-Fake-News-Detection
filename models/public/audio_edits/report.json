@@ -1,0 +1,41 @@
+{
+  "dataset": "PartialSpoof v1.2 sampled subset",
+  "architecture": "160 ms spectral and transition features with gradient boosting",
+  "counts": {
+    "train": 11137,
+    "validation": 5096,
+    "test": 14710
+  },
+  "test": {
+    "accuracy": 0.769068660774983,
+    "macro_f1": 0.7594941518831833,
+    "roc_auc": 0.887369626511375,
+    "brier": 0.1684679407503922,
+    "confusion_matrix": [
+      [
+        7124,
+        231
+      ],
+      [
+        3166,
+        4189
+      ]
+    ],
+    "n": 14710
+  },
+  "segment_f1": 0.5666533288189849,
+  "segment_threshold": 0.5500000000000002,
+  "evaluated_windows": 320864,
+  "omitted_duplicates_or_misaligned": {
+    "train": 0,
+    "validation": 0,
+    "test": 0
+  },
+  "evaluation_scope": "supplied train/dev/eval partitions; 160 ms frame annotations",
+  "limitations": "Synthetic speech segments inserted into real speech. Estimates candidate intervals; does not cover every edit, ordinary cuts, music, or all recording conditions.",
+  "task": "audio_edits",
+  "synthetic": false,
+  "trained_from_scratch": true,
+  "positive_label": 1,
+  "created_utc": "2026-11-24T16:24:41.769553+00:00"
+}

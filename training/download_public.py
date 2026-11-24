@@ -23,6 +23,14 @@ SOURCES = {
     "uadfv": {f"{s}.zip": f"https://huggingface.co/datasets/scarlettss/UADFV/resolve/main/{s}.zip" for s in ('real','fake')},
 }
 
+for partition in ("train", "dev", "eval"):
+    paths = [f"segment_labels/{partition}/{partition}_seglab_0.16.npy",
+             f"labels/{partition}_labels.csv", f"{partition}/spoofed.zip", f"{partition}/bonafide.zip"]
+    SOURCES[f"partialspoof_{partition}"] = {
+        Path(path).name: "https://huggingface.co/datasets/SavindyaPrathibhani123/partialspoof-raw-3/resolve/00c7c5d46774b9949be25710be374aada38481d8/" + path
+        for path in paths
+    }
+
 def download(name):
     folder = ROOT / "data" / "public" / name
     folder.mkdir(parents=True, exist_ok=True)
