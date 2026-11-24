@@ -60,7 +60,8 @@ news passages shorter than 80 words. AI text requires at least 20 words.
 - **Title and image together:** trained on 4,693 deduplicated Fakeddit pairs. On 1,429 test posts, joint macro F1 was 0.578 versus 0.555 for title alone and 0.445 for image alone. The binary target groups satire and other community-labelled categories together. Majority-class accuracy was 80.2%, versus 81.2% for the joint model.
 - **Evidence comparison:** trained on 392,702 MultiNLI pairs. Accuracy was 59.66% on matched development and 60.84% on mismatched development. The app compares the opening claim with a selected reference sentence or news headline and exposes uncertainty.
 - **Audio:** a from-scratch spectral gradient-boosting classifier used all 25,380 ASVspoof LA training utterances and 24,844 official development utterances. Official evaluation on 71,237 recordings yielded 82.61% accuracy, 0.690 macro F1, 0.889 ROC AUC and 18.48% equal-error rate. Most evaluation recordings are spoofs, so accuracy alone is insufficient.
-- **Image manipulation and masks:** source-connected CASIA v2 partitions contain 6,967 training, 816 validation and 4,581 test images. The CNN baseline scored 53.22% accuracy. The independent pixel model achieved 4.66% mean tampered-image IoU. The interface labels the localization experimental.
+- **Voice conversion:** a separate classifier scored 84.57% accuracy and 0.760 macro F1 on 56,495 official evaluation utterances after excluding hybrid TTS/VC attacks. It detected 7,033 of 14,742 human-source conversions. It cannot identify the target speaker.
+- **Image manipulation and masks:** source-connected CASIA v2 partitions contain 6,967 training, 816 validation and 4,581 test images. The forensic classifier scored 78.63% accuracy and 0.768 macro F1, up from 53.22% accuracy for the CNN. Model selection used validation macro F1 (0.834 versus 0.725). The independent pixel model achieved 4.66% mean tampered-image IoU. The interface labels the localization experimental.
 
 The Model Lab reads each installed detector's held-out metrics. Each checkpoint folder also contains its machine-readable report. Legacy synthetic weights are excluded from inference.
 
@@ -174,6 +175,8 @@ network-independent model inference, real image attention and media split leakag
 The supplied report is treated as a requirements reference. Its declarations of
 completion and proposed performance are not taken as evidence of implemented
 features. `IMPLEMENTATION.md` tracks the objectives and remaining gaps.
+
+Optional source reputation context is provided by Alexander Loth’s CRED-1 compact dataset under CC BY 4.0. The pinned release, original license, and source attributions are in `backend/resources/cred1/`. A match describes a domain rather than an individual article.
 
 The implementation keeps FastAPI rather than changing a working backend to
 Flask. Scratch CPU baselines establish reproducible measured results before

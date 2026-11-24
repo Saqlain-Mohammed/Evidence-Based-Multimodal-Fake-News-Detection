@@ -1,0 +1,6 @@
+{
+  "metric": "validation macro F1",
+  "cnn": 0.6,
+  "temporal_residual": 0.45054945054945056,
+  "validation_clips": 10
+}

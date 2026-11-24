@@ -141,3 +141,32 @@ def test_account_histories_and_legacy_rows_are_isolated(client,tmp_path,monkeypa
     assert client.get('/api/v2/reports/'+legacy,headers=users[0]).status_code==404
     assert client.delete('/api/v2/reports/'+item,headers=users[1]).status_code==404
     assert client.get('/api/v2/reports/'+item,headers=users[0]).status_code==200
+
+def test_paired_analysis_keeps_localization_and_joint_score_distinct(client):
+    image=io.BytesIO()
+    Image.new('RGB',(40,40),(63,70,80)).save(image,format='PNG')
+    result=client.post('/api/v2/analyze',data={'mode':'all','text':'An image of the public meeting.',
+                       'live_evidence':'false'},files={'file':('image.png',image.getvalue())})
+    assert result.status_code==200,result.text[:200]
+    signals={s['id']:s for s in result.json()['signals']}
+    assert signals['image_manipulation']['mask_overlay'].startswith('data:image/jpeg;base64,')
+    assert signals['image_ai']['heatmap'].startswith('data:image/png;base64,')
+    assert signals['paired_news']['compared_title']=='An image of the public meeting.'
+
+
+def test_publisher_context_is_scoped_to_matched_domain():
+    domain=next(iter(w.source_directory()))
+    assert w.source_info('https://www.'+domain)['source_score']==w.source_directory()[domain]['s']
+    assert 'source_score' not in w.source_info('https://unlisted.example')
+
+
+def test_primary_evidence_survives_news_feed_failure(monkeypatch):
+    def primary(query):
+        return [{'title':'City council approves repairs', 'passage':'The city council approved the bridge repairs.',
+                 'url':'https://example.org/article','source':'Test publication','published':'','kind':'Excerpt'}]
+    def fail(query):raise OSError('Offline')
+    monkeypatch.setattr(w,'published_fact_checks',primary)
+    monkeypatch.setattr(w,'google_headlines',fail)
+    result=w.evidence('The city council approved the bridge repairs.')
+    assert result['status']=='retrieved'
+    assert result['items'][0]['comparison']['passage']==result['items'][0]['passage']

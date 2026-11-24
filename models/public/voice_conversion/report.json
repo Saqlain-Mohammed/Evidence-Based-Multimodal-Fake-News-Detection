@@ -1,0 +1,46 @@
+{
+  "dataset": "ASVspoof 2019 LA voice conversion subset",
+  "architecture": "Spectral band statistics and gradient boosting",
+  "counts": {
+    "train": 25380,
+    "validation": 24844,
+    "test": 56495
+  },
+  "test": {
+    "accuracy": 0.8456500575272148,
+    "macro_f1": 0.7603195515640231,
+    "roc_auc": 0.883057988016514,
+    "brier": 0.12609666223301416,
+    "confusion_matrix": [
+      [
+        40742,
+        1011
+      ],
+      [
+        7709,
+        7033
+      ]
+    ],
+    "n": 56495
+  },
+  "evaluation_scope": "official partitions; hybrid systems excluded from evaluation",
+  "source": "https://www.eurecom.eu/publication/6352/download/sec-publi-6352.pdf",
+  "positive_attacks": [
+    "A05",
+    "A06",
+    "A17",
+    "A18",
+    "A19"
+  ],
+  "excluded_hybrid_attacks": [
+    "A13",
+    "A14",
+    "A15"
+  ],
+  "limitations": "Experimental human-source voice conversion detection against bona fide or text-to-speech. Does not identify the speaker, the target of impersonation or a particular cloning system.",
+  "task": "voice_conversion",
+  "synthetic": false,
+  "trained_from_scratch": true,
+  "positive_label": 1,
+  "created_utc": "2026-11-21T19:32:56.548970+00:00"
+}

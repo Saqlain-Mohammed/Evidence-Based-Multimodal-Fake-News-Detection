@@ -1,13 +1,30 @@
 {
   "dataset": "CASIA v2 source-connected split",
-  "architecture": "ImageCNN",
-  "epochs": 12,
+  "architecture": "Compression and residual features with gradient boosting",
+  "artifact_format": "joblib",
   "counts": {
     "train": 6967,
     "validation": 816,
     "test": 4581
   },
   "test": {
+    "accuracy": 0.7862912027941498,
+    "macro_f1": 0.7676985508867864,
+    "roc_auc": 0.8905807440729714,
+    "brier": 0.1624686409829692,
+    "confusion_matrix": [
+      [
+        1153,
+        229
+      ],
+      [
+        750,
+        2449
+      ]
+    ],
+    "n": 4581
+  },
+  "cnn_baseline_test": {
     "accuracy": 0.5321982099978171,
     "macro_f1": 0.5251528753450497,
     "roc_auc": 0.6093300230851808,
@@ -24,12 +41,15 @@
     ],
     "n": 4581
   },
-  "temperature": 0.753972589969635,
-  "evaluation_scope": "provider/group-disjoint",
-  "limitations": "Binary classification only; no validated tamper localization, clone attribution, or editing subtype. Evaluate unseen sources and attacks before deployment.",
+  "validation_macro_f1": {
+    "cnn": 0.7254563234018105,
+    "forensic": 0.8344598969259058
+  },
+  "evaluation_scope": "internal-source-connected-split",
+  "limitations": "CASIA acquisition and compression signatures can predict historical labels. Source components create a substantial class shift. This is an exploratory comparison on one corpus.",
   "task": "image_manipulation",
   "synthetic": false,
   "trained_from_scratch": true,
   "positive_label": 1,
-  "created_utc": "2026-11-21T19:22:44.121037+00:00"
+  "created_utc": "2026-11-21T19:30:06.390241+00:00"
 }

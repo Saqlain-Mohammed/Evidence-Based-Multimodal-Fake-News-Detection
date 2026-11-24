@@ -20,5 +20,7 @@ Copy-Item -LiteralPath data/public/casia/provenance.json -Destination models/pub
 Invoke-TrainingStep @('training/ranged_download.py', 'asvspoof')
 Invoke-TrainingStep @('training/import_public_media.py', '--task', 'audio')
 Invoke-TrainingStep @('training/train_audio_official.py')
+Invoke-TrainingStep @('training/train_forensic.py')
 Invoke-TrainingStep @('training/train_mask.py')
+Invoke-TrainingStep @('training/train_voice_conversion.py')
 Write-Output 'Evaluation reports are in models/public.'

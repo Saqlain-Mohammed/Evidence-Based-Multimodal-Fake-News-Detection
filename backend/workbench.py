@@ -30,7 +30,7 @@ ROOT = Path(__file__).resolve().parents[1]
 import sys
 sys.path.insert(0, str(ROOT))
 router = APIRouter(prefix="/api/v2")
-JOBLIB_TASKS = {'fake_news', 'ai_text', 'paired_news'}
+JOBLIB_TASKS = {'fake_news', 'ai_text', 'paired_news', 'voice_conversion'}
 TASKS = {
     'paired_news': ('Title and image context', 'Fakeddit paired subset', 'text + image'),
     'fake_news': ('News credibility', 'WELFake + LIAR cross-domain evaluation', 'text'),
@@ -38,6 +38,7 @@ TASKS = {
     'image_ai': ('AI image', 'CIFAKE', 'image'),
     'image_manipulation': ('Image manipulation', 'CASIA v2 / IMD2020', 'image'),
     'video': ('Deepfake video', 'FaceForensics++ / Celeb-DF v2', 'video'),
+    'voice_conversion': ('Voice conversion', 'ASVspoof 2019 LA voice conversion subset', 'audio'),
     'audio': ('Synthetic audio', 'ASVspoof 2019 LA / 2021 DF', 'audio'),
 }
 MAX_BYTES = 30 * 1024 * 1024
@@ -213,7 +214,8 @@ def video_signal(path):
     frames,times=decode_video(path,blob.get('frames',16),blob.get('size',64))
     with torch.inference_mode():
         p=(model(frames.unsqueeze(0))/blob.get('temperature',1)).sigmoid().item()
-    return signal('video',p,'Experimental video model. The UADFV baseline classified 5 of 10 held-out clips correctly. Sampled times describe coverage, not proven tampering timestamps.',sampled_seconds=times,verdict='Experimental score')
+    from training.temporal_features import temporal_changes
+    return signal('video',p,'Experimental video model. The UADFV baseline classified 5 of 10 held-out clips correctly. Sampled times describe coverage, not proven tampering timestamps.',sampled_seconds=times,visual_changes=temporal_changes(frames,times),verdict='Experimental score')
 
 def decode_video(path, count=16, size=64):
     import cv2, torch
@@ -448,6 +450,14 @@ def execute(mode,text,url,raw,filename,reference_text,live_evidence):
                     path = decode_phone_recording(path)
                 media_result = audio_signal(path) if task=='audio' else video_signal(path)
                 signals.append(media_result)
+                if task=='audio' and media_result['status']=='analyzed':
+                    conversion=artifact('voice_conversion')
+                    if conversion is not None:
+                        from training.audio_features import spectral_features
+                        samples,_=decode_audio(path)
+                        z=conversion['classifier'].decision_function(spectral_features(samples.unsqueeze(0).numpy())).reshape(-1,1)
+                        score=conversion['calibration'].predict_proba(z)[0,1]
+                        signals.append(signal('voice_conversion',score,'Experimental human-source voice conversion score. This cannot identify an impersonated speaker.',verdict='Experimental score'))
                 spoken = media_result.get('transcript', {}).get('text')
                 if spoken:
                     news = text_signal('fake_news', spoken)
