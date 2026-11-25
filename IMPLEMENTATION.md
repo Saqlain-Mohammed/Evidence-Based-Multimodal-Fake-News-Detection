@@ -28,4 +28,4 @@ The web workflow has been exercised on desktop and mobile-width layouts, includi
 
 ## Reproduction
 
-Use the acquisition and training commands in the README. Media importers retain source groups, reject cross-split byte collisions and preserve the official ASVspoof partitions. Raw corpora, user submissions, local credentials and report history stay outside the repository. The model reports contain split sizes, metrics and protocol-specific caveats.
+Use the acquisition and training commands in [the project guide](PROJECT_GUIDE.md). Media importers retain source groups, reject cross-split byte collisions and preserve the official ASVspoof partitions. Raw corpora, user submissions, local credentials and report history stay outside the repository. The model reports contain split sizes, metrics and protocol-specific caveats.
