@@ -7,6 +7,10 @@ SQLite report history. No cloud model API is required.
 
 ## Run locally
 
+On Windows, double-click `Start-Veritas.cmd` in the project folder. It starts
+the local server and opens the redesigned Verification Studio, or opens the
+studio if it is already running. Keep the server window open during use.
+
 The included checkpoints were created with Python 3.14, PyTorch 2.14 CPU and
 scikit-learn 1.9.1. Use the recorded environment in `requirements-lock.txt` to
 reproduce their inference. For a fresh environment, install `requirements.txt`.

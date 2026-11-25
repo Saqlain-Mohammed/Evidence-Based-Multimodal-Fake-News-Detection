@@ -17,6 +17,16 @@ def client(tmp_path,monkeypatch):
     monkeypatch.setattr(w,'DB',tmp_path/'history.sqlite3')
     return TestClient(app)
 
+def test_workspace_entry_points_open_current_interface(client):
+    for path in ('/', '/index.html', '/frontend/index.html', '/static/index.html'):
+        response = client.get(path)
+        assert response.status_code == 200
+        assert response.url.path == '/'
+        assert response.headers['cache-control'] == 'no-cache'
+        assert 'data-veritas-workspace="current"' in response.text
+        assert 'Verification studio' in response.text
+
+
 def test_registry_excludes_legacy_synthetic_models(client):
     r=client.get('/api/v2/models').json()
     assert r['legacy_synthetic_models_used'] is False

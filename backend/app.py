@@ -45,7 +45,15 @@ def health():
 def stats(): return RedirectResponse('/api/v2/models')
 
 @app.get('/')
-def index(): return FileResponse(ROOT/'frontend/index.html')
+def index():
+    return FileResponse(ROOT/'frontend/index.html', headers={'Cache-Control': 'no-cache'})
+
+
+@app.get('/index.html', include_in_schema=False)
+@app.get('/frontend/index.html', include_in_schema=False)
+@app.get('/static/index.html', include_in_schema=False)
+def workspace_redirect():
+    return RedirectResponse('/', headers={'Cache-Control': 'no-cache'})
 
 app.mount('/static',StaticFiles(directory=ROOT/'frontend'),name='static')
 
