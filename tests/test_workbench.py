@@ -217,3 +217,35 @@ def test_video_edits_are_reported_independently(client,tmp_path):
     signals={s['id']:s for s in response.json()['signals']}
     assert signals['video']['status']==signals['video_edits']['status']=='analyzed'
     assert all(0<=t<2 for t in signals['video_edits']['candidate_seconds'])
+
+
+@pytest.mark.parametrize(("mode", "text_file", "media", "expected"), [
+    ("news", "news.txt", None, {"fake_news"}),
+    ("text", "text.txt", None, {"ai_text"}),
+    ("image", None, "image.png", {"image_ai", "image_manipulation"}),
+    ("video", None, "video.avi", {"video", "video_edits"}),
+    ("audio", None, "audio.wav", {"audio", "audio_edits", "voice_conversion"}),
+    ("all", "news.txt", "image.png", {
+        "fake_news", "ai_text", "image_ai", "image_manipulation", "paired_news",
+    }),
+])
+def test_public_samples(client, monkeypatch, mode, text_file, media, expected):
+    samples = ROOT / "tests" / "samples"
+    data = {"mode": mode}
+    if text_file:
+        data["text"] = (samples / text_file).read_text(encoding="utf-8")
+    files = {"file": (media, (samples / media).read_bytes())} if media else None
+
+    def unsolicited_evidence(text):
+        pytest.fail("Evidence search should require opt-in")
+
+    monkeypatch.setattr(w, "evidence", unsolicited_evidence)
+    response = client.post("/api/v2/analyze", data=data, files=files)
+    assert response.status_code == 200, response.text[:200]
+    report = response.json()
+    assert report["evidence"]["status"] == "not_requested"
+    signals = {item["id"]: item for item in report["signals"]}
+    assert set(signals) == expected
+    for item in signals.values():
+        assert item["status"] == "analyzed"
+        assert 0 <= item["probability"] <= 1

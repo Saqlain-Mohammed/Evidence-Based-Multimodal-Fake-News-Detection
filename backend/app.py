@@ -1,4 +1,5 @@
 """Veritas local research server. All inference uses real-data v2 checkpoints."""
+from contextlib import asynccontextmanager
 import os
 from pathlib import Path
 
@@ -9,10 +10,17 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, RedirectResponse, JSONResponse
 from accounts import OWNER, account_db, authenticate
 from fastapi.staticfiles import StaticFiles
-from workbench import router, registry
+from workbench import router, registry, warm_models
 
 ROOT=Path(__file__).resolve().parents[1]
-app=FastAPI(title='Veritas content verification',version='3.0.0',
+@asynccontextmanager
+async def lifespan(app):
+    if os.environ.get('VERITAS_WARM_MODELS', '1') == '1':
+        warm_models()
+    yield
+
+
+app=FastAPI(lifespan=lifespan, title='Veritas content verification',version='3.0.0',
     description='Independent models trained from scratch. Research signals, not proof of authenticity. Local single-user server; do not expose publicly without authentication.')
 app.add_middleware(CORSMiddleware,
     allow_origin_regex=r'^(https?://(localhost|127\.0\.0\.1)(:\d+)?|chrome-extension://[a-p]+|moz-extension://[a-zA-Z0-9-]+)$',

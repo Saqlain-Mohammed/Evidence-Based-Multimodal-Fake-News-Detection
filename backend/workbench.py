@@ -10,6 +10,7 @@ import hashlib
 import io
 import ipaddress
 import json
+import os
 from pathlib import Path
 import re
 import socket
@@ -46,7 +47,7 @@ TASKS = {
 MAX_BYTES = 30 * 1024 * 1024
 MEDIA_LOCK = threading.Lock()
 ANALYSIS_SLOTS = asyncio.Semaphore(2)
-DB = ROOT / 'data' / 'workbench.sqlite3'
+DB = Path(os.environ.get('VERITAS_REPORTS_FILE') or ROOT / 'data' / 'workbench.sqlite3').resolve()
 
 def connection():
     DB.parent.mkdir(parents=True, exist_ok=True)
@@ -97,6 +98,12 @@ def artifact(task):
     if not p.exists() or not (folder / 'report.json').exists():
         return None
     return load_artifact(task, p.stat().st_mtime_ns)
+
+def warm_models():
+    # Load trusted, bundled checkpoints before accepting requests.
+    for task in TASKS:
+        artifact(task)
+
 
 def unavailable(task, reason=None):
     return {'id':task, 'name':TASKS[task][0], 'status':'unavailable', 'probability':None,
@@ -251,13 +258,17 @@ def decode_video(path, count=16, size=64):
     try:
         n=int(cap.get(cv2.CAP_PROP_FRAME_COUNT)); fps=cap.get(cv2.CAP_PROP_FPS)
         if n<2 or fps<=0: raise ValueError('Video has no decodable frame sequence.')
-        positions=np.linspace(0,n-1,count,dtype=int); frames=[]; times=[]
+        positions=np.linspace(0,n-1,count,dtype=int); frames={}; times=[]
         for index in positions:
-            cap.set(cv2.CAP_PROP_POS_FRAMES,int(index)); ok,frame=cap.read()
-            if not ok: raise ValueError('Unable to decode the selected video frames.')
-            frame=cv2.resize(cv2.cvtColor(frame,cv2.COLOR_BGR2RGB),(size,size))
-            frames.append(torch.from_numpy(frame.copy()).permute(2,0,1).float()/255); times.append(round(float(index/fps),2))
-        return torch.stack(frames),times
+            if index not in frames:
+                cap.set(cv2.CAP_PROP_POS_FRAMES, int(index))
+                ok, frame = cap.read()
+                if not ok:
+                    raise ValueError('Unable to decode the selected video frames.')
+                frames[index] = cv2.resize(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB), (size, size))
+            times.append(round(float(index / fps), 2))
+        samples = np.stack([frames[index] for index in positions])
+        return torch.from_numpy(samples).permute(0, 3, 1, 2).contiguous().float().div_(255), times
     finally: cap.release()
 
 def decode_audio(path, seconds=6):
@@ -276,15 +287,28 @@ def decode_audio(path, seconds=6):
     spec=torch.nn.functional.interpolate(spec,size=(128,192),mode='bilinear',align_corners=False)[0]
     return spec, min(info.duration,seconds)
 
-def audio_signal(path):
+def audio_signals(path):
     from transcription import transcript
     loaded=artifact('audio')
-    if loaded is None: return unavailable('audio')
+    conversion = artifact('voice_conversion')
+    if loaded is None and conversion is None:
+        return unavailable('audio'), None
     import torch
-    a,duration=decode_audio(path)
-    if isinstance(loaded, dict):
+    a, duration = decode_audio(path)
+    features = None
+    if isinstance(loaded, dict) or conversion is not None:
         from training.audio_features import spectral_features
         features = spectral_features(a.unsqueeze(0).numpy())
+    conversion_result = None
+    if conversion is not None:
+        z = conversion['classifier'].decision_function(features).reshape(-1, 1)
+        score = conversion['calibration'].predict_proba(z)[0, 1]
+        conversion_result = signal('voice_conversion', score,
+            'Experimental human-source voice conversion score. This cannot identify an impersonated speaker.',
+            verdict='Experimental score')
+    if loaded is None:
+        return unavailable('audio'), conversion_result
+    if isinstance(loaded, dict):
         z = loaded['classifier'].decision_function(features).reshape(-1,1)
         p = loaded['calibration'].predict_proba(z)[0,1]
     else:
@@ -294,7 +318,7 @@ def audio_signal(path):
     scope=report.get('evaluation_scope','unknown')
     scope_note=' Development model: only an internal speaker split of the original training partition has been evaluated; official unseen-attack evaluation is pending.' if scope=='internal-training-partition-only' else ''
     return signal('audio',p,'Bona-fide versus spoof risk for the first six seconds. Binary training cannot identify a speaker, distinguish cloning from synthesis, or prove a splice.'+scope_note,analyzed_seconds=duration,evaluation_scope=scope,
-        transcript=transcript(path))
+        transcript=transcript(path)), conversion_result
 
 def safe_url(url):
     p=urlparse(url)
@@ -305,10 +329,10 @@ def safe_url(url):
             raise ValueError('Only public internet URLs are supported.')
     return url
 
-def public_get(url, limit=2*1024*1024):
+def public_get(url, limit=2*1024*1024, timeout=(5, 8)):
     for _ in range(4):
         safe_url(url)
-        with requests.get(url,timeout=(5,8),stream=True,allow_redirects=False,headers={'User-Agent':'VeritasResearch/3.0'}) as r:
+        with requests.get(url,timeout=timeout,stream=True,allow_redirects=False,headers={'User-Agent':'VeritasResearch/3.0'}) as r:
             if r.is_redirect:
                 from urllib.parse import urljoin
                 url=urljoin(url,r.headers['Location']); continue
@@ -357,7 +381,7 @@ def compare_claim(text, passages):
 
 
 def google_headlines(query):
-    raw,_=public_get('https://news.google.com/rss/search?q='+quote(query)+'&hl=en&gl=US&ceid=US:en')
+    raw,_=public_get('https://news.google.com/rss/search?q='+quote(query)+'&hl=en&gl=US&ceid=US:en', timeout=(2, 3))
     return [{'title':row.findtext('title',''), 'url':row.findtext('link',''),'source':row.findtext('source',''),
              'published':row.findtext('pubDate',''),'kind':'Headline'}
             for row in ET.fromstring(raw).findall('./channel/item')[:6]]
@@ -369,7 +393,7 @@ def published_fact_checks(query):
     terms=[word for word in re.findall(r"[a-zA-Z]{4,}",query.lower()) if word not in ENGLISH_STOP_WORDS]
     if not terms:return []
     url='https://www.factcheck.org/wp-json/wp/v2/posts?per_page=3&_fields=title,excerpt,link,date&search='+quote(max(terms[:8],key=len))
-    raw,_=public_get(url)
+    raw,_=public_get(url, timeout=(2, 3))
     rows=[]
     for post in json.loads(raw):
         title=BeautifulSoup(post['title']['rendered'],'html.parser').get_text(' ',strip=True)
@@ -471,22 +495,19 @@ def execute(mode,text,url,raw,filename,reference_text,live_evidence):
         elif suffix in ('.m4a','.wav','.flac','.ogg','.mp4','.webm','.avi','.mov'):
             task='audio' if suffix in ('.m4a','.wav','.flac','.ogg') else 'video'
             if mode not in (task,'all'): raise ValueError(f'Select {task} or combined analysis for this file.')
-            with tempfile.TemporaryDirectory(prefix='veritas-',dir=ROOT/'data') as temp:
+            with tempfile.TemporaryDirectory(prefix='veritas-') as temp:
                 path=Path(temp)/('input'+suffix); path.write_bytes(raw)
                 if suffix == '.m4a':
                     from transcription import decode_phone_recording
                     path = decode_phone_recording(path)
-                media_result = audio_signal(path) if task=='audio' else video_signal(path)
+                if task == 'audio':
+                    media_result, conversion_result = audio_signals(path)
+                else:
+                    media_result, conversion_result = video_signal(path), None
                 signals.append(media_result)
                 signals.append(edit_signal(path,'audio_edits' if task=='audio' else 'video_edits'))
-                if task=='audio':
-                    conversion=artifact('voice_conversion')
-                    if conversion is not None:
-                        from training.audio_features import spectral_features
-                        samples,_=decode_audio(path)
-                        z=conversion['classifier'].decision_function(spectral_features(samples.unsqueeze(0).numpy())).reshape(-1,1)
-                        score=conversion['calibration'].predict_proba(z)[0,1]
-                        signals.append(signal('voice_conversion',score,'Experimental human-source voice conversion score. This cannot identify an impersonated speaker.',verdict='Experimental score'))
+                if conversion_result is not None:
+                    signals.append(conversion_result)
                 spoken = media_result.get('transcript', {}).get('text')
                 if spoken:
                     news = text_signal('fake_news', spoken)
@@ -544,7 +565,7 @@ def datasets():
 
 @router.post('/analyze')
 async def analyze(mode:str=Form('all'),text:str=Form(''),url:str=Form(''),reference_text:str=Form(''),
-                  live_evidence:bool=Form(True),file:UploadFile|None=File(None)):
+                  live_evidence:bool=Form(False),file:UploadFile|None=File(None)):
     if mode not in ('news','text','image','video','audio','all'): raise HTTPException(400,'Unknown detector mode.')
     if len(text)>50000 or len(reference_text)>100000: raise HTTPException(413,'Text exceeds the supported length.')
     raw=await file.read(MAX_BYTES+1) if file else None

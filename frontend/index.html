@@ -2,40 +2,38 @@
 <html lang="en" data-veritas-workspace="current">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#164f40"><meta name="description" content="A research workspace for news credibility and multimodal content authenticity.">
+  <meta name="theme-color" content="#164f40"><meta name="description" content="Analyze news, text, images, video, and audio with Veritas.">
   <title>Veritas — Content verification workspace</title>
   <link rel="manifest" href="/static/manifest.webmanifest"><link rel="icon" href="/static/mark.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/static/styles.css?v=10"><script src="/static/app.js?v=10" defer></script>
+  <link rel="stylesheet" href="/static/styles.css?v=11"><script src="/static/app.js?v=11" defer></script>
 </head>
 <body>
 <a href="#main" class="skip">Skip to workspace</a>
 <aside class="sidebar" id="sidebar">
   <a class="brand" href="#workspace" aria-label="Veritas home"><img src="/static/mark.svg" width="36" height="36" alt=""><span>veritas<span class="brand-period">.</span></span></a>
-  <span class="workspace-label">RESEARCH WORKSPACE</span>
+
   <nav aria-label="Main navigation">
     <a href="#workspace" data-page="workspace" class="nav-link active"><span data-icon="scan"></span> Verification studio</a>
     <a href="#history" data-page="history" class="nav-link"><span data-icon="history"></span> Analysis history<span class="nav-count" id="history-count">0</span></a>
-    <span class="nav-group">RESOURCES</span>
+
     <a href="#models" data-page="models" class="nav-link"><span data-icon="layers"></span> Model lab</a>
     <a href="#datasets" data-page="datasets" class="nav-link"><span data-icon="database"></span> Dataset library</a>
     <a href="#method" data-page="method" class="nav-link"><span data-icon="book"></span> How it works</a>
   </nav>
-  <div class="side-note"><div class="side-note-icon" data-icon="shield"></div><strong>Context before conclusions.</strong><p>Inspect the signals. Read the sources. Make an informed decision.</p><a href="#method">Our methodology</a></div>
   <div class="connection"><span class="status-dot" id="connection-dot"></span><div><strong id="connection-label">Connecting to engine</strong><small id="ready-label">Checking model availability</small></div></div>
-  <div class="local-profile"><span class="profile-avatar">R</span><div><strong>Research workspace</strong><small>Local · history on this server</small></div><span data-icon="lock"></span></div>
 </aside>
 <div class="app-shell">
-  <header class="topbar"><button class="icon-button mobile-menu" id="menu-toggle" aria-label="Toggle navigation" aria-expanded="false"><span data-icon="menu"></span></button><div class="breadcrumb">Workspace <span>/</span> <strong id="breadcrumb-page">Verification studio</strong></div><div class="header-actions"><span class="research-badge">RESEARCH EDITION</span><a href="/docs" class="api-link" target="_blank" rel="noopener">API docs<span data-icon="external"></span></a></div></header>
+  <header class="topbar"><button class="icon-button mobile-menu" id="menu-toggle" aria-label="Toggle navigation" aria-expanded="false"><span data-icon="menu"></span></button><div class="breadcrumb">Workspace <span>/</span> <strong id="breadcrumb-page">Verification studio</strong></div><div class="header-actions"><label class="theme-control">Theme <select id="theme"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></label></div></header>
   <main id="main" tabindex="-1">
     <form id="account-form" class="panel input-body" hidden><label for="account-key">Workspace access token</label>
       <input type="password" id="account-key" autocomplete="off" required><button class="primary-button" type="submit">Unlock workspace</button>
       <span id="account-message" role="status"></span></form>
     <section id="page-workspace" class="page">
-      <div class="page-heading"><div><div class="eyebrow"><span class="tiny-line"></span> CLARITY IN A WORLD OF CONTENT</div><h1>A closer look at what’s real.</h1><p>Check content across independent models. Follow the evidence behind every signal.</p></div><a class="quiet-link" href="#method"><span data-icon="book"></span> A guide to your results</a></div>
+      <div class="page-heading"><h1>Verification studio</h1><p>Analyze content and review each detector’s findings.</p></div>
       <div class="studio-layout">
         <div class="studio-main">
           <section class="panel input-panel" aria-labelledby="input-heading">
-            <div class="panel-title"><div><span class="section-kicker">VERIFICATION STUDIO</span><h2 id="input-heading">What would you like to check?</h2></div><span class="subtle-icon" data-icon="spark"></span></div>
+            <div class="panel-title"><div><h2 id="input-heading">Content to analyze</h2></div></div>
             <div class="detector-tabs" role="tablist" aria-label="Detection type">
               <button role="tab" aria-selected="true" class="detector active" data-mode="all"><span data-icon="layers"></span>Combined</button>
               <button role="tab" aria-selected="false" class="detector" data-mode="news"><span data-icon="news"></span>News</button>
@@ -46,39 +44,34 @@
             </div>
             <form id="analysis-form">
               <div class="input-body">
-                <div class="field-heading"><label for="content" id="content-label">Your content</label><button type="button" class="text-button" id="sample-button"><span data-icon="spark"></span> Try a sample</button></div>
+                <div id="text-fields">
+                <div class="field-heading"><label for="content" id="content-label">Your content</label></div>
                 <textarea id="content" name="text" maxlength="50000" rows="8" placeholder="Paste an article, a claim, or a passage you’d like to examine…"></textarea>
                 <div class="input-meta"><span id="mode-description">News, writing patterns and media — one report, separate signals.</span><span id="char-count">0 / 50,000</span></div>
+                </div>
                 <div class="url-field"><span data-icon="link"></span><label class="sr-only" for="source-url">Article URL</label><input id="source-url" name="url" type="url" placeholder="Or add a public article URL"></div>
-                <label class="dropzone" id="dropzone" for="file-input"><span class="upload-circle" data-icon="upload"></span><span><strong id="file-label">Drop files here, or <span class="green-text">browse files</span></strong><small id="file-hint">Documents, images, video or audio · up to 30 MB</small></span><span class="file-type-pill">+ Add media</span><input id="file-input" type="file" multiple accept=".txt,.md,.pdf,.docx,.jpg,.jpeg,.png,.webp,.mp4,.webm,.mov,.avi,.wav,.flac,.ogg"></label>
+                <label class="dropzone" id="dropzone" for="file-input"><span class="upload-circle" data-icon="upload"></span><span><strong id="file-label">Drop files here, or <span class="green-text">browse files</span></strong><small id="file-hint">Documents, images, video or audio · up to 30 MB</small></span><input id="file-input" type="file" multiple accept=".txt,.md,.pdf,.docx,.jpg,.jpeg,.png,.webp,.mp4,.webm,.mov,.avi,.wav,.flac,.ogg"></label>
                 <div class="file-preview" id="file-preview" hidden><img id="preview-image" alt="Selected image preview" hidden><span id="selected-file-name"></span><button class="text-button" type="button" id="remove-file">Remove</button></div>
-                <details class="reference-details"><summary>Compare against a reference <span>Overlap and claim comparison</span></summary><label for="reference-text">Reference passage</label><textarea id="reference-text" rows="4" maxlength="100000" placeholder="Paste the original source to measure five-word overlap. Only this reference will be compared."></textarea></details>
-                <label class="checkbox-label"><input type="checkbox" id="live-evidence" checked><span>Find related reporting online</span><span class="hint-label">Text queries leave this device</span></label>
+                <label class="checkbox-label"><input type="checkbox" id="live-evidence"><span>Find related reporting online</span><span class="hint-label">Sends search terms to Google News and FactCheck.org</span></label>
               </div>
-              <div class="form-footer"><span><span data-icon="lock"></span> Local inference · reports saved on this server</span><button type="submit" class="primary-button" id="analyze-button"><span data-icon="scan"></span><span id="analyze-button-label">Analyze content</span></button></div>
+              <div class="form-footer"><span><span data-icon="lock"></span> Reports are saved on this server</span><button type="submit" class="primary-button" id="analyze-button"><span data-icon="scan"></span><span id="analyze-button-label">Analyze content</span></button></div>
             </form>
           </section>
           <div id="batch-outcomes" class="panel report-section" aria-live="polite" hidden></div>
           <div id="form-error" class="error-box" role="alert" hidden></div>
           <section class="panel results-panel" id="results-panel" aria-labelledby="result-title" aria-live="polite">
-            <div class="results-header"><div><span class="section-kicker">ANALYSIS REPORT</span><h2 id="result-title">The details make the difference.</h2></div><button class="secondary-button" id="download-report" hidden><span data-icon="download"></span> Export report</button></div>
-            <div class="result-empty" id="result-empty"><div class="result-illustration"><span data-icon="scan"></span><i></i></div><h3>Every claim deserves a closer look.</h3><p>Add your content above to see model signals,<br>related sources, and the limits of the analysis.</p><div class="empty-steps"><span>Independent models</span><b>·</b><span>Source context</span><b>·</b><span>Clear explanations</span></div></div>
-            <div id="loading-state" class="loading-state" role="status" hidden><div class="spinner"></div><h3>Examining your content</h3><p>Running available models and retrieving related reporting. This can take a moment.</p><button class="text-button" id="cancel-button">Stop waiting</button></div>
+            <div class="results-header"><div><h2 id="result-title">Analysis report</h2></div><button class="secondary-button" id="download-report" hidden><span data-icon="download"></span> Export report</button></div>
+            <div class="result-empty" id="result-empty"><p>Submit content to see your report here.</p></div>
+            <div id="loading-state" class="loading-state" role="status" hidden><div class="spinner"></div><h3>Examining your content</h3><p>Running the selected checks.</p><button class="text-button" id="cancel-button">Stop waiting</button></div>
             <div id="result-content" hidden></div>
           </section>
         </div>
-        <aside class="studio-aside" aria-label="Verification context">
-          <section class="panel engine-panel"><div class="aside-title"><span data-icon="layers"></span><h2>Your detection engine</h2></div><p>Independent checks. A more complete picture.</p><div id="engine-list" class="engine-list"><p>Checking model availability…</p></div><a href="#models" class="panel-footer-link">Explore the model lab<span data-icon="external"></span></a></section>
-          <section class="evidence-note"><span class="evidence-icon" data-icon="compass"></span><div class="section-kicker">BUILT AROUND EVIDENCE</div><h2>A score is a signal.<br>Sources add context.</h2><p>AI-generated doesn’t mean false. Human-written doesn’t mean true. We keep those questions separate.</p><div class="note-rule"></div><div class="note-foot"><span data-icon="check"></span> Transparent about uncertainty</div></section>
-          <section class="tips-panel"><div class="aside-title"><span data-icon="bulb"></span><h2>Get a better analysis</h2></div><ul><li>Include the full passage, not just a headline.</li><li>Add the original source for context.</li><li>Compare claims with primary evidence.</li></ul></section>
-        </aside>
       </div>
-      <footer class="workspace-footer"><span>Designed for careful verification.</span><span>Research signals, with room for human judgment.</span></footer>
     </section>
-    <section id="page-history" class="page" hidden><div class="page-heading"><div class="eyebrow">YOUR RESEARCH</div><h1>Analysis history.</h1><p>Reports available to this workspace. Open any analysis to revisit its evidence.</p></div><div id="history-list" class="history-list"></div></section>
-    <section id="page-models" class="page" hidden><div class="page-heading"><div class="eyebrow">INDEPENDENT BY DESIGN</div><h1>Inside the model lab.</h1><p>Real checkpoints, measured test results, and clearly stated limits.</p></div><div class="notice"><span data-icon="info"></span>All active models are trained from scratch. Missing checkpoints remain unavailable. Legacy synthetic models are excluded from this workspace.</div><div id="model-cards" class="resource-grid"></div></section>
-    <section id="page-datasets" class="page" hidden><div class="page-heading"><div class="eyebrow">THE DATA BEHIND THE SIGNALS</div><h1>A foundation you can inspect.</h1><p>Dataset sources, access requirements, and how each corpus is used.</p></div><div id="dataset-cards" class="resource-grid"></div></section>
-    <section id="page-method" class="page" hidden><div class="page-heading"><div class="eyebrow">OUR METHODOLOGY</div><h1>Understand the result.</h1><p>Content verification starts with asking the right question.</p></div><div class="method-grid"><article class="panel prose"><h2>Separate questions, separate models</h2><p>News credibility, AI authorship, image generation, image manipulation, video deepfakes, and audio spoofing use independent classifiers. One task’s probability cannot answer another task’s question.</p><h2>Training you can reproduce</h2><p>Text models learn word and character features directly from public data, with no pretrained weights. The image detector is a randomly initialized convolutional network. Each training run records dataset hashes, splits, class mappings, calibration, and held-out metrics.</p><h2>Evidence with boundaries</h2><p>Reports include Google News headlines and FactCheck.org excerpts. Relevance is not agreement. Compare the opening claim with the cited passage. The MultiNLI model estimates their relationship. A matched publisher can also display its attributed CRED-1 domain score.</p></article><article class="panel prose"><h2>How to read risk scores</h2><p>Below 35%: lower model risk. Between 35% and 65%: inconclusive. Above 65%: higher model risk. These are research thresholds, not guarantees that content is authentic or deceptive.</p><h2>Plagiarism needs a comparison corpus</h2><p>The text detector measures five-word overlap against a reference you provide. The result is scoped to that reference; it is not an internet-wide originality percentage.</p><h2>What happens to your data</h2><p>Inference runs on this server. Analysis reports are saved in its local SQLite database and shared in local mode or restricted to your account when token access is enabled. When enabled, evidence search sends query terms to Google News and FactCheck.org. No cloud model API is used.</p><h2>Available on your devices</h2><p>The website adapts to phones and can be installed as a web app. The project also includes a browser extension and an Expo mobile client. Native mobile builds and store distribution need their own build environment.</p></article></div></section>
+    <section id="page-history" class="page" hidden><div class="page-heading"><h1>Analysis history</h1></div><div id="history-list" class="history-list"></div></section>
+    <section id="page-models" class="page" hidden><div class="page-heading"><h1>Model lab</h1><p>Model performance on test datasets.</p></div><div id="model-cards" class="resource-grid"></div></section>
+    <section id="page-datasets" class="page" hidden><div class="page-heading"><h1>Dataset library</h1><p>Dataset sources, access requirements, and how each corpus is used.</p></div><div id="dataset-cards" class="resource-grid"></div></section>
+    <section id="page-method" class="page" hidden><div class="page-heading"><h1>How it works</h1></div><div class="method-grid"><article class="panel prose"><h2>Separate questions, separate models</h2><p>News credibility, AI authorship, image generation, image manipulation, video deepfakes, and audio spoofing use independent classifiers. One task’s probability cannot answer another task’s question.</p><h2>Training you can reproduce</h2><p>Text models learn word and character features directly from public data, with no pretrained weights. The image detector is a randomly initialized convolutional network. Each training run records dataset hashes, splits, class mappings, calibration, and held-out metrics.</p><h2>Evidence with boundaries</h2><p>Reports include Google News headlines and FactCheck.org excerpts. Relevance is not agreement. Compare the opening claim with the cited passage. The MultiNLI model estimates their relationship. A matched publisher can also display its attributed CRED-1 domain score.</p></article><article class="panel prose"><h2>How to read risk scores</h2><p>Below 35%: lower model risk. Between 35% and 65%: inconclusive. Above 65%: higher model risk. These are research thresholds, not guarantees that content is authentic or deceptive.</p><h2>What happens to your data</h2><p>Inference runs on this server. Analysis reports are saved in its local SQLite database and shared in local mode or restricted to your account when token access is enabled. When enabled, evidence search sends query terms to Google News and FactCheck.org. No cloud model API is used.</p></article></div></section>
   </main>
 </div>
 <div class="toast" id="toast" role="status" hidden></div>
